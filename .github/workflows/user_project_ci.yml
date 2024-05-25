@@ -191,15 +191,15 @@ jobs:
           path: |
             $GITHUB_WORKSPACE/issue_reproducible.tar
       
-      - name: Tarball Design_${{ matrix.pdk }}
+      - name: Tarball design_sky130B
         run: |
           tar -cf /tmp/design_sky130B.tar -C $GITHUB_WORKSPACE .
 
-      - name: Upload Design_${{ matrix.pdk }} Tarball
+      - name: Upload design_sky130B Tarball
         uses: actions/upload-artifact@v2
         with:
-          name: design_${{ matrix.pdk }}-tarball
-          path: /tmp/design_${{ matrix.pdk }}.tar
+          name: design_sky130B-tarball
+          path: /tmp/design_sky130B.tar
   
   RTL-verification:
     timeout-minutes: 720
