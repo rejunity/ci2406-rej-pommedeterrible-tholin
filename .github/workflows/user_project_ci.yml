@@ -173,6 +173,7 @@ jobs:
 
       - name: Harden using Openlane
         run: |
+          make uncompress
           make Multiplexer
           make TieUnused
           make ScrapCPU
