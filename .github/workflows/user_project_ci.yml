@@ -124,11 +124,7 @@ jobs:
           path: /tmp/${{ env.dep_name }}.tar
 
   hardening:
-    timeout-minutes: 720
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        pdk: ["sky130B"]
     needs: [download_deps]
     steps:
       - uses: actions/checkout@v2
@@ -141,8 +137,8 @@ jobs:
 
       - name: Export ENVIRONMENT VARIABLES
         run: |
-          echo "PDK=${{ matrix.pdk }}" >> $GITHUB_ENV
-          echo "PDKPATH=$GITHUB_WORKSPACE/pdk/${{ matrix.pdk }}" >> $GITHUB_ENV
+          echo "PDK=sky130B" >> $GITHUB_ENV
+          echo "PDKPATH=$GITHUB_WORKSPACE/pdk/sky130B" >> $GITHUB_ENV
           echo "PDK_ROOT=$GITHUB_WORKSPACE/pdk" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=$GITHUB_WORKSPACE/openlane_src" >> $GITHUB_ENV
           echo "CARAVEL_ROOT=$GITHUB_WORKSPACE/caravel" >> $GITHUB_ENV
@@ -177,12 +173,11 @@ jobs:
 
       - name: Harden using Openlane
         run: |
-          python3 $GITHUB_WORKSPACE/.github/scripts/get_designs.py --design $GITHUB_WORKSPACE
-          for word in $(cat harden_sequence.txt); do
-            echo "CURRENT_DESIGN=${word}" >> $GITHUB_ENV
-            make $word
-          done
-          rm -rf openlane/Multiplexer/runs openlane/user_project_wrapper/runs pdk openlane_src caravel mgmt_core_wrapper timing-scripts mpw_precheck
+          make Multiplexer
+          make TieUnused
+          make ScrapCPU
+          make user_project_wrapper
+          rm -rf openlane/Multiplexer/runs openlane/TieUnused/runs openlane/ScrapCPU/runs openlane/user_project_wrapper/runs pdk openlane_src caravel mgmt_core_wrapper timing-scripts mpw_precheck
 
       - name: Create reproducible
         if: failure()
@@ -198,7 +193,7 @@ jobs:
       
       - name: Tarball Design_${{ matrix.pdk }}
         run: |
-          tar -cf /tmp/design_${{ matrix.pdk }}.tar -C $GITHUB_WORKSPACE .
+          tar -cf /tmp/design_sky130B.tar -C $GITHUB_WORKSPACE .
 
       - name: Upload Design_${{ matrix.pdk }} Tarball
         uses: actions/upload-artifact@v2
@@ -209,9 +204,6 @@ jobs:
   RTL-verification:
     timeout-minutes: 720
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        pdk: ["sky130A", "sky130B"]
     needs: [download_deps]
     steps:
       - uses: actions/checkout@v2
@@ -224,8 +216,8 @@ jobs:
 
       - name: Export ENVIRONMENT VARIABLES
         run: |
-          echo "PDK=${{ matrix.pdk }}" >> $GITHUB_ENV
-          echo "PDKPATH=$GITHUB_WORKSPACE/pdk/${{ matrix.pdk }}" >> $GITHUB_ENV
+          echo "PDK=sky130B" >> $GITHUB_ENV
+          echo "PDKPATH=$GITHUB_WORKSPACE/pdk/sky130B" >> $GITHUB_ENV
           echo "PDK_ROOT=$GITHUB_WORKSPACE/pdk" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=$GITHUB_WORKSPACE/openlane_src" >> $GITHUB_ENV
           echo "CARAVEL_ROOT=$GITHUB_WORKSPACE/caravel" >> $GITHUB_ENV
@@ -269,25 +261,15 @@ jobs:
           sudo mkdir -p ${{ env.MCW_ROOT }}
           sudo chown -R $USER:$USER ${{ env.MCW_ROOT }}
           tar -xf /tmp/mgmt_core_wrapper.tar -C $MCW_ROOT .
-
-      - name: install cocotb
-        run: |
-          make setup-cocotb
       
       - name: run RTL verification
         run: |
-          cd $GITHUB_WORKSPACE/verilog/dv/cocotb && $GITHUB_WORKSPACE/venv-cocotb/bin/caravel_cocotb -tl user_proj_tests/user_proj_tests.yaml -verbosity debug --CI -tag rtl_verification
-          cnt=$(grep -c "failed" "$GITHUB_WORKSPACE/verilog/dv/cocotb/sim/rtl_verification/runs.log")
-          if ! [[ $cnt ]]; then cnt=0; fi
-          if [[ $cnt -eq 1 ]]; then exit 0; fi
-          exit 2
+          make verify-wb_port-rtl
+          make verify-scrapcpu-rtl
 
   precheck:
     timeout-minutes: 720
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        pdk: ["sky130A", "sky130B"]
     needs: [hardening]
     steps:
       - uses: actions/checkout@v2
@@ -299,8 +281,8 @@ jobs:
 
       - name: Export ENVIRONMENT VARIABLES
         run: |
-          echo "PDK=${{ matrix.pdk }}" >> $GITHUB_ENV
-          echo "PDKPATH=$GITHUB_WORKSPACE/pdk/${{ matrix.pdk }}" >> $GITHUB_ENV
+          echo "PDK=sky130B" >> $GITHUB_ENV
+          echo "PDKPATH=$GITHUB_WORKSPACE/pdk/sky130B" >> $GITHUB_ENV
           echo "PDK_ROOT=$GITHUB_WORKSPACE/pdk" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=$GITHUB_WORKSPACE/openlane_src" >> $GITHUB_ENV
           echo "CARAVEL_ROOT=$GITHUB_WORKSPACE/caravel" >> $GITHUB_ENV
@@ -336,14 +318,14 @@ jobs:
       - name: Download Design_${{ matrix.pdk }} Tarball
         uses: actions/download-artifact@v2
         with:
-          name: design_${{ matrix.pdk }}-tarball
+          name: design_sky130B-tarball
           path: /tmp
 
-      - name: Unpack Design_${{ matrix.pdk }} Tarball
+      - name: Unpack Design_sky130B Tarball
         run: |
           sudo mkdir -p $GITHUB_WORKSPACE
           sudo chown -R $USER:$USER $GITHUB_WORKSPACE
-          tar -xf /tmp/design_${{ matrix.pdk }}.tar -C $GITHUB_WORKSPACE .
+          tar -xf /tmp/design_sky130B.tar -C $GITHUB_WORKSPACE .
       
       - name: Run Precheck
         run: |
@@ -351,7 +333,7 @@ jobs:
           export PRECHECK_ROOT=$INPUT_DIRECTORY/mpw_precheck
           export OUTPUT_DIRECTORY=$INPUT_DIRECTORY/mpw_precheck_result
           export OUTPUT=$OUTPUT_DIRECTORY/logs/precheck.log
-          export PDKPATH=$PDK_ROOT/sky130A
+          export PDKPATH=$PDK_ROOT/sky130B
 
           docker run -v "$PRECHECK_ROOT":"$PRECHECK_ROOT" -v "$INPUT_DIRECTORY":"$INPUT_DIRECTORY" -v "${{ env.PDK_ROOT }}":"${{ env.PDK_ROOT }}" -e INPUT_DIRECTORY="$INPUT_DIRECTORY" -e PDK_ROOT="${{ env.PDK_ROOT }}" -e PDKPATH="${{ env.PDKPATH }}" -u $(id -u "$USER"):$(id -g "$USER") efabless/mpw_precheck:latest bash -c "cd $PRECHECK_ROOT; python3 mpw_precheck.py --input_directory $INPUT_DIRECTORY --pdk_path ${{ env.PDKPATH }} --output_directory $OUTPUT_DIRECTORY license makefile consistency xor magic_drc klayout_beol klayout_feol klayout_met_min_ca_density klayout_offgrid klayout_pin_label_purposes_overlapping_drawing klayout_zeroarea lvs"
 
@@ -363,9 +345,6 @@ jobs:
   STA:
     timeout-minutes: 720
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        pdk: ["sky130A"]
     needs: [hardening]
     steps:
       - uses: actions/checkout@v2
@@ -377,8 +356,8 @@ jobs:
 
       - name: Export ENVIRONMENT VARIABLES
         run: |
-          echo "PDK=${{ matrix.pdk }}" >> $GITHUB_ENV
-          echo "PDKPATH=$GITHUB_WORKSPACE/pdk/${{ matrix.pdk }}" >> $GITHUB_ENV
+          echo "PDK=sky130B" >> $GITHUB_ENV
+          echo "PDKPATH=$GITHUB_WORKSPACE/pdk/sky130B" >> $GITHUB_ENV
           echo "PDK_ROOT=$GITHUB_WORKSPACE/pdk" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=$GITHUB_WORKSPACE/openlane_src" >> $GITHUB_ENV
           echo "CARAVEL_ROOT=$GITHUB_WORKSPACE/caravel" >> $GITHUB_ENV
@@ -414,14 +393,14 @@ jobs:
       - name: Download Design_${{ matrix.pdk }} Tarball
         uses: actions/download-artifact@v2
         with:
-          name: design_${{ matrix.pdk }}-tarball
+          name: design_sky130B-tarball
           path: /tmp
 
-      - name: Unpack Design_${{ matrix.pdk }} Tarball
+      - name: Unpack design_sky130B Tarball
         run: |
           sudo mkdir -p $GITHUB_WORKSPACE
           sudo chown -R $USER:$USER $GITHUB_WORKSPACE
-          tar -xf /tmp/design_${{ matrix.pdk }}.tar -C $GITHUB_WORKSPACE .
+          tar -xf /tmp/design_sky130B.tar -C $GITHUB_WORKSPACE .
 
       - name: Download Caravel Tarball
         uses: actions/download-artifact@v2
