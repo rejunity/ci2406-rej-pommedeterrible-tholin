@@ -40,7 +40,7 @@ jobs:
       - name: Cache Caravel
         uses: actions/cache@v3
         with:
-          key: ${{ runner.os }}-caravel-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-caravel-${{ github.run_id }}
           path: ${{ env.CARAVEL_ROOT }}
   
   download_deps:
@@ -90,7 +90,7 @@ jobs:
       - name: Get cached caravel
         uses: actions/cache@v3
         with:
-          key: ${{ runner.os }}-caravel-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-caravel-${{ github.run_id }}
           path: ${{ env.CARAVEL_ROOT }}
 
       - name: Install dependencies
@@ -106,7 +106,7 @@ jobs:
       - name: Upload Dependencies to cache
         uses: actions/cache@v3
         with:
-          key: ${{ env.dep_name }}-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-${{ env.dep_name }}-${{ github.run_id }}
           path: ${{ env.dep_root }}
 
   hardening:
@@ -136,13 +136,13 @@ jobs:
       - name: Get PDK from cache
         uses: actions/cache@v3
         with:
-          key: pdk-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-pdk-${{ github.run_id }}
           path: ${{ env.PDK_ROOT }}
 
       - name: Get openlane from cache
         uses: actions/cache@v3
         with:
-          key: openlane-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-openlane-${{ github.run_id }}
           path: ${{ env.OPENLANE_ROOT }}
 
       - name: Harden using Openlane
@@ -204,19 +204,19 @@ jobs:
       - name: Get PDK from cache
         uses: actions/cache@v3
         with:
-          key: pdk-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-pdk-${{ github.run_id }}
           path: ${{ env.PDK_ROOT }}
       
       - name: Get cached caravel
         uses: actions/cache@v3
         with:
-          key: ${{ runner.os }}-caravel-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-caravel-${{ github.run_id }}
           path: ${{ env.CARAVEL_ROOT }}
       
       - name: Get mgmt_core_wrapper from cache
-        uses: actions/download-artifact@v2
+        uses: actions/cache@v3
         with:
-          key: mgmt_core_wrapper-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-mgmt_core_wrapper-${{ github.run_id }}
           path: ${{ env.MCW_ROOT }}
       
       - name: run RTL verification
@@ -251,13 +251,13 @@ jobs:
       - name: Get PDK from cache
         uses: actions/cache@v3
         with:
-          key: pdk-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-pdk-${{ github.run_id }}
           path: ${{ env.PDK_ROOT }}
 
       - name: Get precheck from cache
         uses: actions/cache@v3
         with:
-          key: precheck-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-precheck-${{ github.run_id }}
           path: ${{ env.PRECHECK_ROOT }}
 
       - name: Download design_sky130B Tarball
@@ -316,13 +316,13 @@ jobs:
       - name: Get PDK from cache
         uses: actions/cache@v3
         with:
-          key: pdk-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-pdk-tarball-${{ github.run_id }}
           path: ${{ env.PDK_ROOT }}
 
       - name: Get timing-scripts from cache
         uses: actions/cache@v3
         with:
-          key: timing-scripts-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-timing-scripts-${{ github.run_id }}
           path: ${{ env.TIMING_ROOT }}
 
       - name: Download design_sky130B Tarball
@@ -340,13 +340,13 @@ jobs:
       - name: Get cached caravel
         uses: actions/cache@v3
         with:
-          key: ${{ runner.os }}-caravel-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-caravel-${{ github.run_id }}
           path: ${{ env.CARAVEL_ROOT }}
 
       - name: Get mgmt_core_wrapper from cache
-        uses: actions/download-artifact@v2
+        uses: actions/cache@v3
         with:
-          key: mgmt_core_wrapper-tarball-${{ github.run_id }}
+          key: ${{ runner.os }}-mgmt_core_wrapper-${{ github.run_id }}
           path: ${{ env.MCW_ROOT }}
       
       - name: Run STA
