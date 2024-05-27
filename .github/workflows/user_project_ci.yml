@@ -303,7 +303,7 @@ jobs:
 
       - name: Export ENVIRONMENT VARIABLES
         run: |
-          echo "PDK=sky130B" >> $GITHUB_ENV
+          echo "PDK=sky130A" >> $GITHUB_ENV
           echo "PDKPATH=$GITHUB_WORKSPACE/pdk/sky130B" >> $GITHUB_ENV
           echo "PDK_ROOT=$GITHUB_WORKSPACE/pdk" >> $GITHUB_ENV
           echo "OPENLANE_ROOT=$GITHUB_WORKSPACE/openlane_src" >> $GITHUB_ENV
