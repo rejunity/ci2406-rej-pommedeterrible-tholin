@@ -101,6 +101,14 @@ multiplexer multiplexer(
     .io_out_scrapcpu(io_out_scrapcpu),
     .io_oeb_scrapcpu(io_oeb_scrapcpu),
     
+    .rst_vliw(rst_vliw),
+    .io_out_vliw(io_out_vliw),
+    .io_oeb_vliw(io_oeb_vliw),
+    
+    .rst_z80(rst_z80),
+    .io_out_z80(io_out_z80),
+    .io_oeb_z80(io_oeb_z80),
+    
     .io_in_0(io_in[0]),
     .io_out(io_out),
     .io_oeb(io_oeb),
@@ -124,6 +132,23 @@ scrapcpu scrapcpu(
     .io_oeb(io_oeb_scrapcpu)
 );
 
+wire rst_vliw;
+wire [35:0] io_out_vliw;
+wire [35:0] io_oeb_vliw;
+
+vliw vliw(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+	.wb_clk_i(wb_clk_i),
+	.rst_n(rst_vliw),
+	.io_in(designs_io_in),
+	.io_out(io_out_vliw),
+	.io_oeb(io_oeb_vliw),
+	.custom_settings(custom_settings)
+);
+
 unused_tie unused_tie(
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
@@ -133,6 +158,22 @@ unused_tie unused_tie(
     .wb_rst_i(wb_rst_i),
     .irq(user_irq),
     .la_data_out(la_data_out[127:40])
+);
+
+wire rst_z80;
+wire [35:0] io_out_z80;
+wire [35:0] io_oeb_z80;
+
+ci2406_z80 ci2406_z80(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .rst_n(rst_z80),
+    .io_in(designs_io_in),
+    .io_out(io_out_z80),
+    .io_oeb(io_oeb_z80)
 );
 
 endmodule	// user_project_wrapper

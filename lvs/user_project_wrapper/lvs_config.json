@@ -26,6 +26,8 @@
 		"$UPRJ_ROOT/verilog/gl/multiplexer.v",
 		"$UPRJ_ROOT/verilog/gl/scrapcpu.v",
 		"$UPRJ_ROOT/verilog/gl/unused_tie.v",
+		"$UPRJ_ROOT/verilog/gl/ci2406_z80.v",
+		"$UPRJ_ROOT/verilog/gl/vliw.v",
 		"$UPRJ_ROOT/verilog/gl/$TOP_SOURCE.v"
 	],
 	"LAYOUT_FILE": "$UPRJ_ROOT/gds/$TOP_LAYOUT.gds"

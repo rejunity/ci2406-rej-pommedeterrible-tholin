@@ -106,6 +106,78 @@ module user_project_wrapper (user_clock2,
  wire \io_oeb_scrapcpu[7] ;
  wire \io_oeb_scrapcpu[8] ;
  wire \io_oeb_scrapcpu[9] ;
+ wire \io_oeb_vliw[0] ;
+ wire \io_oeb_vliw[10] ;
+ wire \io_oeb_vliw[11] ;
+ wire \io_oeb_vliw[12] ;
+ wire \io_oeb_vliw[13] ;
+ wire \io_oeb_vliw[14] ;
+ wire \io_oeb_vliw[15] ;
+ wire \io_oeb_vliw[16] ;
+ wire \io_oeb_vliw[17] ;
+ wire \io_oeb_vliw[18] ;
+ wire \io_oeb_vliw[19] ;
+ wire \io_oeb_vliw[1] ;
+ wire \io_oeb_vliw[20] ;
+ wire \io_oeb_vliw[21] ;
+ wire \io_oeb_vliw[22] ;
+ wire \io_oeb_vliw[23] ;
+ wire \io_oeb_vliw[24] ;
+ wire \io_oeb_vliw[25] ;
+ wire \io_oeb_vliw[26] ;
+ wire \io_oeb_vliw[27] ;
+ wire \io_oeb_vliw[28] ;
+ wire \io_oeb_vliw[29] ;
+ wire \io_oeb_vliw[2] ;
+ wire \io_oeb_vliw[30] ;
+ wire \io_oeb_vliw[31] ;
+ wire \io_oeb_vliw[32] ;
+ wire \io_oeb_vliw[33] ;
+ wire \io_oeb_vliw[34] ;
+ wire \io_oeb_vliw[35] ;
+ wire \io_oeb_vliw[3] ;
+ wire \io_oeb_vliw[4] ;
+ wire \io_oeb_vliw[5] ;
+ wire \io_oeb_vliw[6] ;
+ wire \io_oeb_vliw[7] ;
+ wire \io_oeb_vliw[8] ;
+ wire \io_oeb_vliw[9] ;
+ wire \io_oeb_z80[0] ;
+ wire \io_oeb_z80[10] ;
+ wire \io_oeb_z80[11] ;
+ wire \io_oeb_z80[12] ;
+ wire \io_oeb_z80[13] ;
+ wire \io_oeb_z80[14] ;
+ wire \io_oeb_z80[15] ;
+ wire \io_oeb_z80[16] ;
+ wire \io_oeb_z80[17] ;
+ wire \io_oeb_z80[18] ;
+ wire \io_oeb_z80[19] ;
+ wire \io_oeb_z80[1] ;
+ wire \io_oeb_z80[20] ;
+ wire \io_oeb_z80[21] ;
+ wire \io_oeb_z80[22] ;
+ wire \io_oeb_z80[23] ;
+ wire \io_oeb_z80[24] ;
+ wire \io_oeb_z80[25] ;
+ wire \io_oeb_z80[26] ;
+ wire \io_oeb_z80[27] ;
+ wire \io_oeb_z80[28] ;
+ wire \io_oeb_z80[29] ;
+ wire \io_oeb_z80[2] ;
+ wire \io_oeb_z80[30] ;
+ wire \io_oeb_z80[31] ;
+ wire \io_oeb_z80[32] ;
+ wire \io_oeb_z80[33] ;
+ wire \io_oeb_z80[34] ;
+ wire \io_oeb_z80[35] ;
+ wire \io_oeb_z80[3] ;
+ wire \io_oeb_z80[4] ;
+ wire \io_oeb_z80[5] ;
+ wire \io_oeb_z80[6] ;
+ wire \io_oeb_z80[7] ;
+ wire \io_oeb_z80[8] ;
+ wire \io_oeb_z80[9] ;
  wire \io_out_scrapcpu[0] ;
  wire \io_out_scrapcpu[10] ;
  wire \io_out_scrapcpu[11] ;
@@ -142,10 +214,196 @@ module user_project_wrapper (user_clock2,
  wire \io_out_scrapcpu[7] ;
  wire \io_out_scrapcpu[8] ;
  wire \io_out_scrapcpu[9] ;
+ wire \io_out_vliw[0] ;
+ wire \io_out_vliw[10] ;
+ wire \io_out_vliw[11] ;
+ wire \io_out_vliw[12] ;
+ wire \io_out_vliw[13] ;
+ wire \io_out_vliw[14] ;
+ wire \io_out_vliw[15] ;
+ wire \io_out_vliw[16] ;
+ wire \io_out_vliw[17] ;
+ wire \io_out_vliw[18] ;
+ wire \io_out_vliw[19] ;
+ wire \io_out_vliw[1] ;
+ wire \io_out_vliw[20] ;
+ wire \io_out_vliw[21] ;
+ wire \io_out_vliw[22] ;
+ wire \io_out_vliw[23] ;
+ wire \io_out_vliw[24] ;
+ wire \io_out_vliw[25] ;
+ wire \io_out_vliw[26] ;
+ wire \io_out_vliw[27] ;
+ wire \io_out_vliw[28] ;
+ wire \io_out_vliw[29] ;
+ wire \io_out_vliw[2] ;
+ wire \io_out_vliw[30] ;
+ wire \io_out_vliw[31] ;
+ wire \io_out_vliw[32] ;
+ wire \io_out_vliw[33] ;
+ wire \io_out_vliw[34] ;
+ wire \io_out_vliw[35] ;
+ wire \io_out_vliw[3] ;
+ wire \io_out_vliw[4] ;
+ wire \io_out_vliw[5] ;
+ wire \io_out_vliw[6] ;
+ wire \io_out_vliw[7] ;
+ wire \io_out_vliw[8] ;
+ wire \io_out_vliw[9] ;
+ wire \io_out_z80[0] ;
+ wire \io_out_z80[10] ;
+ wire \io_out_z80[11] ;
+ wire \io_out_z80[12] ;
+ wire \io_out_z80[13] ;
+ wire \io_out_z80[14] ;
+ wire \io_out_z80[15] ;
+ wire \io_out_z80[16] ;
+ wire \io_out_z80[17] ;
+ wire \io_out_z80[18] ;
+ wire \io_out_z80[19] ;
+ wire \io_out_z80[1] ;
+ wire \io_out_z80[20] ;
+ wire \io_out_z80[21] ;
+ wire \io_out_z80[22] ;
+ wire \io_out_z80[23] ;
+ wire \io_out_z80[24] ;
+ wire \io_out_z80[25] ;
+ wire \io_out_z80[26] ;
+ wire \io_out_z80[27] ;
+ wire \io_out_z80[28] ;
+ wire \io_out_z80[29] ;
+ wire \io_out_z80[2] ;
+ wire \io_out_z80[30] ;
+ wire \io_out_z80[31] ;
+ wire \io_out_z80[32] ;
+ wire \io_out_z80[33] ;
+ wire \io_out_z80[34] ;
+ wire \io_out_z80[35] ;
+ wire \io_out_z80[3] ;
+ wire \io_out_z80[4] ;
+ wire \io_out_z80[5] ;
+ wire \io_out_z80[6] ;
+ wire \io_out_z80[7] ;
+ wire \io_out_z80[8] ;
+ wire \io_out_z80[9] ;
  wire rst_scrapcpu;
+ wire rst_vliw;
+ wire rst_z80;
 
+ ci2406_z80 ci2406_z80 (.rst_n(rst_z80),
+    .wb_clk_i(wb_clk_i),
+    .io_in({io_in[37],
+    io_in[36],
+    io_in[35],
+    io_in[34],
+    io_in[33],
+    io_in[32],
+    io_in[31],
+    io_in[30],
+    io_in[29],
+    io_in[28],
+    io_in[27],
+    io_in[26],
+    io_in[25],
+    io_in[24],
+    io_in[23],
+    io_in[22],
+    io_in[21],
+    io_in[20],
+    io_in[19],
+    io_in[18],
+    io_in[17],
+    io_in[16],
+    io_in[15],
+    io_in[14],
+    io_in[13],
+    io_in[12],
+    io_in[11],
+    io_in[10],
+    io_in[9],
+    io_in[8],
+    io_in[7],
+    io_in[6],
+    io_in[5],
+    io_in[4],
+    io_in[2],
+    io_in[1]}),
+    .io_oeb({\io_oeb_z80[35] ,
+    \io_oeb_z80[34] ,
+    \io_oeb_z80[33] ,
+    \io_oeb_z80[32] ,
+    \io_oeb_z80[31] ,
+    \io_oeb_z80[30] ,
+    \io_oeb_z80[29] ,
+    \io_oeb_z80[28] ,
+    \io_oeb_z80[27] ,
+    \io_oeb_z80[26] ,
+    \io_oeb_z80[25] ,
+    \io_oeb_z80[24] ,
+    \io_oeb_z80[23] ,
+    \io_oeb_z80[22] ,
+    \io_oeb_z80[21] ,
+    \io_oeb_z80[20] ,
+    \io_oeb_z80[19] ,
+    \io_oeb_z80[18] ,
+    \io_oeb_z80[17] ,
+    \io_oeb_z80[16] ,
+    \io_oeb_z80[15] ,
+    \io_oeb_z80[14] ,
+    \io_oeb_z80[13] ,
+    \io_oeb_z80[12] ,
+    \io_oeb_z80[11] ,
+    \io_oeb_z80[10] ,
+    \io_oeb_z80[9] ,
+    \io_oeb_z80[8] ,
+    \io_oeb_z80[7] ,
+    \io_oeb_z80[6] ,
+    \io_oeb_z80[5] ,
+    \io_oeb_z80[4] ,
+    \io_oeb_z80[3] ,
+    \io_oeb_z80[2] ,
+    \io_oeb_z80[1] ,
+    \io_oeb_z80[0] }),
+    .io_out({\io_out_z80[35] ,
+    \io_out_z80[34] ,
+    \io_out_z80[33] ,
+    \io_out_z80[32] ,
+    \io_out_z80[31] ,
+    \io_out_z80[30] ,
+    \io_out_z80[29] ,
+    \io_out_z80[28] ,
+    \io_out_z80[27] ,
+    \io_out_z80[26] ,
+    \io_out_z80[25] ,
+    \io_out_z80[24] ,
+    \io_out_z80[23] ,
+    \io_out_z80[22] ,
+    \io_out_z80[21] ,
+    \io_out_z80[20] ,
+    \io_out_z80[19] ,
+    \io_out_z80[18] ,
+    \io_out_z80[17] ,
+    \io_out_z80[16] ,
+    \io_out_z80[15] ,
+    \io_out_z80[14] ,
+    \io_out_z80[13] ,
+    \io_out_z80[12] ,
+    \io_out_z80[11] ,
+    \io_out_z80[10] ,
+    \io_out_z80[9] ,
+    \io_out_z80[8] ,
+    \io_out_z80[7] ,
+    \io_out_z80[6] ,
+    \io_out_z80[5] ,
+    \io_out_z80[4] ,
+    \io_out_z80[3] ,
+    \io_out_z80[2] ,
+    \io_out_z80[1] ,
+    \io_out_z80[0] }));
  multiplexer multiplexer (.io_in_0(io_in[0]),
     .rst_scrapcpu(rst_scrapcpu),
+    .rst_vliw(rst_vliw),
+    .rst_z80(rst_z80),
     .wb_clk_i(wb_clk_i),
     .wb_rst_i(wb_rst_i),
     .wbs_ack_o(wbs_ack_o),
@@ -258,6 +516,78 @@ module user_project_wrapper (user_clock2,
     \io_oeb_scrapcpu[2] ,
     \io_oeb_scrapcpu[1] ,
     \io_oeb_scrapcpu[0] }),
+    .io_oeb_vliw({\io_oeb_vliw[35] ,
+    \io_oeb_vliw[34] ,
+    \io_oeb_vliw[33] ,
+    \io_oeb_vliw[32] ,
+    \io_oeb_vliw[31] ,
+    \io_oeb_vliw[30] ,
+    \io_oeb_vliw[29] ,
+    \io_oeb_vliw[28] ,
+    \io_oeb_vliw[27] ,
+    \io_oeb_vliw[26] ,
+    \io_oeb_vliw[25] ,
+    \io_oeb_vliw[24] ,
+    \io_oeb_vliw[23] ,
+    \io_oeb_vliw[22] ,
+    \io_oeb_vliw[21] ,
+    \io_oeb_vliw[20] ,
+    \io_oeb_vliw[19] ,
+    \io_oeb_vliw[18] ,
+    \io_oeb_vliw[17] ,
+    \io_oeb_vliw[16] ,
+    \io_oeb_vliw[15] ,
+    \io_oeb_vliw[14] ,
+    \io_oeb_vliw[13] ,
+    \io_oeb_vliw[12] ,
+    \io_oeb_vliw[11] ,
+    \io_oeb_vliw[10] ,
+    \io_oeb_vliw[9] ,
+    \io_oeb_vliw[8] ,
+    \io_oeb_vliw[7] ,
+    \io_oeb_vliw[6] ,
+    \io_oeb_vliw[5] ,
+    \io_oeb_vliw[4] ,
+    \io_oeb_vliw[3] ,
+    \io_oeb_vliw[2] ,
+    \io_oeb_vliw[1] ,
+    \io_oeb_vliw[0] }),
+    .io_oeb_z80({\io_oeb_z80[35] ,
+    \io_oeb_z80[34] ,
+    \io_oeb_z80[33] ,
+    \io_oeb_z80[32] ,
+    \io_oeb_z80[31] ,
+    \io_oeb_z80[30] ,
+    \io_oeb_z80[29] ,
+    \io_oeb_z80[28] ,
+    \io_oeb_z80[27] ,
+    \io_oeb_z80[26] ,
+    \io_oeb_z80[25] ,
+    \io_oeb_z80[24] ,
+    \io_oeb_z80[23] ,
+    \io_oeb_z80[22] ,
+    \io_oeb_z80[21] ,
+    \io_oeb_z80[20] ,
+    \io_oeb_z80[19] ,
+    \io_oeb_z80[18] ,
+    \io_oeb_z80[17] ,
+    \io_oeb_z80[16] ,
+    \io_oeb_z80[15] ,
+    \io_oeb_z80[14] ,
+    \io_oeb_z80[13] ,
+    \io_oeb_z80[12] ,
+    \io_oeb_z80[11] ,
+    \io_oeb_z80[10] ,
+    \io_oeb_z80[9] ,
+    \io_oeb_z80[8] ,
+    \io_oeb_z80[7] ,
+    \io_oeb_z80[6] ,
+    \io_oeb_z80[5] ,
+    \io_oeb_z80[4] ,
+    \io_oeb_z80[3] ,
+    \io_oeb_z80[2] ,
+    \io_oeb_z80[1] ,
+    \io_oeb_z80[0] }),
     .io_out({io_out[37],
     io_out[36],
     io_out[35],
@@ -332,6 +662,78 @@ module user_project_wrapper (user_clock2,
     \io_out_scrapcpu[2] ,
     \io_out_scrapcpu[1] ,
     \io_out_scrapcpu[0] }),
+    .io_out_vliw({\io_out_vliw[35] ,
+    \io_out_vliw[34] ,
+    \io_out_vliw[33] ,
+    \io_out_vliw[32] ,
+    \io_out_vliw[31] ,
+    \io_out_vliw[30] ,
+    \io_out_vliw[29] ,
+    \io_out_vliw[28] ,
+    \io_out_vliw[27] ,
+    \io_out_vliw[26] ,
+    \io_out_vliw[25] ,
+    \io_out_vliw[24] ,
+    \io_out_vliw[23] ,
+    \io_out_vliw[22] ,
+    \io_out_vliw[21] ,
+    \io_out_vliw[20] ,
+    \io_out_vliw[19] ,
+    \io_out_vliw[18] ,
+    \io_out_vliw[17] ,
+    \io_out_vliw[16] ,
+    \io_out_vliw[15] ,
+    \io_out_vliw[14] ,
+    \io_out_vliw[13] ,
+    \io_out_vliw[12] ,
+    \io_out_vliw[11] ,
+    \io_out_vliw[10] ,
+    \io_out_vliw[9] ,
+    \io_out_vliw[8] ,
+    \io_out_vliw[7] ,
+    \io_out_vliw[6] ,
+    \io_out_vliw[5] ,
+    \io_out_vliw[4] ,
+    \io_out_vliw[3] ,
+    \io_out_vliw[2] ,
+    \io_out_vliw[1] ,
+    \io_out_vliw[0] }),
+    .io_out_z80({\io_out_z80[35] ,
+    \io_out_z80[34] ,
+    \io_out_z80[33] ,
+    \io_out_z80[32] ,
+    \io_out_z80[31] ,
+    \io_out_z80[30] ,
+    \io_out_z80[29] ,
+    \io_out_z80[28] ,
+    \io_out_z80[27] ,
+    \io_out_z80[26] ,
+    \io_out_z80[25] ,
+    \io_out_z80[24] ,
+    \io_out_z80[23] ,
+    \io_out_z80[22] ,
+    \io_out_z80[21] ,
+    \io_out_z80[20] ,
+    \io_out_z80[19] ,
+    \io_out_z80[18] ,
+    \io_out_z80[17] ,
+    \io_out_z80[16] ,
+    \io_out_z80[15] ,
+    \io_out_z80[14] ,
+    \io_out_z80[13] ,
+    \io_out_z80[12] ,
+    \io_out_z80[11] ,
+    \io_out_z80[10] ,
+    \io_out_z80[9] ,
+    \io_out_z80[8] ,
+    \io_out_z80[7] ,
+    \io_out_z80[6] ,
+    \io_out_z80[5] ,
+    \io_out_z80[4] ,
+    \io_out_z80[3] ,
+    \io_out_z80[2] ,
+    \io_out_z80[1] ,
+    \io_out_z80[0] }),
     .la_data_out({la_data_out[39],
     la_data_out[38],
     la_data_out[37],
@@ -671,5 +1073,147 @@ module user_project_wrapper (user_clock2,
     la_data_out[42],
     la_data_out[41],
     la_data_out[40]}));
+ vliw vliw (.rst_n(rst_vliw),
+    .wb_clk_i(wb_clk_i),
+    .custom_settings({\custom_settings[31] ,
+    \custom_settings[30] ,
+    \custom_settings[29] ,
+    \custom_settings[28] ,
+    \custom_settings[27] ,
+    \custom_settings[26] ,
+    \custom_settings[25] ,
+    \custom_settings[24] ,
+    \custom_settings[23] ,
+    \custom_settings[22] ,
+    \custom_settings[21] ,
+    \custom_settings[20] ,
+    \custom_settings[19] ,
+    \custom_settings[18] ,
+    \custom_settings[17] ,
+    \custom_settings[16] ,
+    \custom_settings[15] ,
+    \custom_settings[14] ,
+    \custom_settings[13] ,
+    \custom_settings[12] ,
+    \custom_settings[11] ,
+    \custom_settings[10] ,
+    \custom_settings[9] ,
+    \custom_settings[8] ,
+    \custom_settings[7] ,
+    \custom_settings[6] ,
+    \custom_settings[5] ,
+    \custom_settings[4] ,
+    \custom_settings[3] ,
+    \custom_settings[2] ,
+    \custom_settings[1] ,
+    \custom_settings[0] }),
+    .io_in({io_in[37],
+    io_in[36],
+    io_in[35],
+    io_in[34],
+    io_in[33],
+    io_in[32],
+    io_in[31],
+    io_in[30],
+    io_in[29],
+    io_in[28],
+    io_in[27],
+    io_in[26],
+    io_in[25],
+    io_in[24],
+    io_in[23],
+    io_in[22],
+    io_in[21],
+    io_in[20],
+    io_in[19],
+    io_in[18],
+    io_in[17],
+    io_in[16],
+    io_in[15],
+    io_in[14],
+    io_in[13],
+    io_in[12],
+    io_in[11],
+    io_in[10],
+    io_in[9],
+    io_in[8],
+    io_in[7],
+    io_in[6],
+    io_in[5],
+    io_in[4],
+    io_in[2],
+    io_in[1]}),
+    .io_oeb({\io_oeb_vliw[35] ,
+    \io_oeb_vliw[34] ,
+    \io_oeb_vliw[33] ,
+    \io_oeb_vliw[32] ,
+    \io_oeb_vliw[31] ,
+    \io_oeb_vliw[30] ,
+    \io_oeb_vliw[29] ,
+    \io_oeb_vliw[28] ,
+    \io_oeb_vliw[27] ,
+    \io_oeb_vliw[26] ,
+    \io_oeb_vliw[25] ,
+    \io_oeb_vliw[24] ,
+    \io_oeb_vliw[23] ,
+    \io_oeb_vliw[22] ,
+    \io_oeb_vliw[21] ,
+    \io_oeb_vliw[20] ,
+    \io_oeb_vliw[19] ,
+    \io_oeb_vliw[18] ,
+    \io_oeb_vliw[17] ,
+    \io_oeb_vliw[16] ,
+    \io_oeb_vliw[15] ,
+    \io_oeb_vliw[14] ,
+    \io_oeb_vliw[13] ,
+    \io_oeb_vliw[12] ,
+    \io_oeb_vliw[11] ,
+    \io_oeb_vliw[10] ,
+    \io_oeb_vliw[9] ,
+    \io_oeb_vliw[8] ,
+    \io_oeb_vliw[7] ,
+    \io_oeb_vliw[6] ,
+    \io_oeb_vliw[5] ,
+    \io_oeb_vliw[4] ,
+    \io_oeb_vliw[3] ,
+    \io_oeb_vliw[2] ,
+    \io_oeb_vliw[1] ,
+    \io_oeb_vliw[0] }),
+    .io_out({\io_out_vliw[35] ,
+    \io_out_vliw[34] ,
+    \io_out_vliw[33] ,
+    \io_out_vliw[32] ,
+    \io_out_vliw[31] ,
+    \io_out_vliw[30] ,
+    \io_out_vliw[29] ,
+    \io_out_vliw[28] ,
+    \io_out_vliw[27] ,
+    \io_out_vliw[26] ,
+    \io_out_vliw[25] ,
+    \io_out_vliw[24] ,
+    \io_out_vliw[23] ,
+    \io_out_vliw[22] ,
+    \io_out_vliw[21] ,
+    \io_out_vliw[20] ,
+    \io_out_vliw[19] ,
+    \io_out_vliw[18] ,
+    \io_out_vliw[17] ,
+    \io_out_vliw[16] ,
+    \io_out_vliw[15] ,
+    \io_out_vliw[14] ,
+    \io_out_vliw[13] ,
+    \io_out_vliw[12] ,
+    \io_out_vliw[11] ,
+    \io_out_vliw[10] ,
+    \io_out_vliw[9] ,
+    \io_out_vliw[8] ,
+    \io_out_vliw[7] ,
+    \io_out_vliw[6] ,
+    \io_out_vliw[5] ,
+    \io_out_vliw[4] ,
+    \io_out_vliw[3] ,
+    \io_out_vliw[2] ,
+    \io_out_vliw[1] ,
+    \io_out_vliw[0] }));
 endmodule
 

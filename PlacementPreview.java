@@ -22,9 +22,11 @@ public class PlacementPreview {
 		BufferedImage img = new BufferedImage(2920, 3520, BufferedImage.TYPE_INT_RGB);
 		
 		Macro[] macros = new Macro[] {
-			new Macro(1200, 1400, 500, 500, Color.GREEN, "Multiplexer"), //Multiplexer
+			new Macro(1200, 1200, 200, 1000, Color.GREEN, "Multiplexer"), //Multiplexer
 			new Macro(250, 250, 175, 175, Color.GREEN, "TieUnused"), //TieUnused
 			new Macro(2450, 3000, 250, 275, Color.GREEN, "ScrapCPU"), //ScrapCPU
+			new Macro(250, 1400, 300, 300, Color.RED, "Z80"), //Z80
+			new Macro(350, 2400, 1100, 750, Color.RED, "VLIW"), //VLIW
 		};
 
 		/*Macro[] macros = new Macro[] {

@@ -23,6 +23,14 @@ module multiplexer(
 	input [35:0] io_out_scrapcpu,
 	input [35:0] io_oeb_scrapcpu,
 	
+	output rst_vliw,
+	input [35:0] io_out_vliw,
+	input [35:0] io_oeb_vliw,
+	
+	output rst_z80,
+	input [35:0] io_out_z80,
+	input [35:0] io_oeb_z80,
+	
 	output reg [31:0] custom_settings,
 	output [39:0] la_data_out
 );
@@ -56,7 +64,11 @@ assign la_data_out[37:0] = io_oeb;
 assign la_data_out[38] = io_in_0;
 assign la_data_out[39] = design_rst_base;
 
+reg [31:0] wbs_dat_delaybuff;
+reg [3:0] wbs_adr_delaybuff;
 always @(posedge wb_clk_i) begin
+	wbs_dat_delaybuff <= wbs_dat_i;
+	wbs_adr_delaybuff <= {wbs_adr_i[20], wbs_adr_i[4:2]};
 	if(wb_rst_i) begin
 		wb_override_act <= 0;
 		design_select   <= 0;
@@ -67,22 +79,22 @@ always @(posedge wb_clk_i) begin
 		custom_settings <= 0;
 	end else begin
 		wb_counter <= wb_counter + 1;
-		if(wb_valid && !wb_feedback_delay) begin
-			if(wbs_adr_i[19]) begin
+		if(wb_valid && wb_feedback_delay && !wb_ready && wbs_adr_delaybuff[3]) begin
+			if(wbs_adr_delaybuff[2:0] == 1) begin
 				if(wbs_we_i) begin
-					wb_override_act <= wbs_dat_i[0];
-					wb_rst_override <= wbs_dat_i[1];
-					design_select <= wbs_dat_i[5:2];
+					wb_override_act <= wbs_dat_delaybuff[0];
+					wb_rst_override <= wbs_dat_delaybuff[1];
+					design_select <= wbs_dat_delaybuff[5:2];
 				end
-				else wbs_o_buff <= {24'h0, 2'b11, design_select, wb_rst_override, wb_override_act};
-			end else if(wbs_adr_i[18]) begin
-				if(wbs_we_i) wb_counter <= wbs_dat_i;
-				else wbs_o_buff <= wb_counter;
-			end else if(wbs_adr_i[17]) begin
-				if(wbs_we_i) custom_settings <= wbs_dat_i;
-				else wbs_o_buff <= custom_settings;
+				wbs_o_buff <= {24'h0, 2'b11, design_select, wb_rst_override, wb_override_act};
+			end else if(wbs_adr_delaybuff[2:0] == 2) begin
+				if(wbs_we_i) wb_counter <= wbs_dat_delaybuff;
+				wbs_o_buff <= wb_counter;
+			end else if(wbs_adr_delaybuff[2:0] == 3) begin
+				if(wbs_we_i) custom_settings <= wbs_dat_delaybuff;
+				wbs_o_buff <= custom_settings;
 			end else begin
-				if(!wbs_we_i) wbs_o_buff <= 32'hFFFFFFFF;
+				wbs_o_buff <= 32'hFFFFFFFF;
 			end
 		end
 		wb_feedback_delay <= wb_valid;
@@ -90,13 +102,23 @@ always @(posedge wb_clk_i) begin
 	end
 end
 
+assign rst_z80 = design_select == 1 && design_rst_base;
 assign rst_scrapcpu = design_select == 2 && design_rst_base;
+assign rst_vliw = design_select == 3 && design_rst_base;
 
 always @(*) begin
 	case(design_select)
+		1: begin
+			design_out = io_out_z80;
+			design_oeb = io_oeb_z80;
+		end
 		2: begin
 			design_out = io_out_scrapcpu;
 			design_oeb = io_oeb_scrapcpu;
+		end
+		3: begin
+			design_out = io_out_vliw;
+			design_oeb = io_oeb_vliw;
 		end
 		default: begin
 			design_out = 36'h0;

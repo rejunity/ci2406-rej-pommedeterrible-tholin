@@ -18,10 +18,10 @@ module ci2406_z80(
                                     // It is recommended to use them as outputs only
     input  wire [35:0]  io_in,
     output wire [35:0]  io_out,
-    output wire [35:0]  io_oeb,     // Output Enable Bar ; 0 = Output, 1 = Input
+    output wire [35:0]  io_oeb     // Output Enable Bar ; 0 = Output, 1 = Input
 
                                     // Custom settings register, settable over mgmt controller firmware
-    input  wire [31:0]  custom_settings
+    //input  wire [31:0]  custom_settings
 );
     wire z80_clk =  wb_clk_i;
     wire ena =      1'b1;

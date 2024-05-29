@@ -56,7 +56,7 @@ module scrapcpu_tb;
 	end
 
 	initial begin
-		repeat (53) begin
+		repeat (80) begin
 			repeat (800) @(posedge clock);
 		end
 		$display("%c[1;31m",27);

@@ -1,6 +1,6 @@
 ###############################################################################
 # Created by write_sdc
-# Fri May 24 21:04:21 2024
+# Wed May 29 12:24:55 2024
 ###############################################################################
 current_design multiplexer
 ###############################################################################
@@ -305,6 +305,8 @@ set_multicycle_path -setup\
 # Environment
 ###############################################################################
 set_load -pin_load 0.1900 [get_ports {rst_scrapcpu}]
+set_load -pin_load 0.1900 [get_ports {rst_vliw}]
+set_load -pin_load 0.1900 [get_ports {rst_z80}]
 set_load -pin_load 0.1900 [get_ports {wbs_ack_o}]
 set_load -pin_load 0.1900 [get_ports {custom_settings[31]}]
 set_load -pin_load 0.1900 [get_ports {custom_settings[30]}]

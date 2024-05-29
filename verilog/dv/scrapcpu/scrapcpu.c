@@ -19,10 +19,9 @@
 #include <defs.h>
 #include <stub.c>
 
-#define reg_mprj_proj_sel (*(volatile uint32_t*)0x30080000)
-#define reg_mprj_counter (*(volatile uint32_t*)0x30040000)
-#define reg_mprj_settings (*(volatile uint32_t*)0x30020000)
-#define reg_mprj_invalid (*(volatile uint32_t*)0x30010000)
+#define reg_mprj_proj_sel (*(volatile uint32_t*)0x30100004)
+#define reg_mprj_counter (*(volatile uint32_t*)0x30100008)
+#define reg_mprj_settings (*(volatile uint32_t*)0x3010000C)
 
 void delay(const int d) {
 	reg_timer0_config = 0;
