@@ -1,0 +1,111 @@
+magic
+tech sky130A
+magscale 1 2
+timestamp 1717194321
+<< error_s >>
+rect 23811 -14328 24044 -14312
+rect 23808 -14548 23811 -14328
+rect 36240 -14382 36245 -14366
+rect 51240 -14382 51245 -14366
+rect 66240 -14382 66245 -14366
+rect 36245 -14390 36248 -14382
+rect 51245 -14390 51248 -14382
+rect 66245 -14390 66248 -14382
+rect 23497 -14642 23721 -14635
+rect 38497 -14642 38721 -14635
+rect 53497 -14642 53721 -14635
+rect 68497 -14642 68721 -14635
+rect 23485 -14662 23497 -14642
+rect 38485 -14662 38497 -14642
+rect 53485 -14662 53497 -14642
+rect 68485 -14662 68497 -14642
+rect 36514 -27109 36517 -27098
+rect 51514 -27109 51517 -27098
+rect 66514 -27109 66517 -27098
+rect 36286 -27125 36514 -27109
+rect 51286 -27125 51514 -27109
+rect 66286 -27125 66514 -27109
+rect 23754 -27378 23757 -27158
+rect 38754 -27378 38757 -27337
+rect 53754 -27378 53757 -27337
+rect 68754 -27378 68757 -27158
+rect 23757 -27394 23990 -27378
+rect 38757 -27380 38759 -27378
+rect 53757 -27380 53759 -27378
+rect 38759 -27394 38760 -27380
+rect 53759 -27394 53760 -27380
+rect 68757 -27394 68760 -27378
+<< metal3 >>
+rect 50200 89800 51800 90000
+rect 52200 89800 53800 90000
+rect 54600 89800 55000 90000
+rect 55800 89800 56200 90000
+rect 57000 89800 57400 90000
+rect 58200 89800 58600 90000
+rect 59400 89800 59800 90000
+rect 60600 89800 61000 90000
+rect 61800 89800 62200 90000
+rect 63000 89800 63400 90000
+rect 64200 89800 64600 90000
+rect 65400 89800 67000 90000
+rect 67400 89800 69000 90000
+use array_core  array_core_0
+timestamp 1717192775
+transform 1 0 40000 0 1 0
+box -40066 -2400 80032 90000
+use sky130_ef_io__analog_minesd_pad_short  sky130_ef_io__analog_minesd_pad_short_1 $PDKPATH/libs.ref/sky130_fd_io/mag
+timestamp 1716601000
+transform -1 0 37500 0 -1 6200
+box 0 14007 15000 40000
+use sky130_ef_io__analog_minesd_pad_short  sky130_ef_io__analog_minesd_pad_short_2
+timestamp 1716601000
+transform -1 0 67500 0 -1 6200
+box 0 14007 15000 40000
+use sky130_ef_io__analog_minesd_pad_short  sky130_ef_io__analog_minesd_pad_short_3
+timestamp 1716601000
+transform -1 0 52500 0 -1 6200
+box 0 14007 15000 40000
+use sky130_ef_io__analog_minesd_pad_short  sky130_ef_io__analog_minesd_pad_short_4
+timestamp 1716601000
+transform -1 0 82500 0 -1 6200
+box 0 14007 15000 40000
+use sky130_ef_io__bare_pad  sky130_ef_io__bare_pad_0 $PDKPATH/libs.ref/sky130_fd_io/mag
+timestamp 1716601000
+transform 1 0 9000 0 1 -28260
+box -540 -540 12540 14540
+use sky130_ef_io__bare_pad  sky130_ef_io__bare_pad_1
+timestamp 1716601000
+transform 1 0 105000 0 1 -27880
+box -540 -540 12540 14540
+use sky130_ef_io__bare_pad  sky130_ef_io__bare_pad_2
+timestamp 1716601000
+transform 1 0 84000 0 1 -27880
+box -540 -540 12540 14540
+<< labels >>
+flabel metal3 50200 89800 51800 90000 0 FreeSans 1600 0 0 0 vccd1
+port 1 nsew power default
+flabel metal3 52200 89800 53800 90000 0 FreeSans 1600 0 0 0 vssd1
+port 2 nsew ground default
+flabel metal3 54600 89800 55000 90000 0 FreeSans 800 0 0 0 addr[0]
+port 3 nsew signal input
+flabel metal3 55800 89800 56200 90000 0 FreeSans 800 0 0 0 addr[1]
+port 4 nsew signal input
+flabel metal3 57000 89800 57400 90000 0 FreeSans 800 0 0 0 addr[2]
+port 5 nsew signal input
+flabel metal3 58200 89800 58600 90000 0 FreeSans 800 0 0 0 addr[3]
+port 6 nsew signal input
+flabel metal3 59400 89800 59800 90000 0 FreeSans 800 0 0 0 addr[4]
+port 7 nsew signal input
+flabel metal3 60600 89800 61000 90000 0 FreeSans 800 0 0 0 addr[5]
+port 8 nsew signal input
+flabel metal3 61800 89800 62200 90000 0 FreeSans 800 0 0 0 addr[6]
+port 9 nsew signal input
+flabel metal3 63000 89800 63400 90000 0 FreeSans 800 0 0 0 addr[7]
+port 10 nsew signal input
+flabel metal3 64200 89800 64600 90000 0 FreeSans 800 0 0 0 addr[8]
+port 11 nsew signal input
+flabel metal3 65400 89800 67000 90000 0 FreeSans 1600 0 0 0 vccd1
+port 1 nsew power default
+flabel metal3 67400 89800 69000 90000 0 FreeSans 1600 0 0 0 vssd1
+port 2 nsew ground default
+<< end >>
