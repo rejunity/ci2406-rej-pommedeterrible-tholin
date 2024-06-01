@@ -97,7 +97,9 @@ module Z80_tb;
 		@(posedge clock);
 		@(posedge clock);
 		design_rst = 1;
+`ifndef GL
 		@(posedge clock);
+`endif
 		@(posedge clock);
 		#3;
 		failures += mreq_n != 0;

@@ -16,8 +16,113 @@ module vliw(
   input [35:0] io_in,
   output [35:0] io_out,
   output [35:0] io_oeb, //Output Enable Bar ; 0 = Output, 1 = Input
-  input [31:0] custom_settings //Custom settings register, settable over mgmt controller firmware
+  input [4:0] custom_settings, //Custom settings register, settable over mgmt controller firmware
+  
+  /*
+   * Wiring to execution units
+   */
+   //1
+   input [`REG_IDX:0] reg1_idx0,
+   input [`REG_IDX:0] reg2_idx0,
+   input [31:0] dest_val0,
+   input [1:0] dest_mask0,
+   input [`REG_IDX:0] dest_idx0,
+   
+   input [2:0] pred_idx0,
+   input [2:0] dest_pred0,
+   input dest_pred_val0,
+   
+   input [31:0] loadstore_address0,
+   input is_load0,
+   input is_store0,
+   input sign_extend0,
+   input [1:0] loadstore_size0,
+   input [`REG_IDX:0] loadstore_dest0,
+   
+   input take_branch0,
+   input [27:0] new_PC0,
+   
+   input eu0_busy,
+   
+   output [41:0] eu0_instruction,
+   output [31:0] reg1_val0,
+   output [31:0] reg2_val0,
+   output pred_val0,
+   
+   //2
+   input [`REG_IDX:0] reg1_idx1,
+   input [`REG_IDX:0] reg2_idx1,
+   input [31:0] dest_val1,
+   input [1:0] dest_mask1,
+   input [`REG_IDX:0] dest_idx1,
+   
+   input [2:0] pred_idx1,
+   input [2:0] dest_pred1,
+   input dest_pred_val1,
+   
+   input [31:0] loadstore_address1,
+   input is_load1,
+   input is_store1,
+   input sign_extend1,
+   input [1:0] loadstore_size1,
+   input [`REG_IDX:0] loadstore_dest1,
+   
+   input take_branch1,
+   input [27:0] new_PC1,
+   
+   input eu1_busy,
+   
+   output [41:0] eu1_instruction,
+   output [31:0] reg1_val1,
+   output [31:0] reg2_val1,
+   output pred_val1,
+   
+   //3
+   input [`REG_IDX:0] reg1_idx2,
+   input [`REG_IDX:0] reg2_idx2,
+   input [31:0] dest_val2,
+   input [1:0] dest_mask2,
+   input [`REG_IDX:0] dest_idx2,
+   
+   input [2:0] pred_idx2,
+   input [2:0] dest_pred2,
+   input dest_pred_val2,
+   
+   input [31:0] loadstore_address2,
+   input is_load2,
+   input is_store2,
+   input sign_extend2,
+   input [1:0] loadstore_size2,
+   input [`REG_IDX:0] loadstore_dest2,
+   
+   input take_branch2,
+   input [27:0] new_PC2,
+   
+   input eu2_busy,
+   
+   output [41:0] eu2_instruction,
+   output [31:0] reg1_val2,
+   output [31:0] reg2_val2,
+   output pred_val2,
+   
+   output rst_eu,
+   output [27:0] curr_PC
 );
+assign rst_eu = !rst_n || !startup_delay || memory_cyc[3];
+assign curr_PC = PC;
+
+assign eu0_instruction = curr_pack[41:0];
+assign eu1_instruction = curr_pack[83:42];
+assign eu2_instruction = curr_pack[125:84];
+assign reg1_val0 = regfile[reg1_idx0];
+assign reg2_val0 = regfile[reg2_idx0];
+assign pred_val0 = predicates[pred_idx0] & execution_mask[0] & fetched;
+assign reg1_val1 = regfile[reg1_idx1];
+assign reg2_val1 = regfile[reg2_idx1];
+assign pred_val1 = predicates[pred_idx1] & execution_mask[1] & fetched;
+assign reg1_val2 = regfile[reg1_idx2];
+assign reg2_val2 = regfile[reg2_idx2];
+assign pred_val2 = predicates[pred_idx2] & execution_mask[2] & fetched;
 
 wire blinkLED;
 blink blink(
@@ -82,10 +187,10 @@ reg [2:0] execution_mask;
 
 reg [31:0] regfile [`NUM_REGS-1:0];
 reg predicates [7:0];
+reg fetched;
 
 /*
- * Execution Unit 0
- */
+//Execution Unit 0
 wire [`REG_IDX:0] reg1_idx0;
 wire [`REG_IDX:0] reg2_idx0;
 wire [31:0] dest_val0;
@@ -106,6 +211,8 @@ wire [`REG_IDX:0] loadstore_dest0;
 wire take_branch0;
 wire [27:0] new_PC0;
 
+wire eu0_busy;
+
 execution_unit eu0(
 	.instruction(curr_pack[41:0]),
 	.reg1_idx(reg1_idx0),
@@ -116,7 +223,7 @@ execution_unit eu0(
 	.dest_mask(dest_mask0),
 	.dest_idx(dest_idx0),
 	.pred_idx(pred_idx0),
-	.pred_val(predicates[pred_idx0] & execution_mask[0] && !memory_cyc[3]),
+	.pred_val(predicates[pred_idx0] & execution_mask[0] & fetched),
 	.dest_pred(dest_pred0),
 	.dest_pred_val(dest_pred_val0),
 
@@ -129,12 +236,14 @@ execution_unit eu0(
 	
 	.curr_PC(PC),
 	.take_branch(take_branch0),
-	.new_PC(new_PC0)
+	.new_PC(new_PC0),
+
+	.clk(wb_clk_i),
+	.rst(!rst_n || !startup_delay || memory_cyc[3]),
+	.busy(eu0_busy)
 );
 
-/*
- * Execution Unit 1
- */
+//Execution Unit 1
 wire [`REG_IDX:0] reg1_idx1;
 wire [`REG_IDX:0] reg2_idx1;
 wire [31:0] dest_val1;
@@ -155,6 +264,8 @@ wire [`REG_IDX:0] loadstore_dest1;
 wire take_branch1;
 wire [27:0] new_PC1;
 
+wire eu1_busy;
+
 execution_unit eu1(
 	.instruction(curr_pack[83:42]),
 	.reg1_idx(reg1_idx1),
@@ -165,7 +276,7 @@ execution_unit eu1(
 	.dest_mask(dest_mask1),
 	.dest_idx(dest_idx1),
 	.pred_idx(pred_idx1),
-	.pred_val(predicates[pred_idx1] & execution_mask[1] && !memory_cyc[3]),
+	.pred_val(predicates[pred_idx1] & execution_mask[1] & fetched),
 	.dest_pred(dest_pred1),
 	.dest_pred_val(dest_pred_val1),
 
@@ -178,12 +289,14 @@ execution_unit eu1(
 	
 	.curr_PC(PC),
 	.take_branch(take_branch1),
-	.new_PC(new_PC1)
+	.new_PC(new_PC1),
+
+	.clk(wb_clk_i),
+	.rst(!rst_n || !startup_delay || memory_cyc[3]),
+	.busy(eu1_busy)
 );
 
-/*
- * Execution Unit 2
- */
+//Execution Unit 2
 wire [`REG_IDX:0] reg1_idx2;
 wire [`REG_IDX:0] reg2_idx2;
 wire [31:0] dest_val2;
@@ -204,6 +317,8 @@ wire [`REG_IDX:0] loadstore_dest2;
 wire take_branch2;
 wire [27:0] new_PC2;
 
+wire eu2_busy;
+
 execution_unit eu2(
 	.instruction(curr_pack[125:84]),
 	.reg1_idx(reg1_idx2),
@@ -214,7 +329,7 @@ execution_unit eu2(
 	.dest_mask(dest_mask2),
 	.dest_idx(dest_idx2),
 	.pred_idx(pred_idx2),
-	.pred_val(predicates[pred_idx2] & execution_mask[2] && !memory_cyc[3]),
+	.pred_val(predicates[pred_idx2] & execution_mask[2] & fetched),
 	.dest_pred(dest_pred2),
 	.dest_pred_val(dest_pred_val2),
 
@@ -227,8 +342,12 @@ execution_unit eu2(
 	
 	.curr_PC(PC),
 	.take_branch(take_branch2),
-	.new_PC(new_PC2)
-);
+	.new_PC(new_PC2),
+
+	.clk(wb_clk_i),
+	.rst(!rst_n || !startup_delay || memory_cyc[3]),
+	.busy(eu2_busy)
+);*/
 
 /*
  * Having multiple loadstore type instructions in one pack is illegal.
@@ -361,6 +480,7 @@ always @(posedge wb_clk_i) begin
 		processing_load <= 0;
 		processing_store <= 0;
 		execution_mask <= 2'b11;
+		fetched <= 0;
 	end else begin
 		if(le_hi) curr_addr[30:16] <= requested_addr[30:16];
 		if(le_lo) curr_addr[15:0] <= requested_addr[15:0];
@@ -403,10 +523,11 @@ always @(posedge wb_clk_i) begin
 				end else begin
 					curr_pack <= {bus_in, curr_pack[127:16]};
 					if(memory_cyc != 4'hF) requested_addr <= requested_addr + 1;
+					else fetched <= 1;
 					memory_cyc <= memory_cyc + 1;
 					execution_mask <= {bus_in[15:14] == 0, bus_in[14] == 0, 1'b1}; //Parse initial 'stop' pattern
 				end
-			end else begin
+			end else if(!(eu0_busy || eu1_busy || eu2_busy)) begin
 				M1 <= 1;
 
 				if(dest_mask2[0] && dest_idx2 != 0) regfile[dest_idx2][15:0] <= dest_val2[15:0];
@@ -453,6 +574,7 @@ task next_instr(input useNP);
 			requested_addr <= {useNP ? next_PC : PC, 3'b000};
 			memory_cyc <= 8;
 			requested_len <= 3;
+			fetched <= 0;
 		//Define all possible transitions for the execution mask based on stops configuration
 		end else if(execution_mask == 3'b001) begin
 			execution_mask <= stops[1] ? 3'b010 : 3'b110;
@@ -491,151 +613,6 @@ wire p5 = predicates[5];
 wire p6 = predicates[6];
 wire p7 = predicates[7];
 `endif
-
-endmodule
-
-module execution_unit(
-	input [41:0] instruction,
-	output [`REG_IDX:0] reg1_idx,
-	output [`REG_IDX:0] reg2_idx,
-	input [31:0] reg1_val,
-	input [31:0] reg2_val,
-	output [31:0] dest_val,
-	output [1:0] dest_mask,
-	output [`REG_IDX:0] dest_idx,
-	
-	output [2:0] pred_idx,
-	input pred_val,
-	output [2:0] dest_pred,
-	output dest_pred_val,
-	
-	output [31:0] loadstore_address,
-	output [`REG_IDX:0] loadstore_dest,
-	output is_load,
-	output is_store,
-	output sign_extend,
-	output [1:0] loadstore_size,
-	
-	input [27:0] curr_PC,
-	output take_branch,
-	output [27:0] new_PC
-);
-
-wire [7:0] opcode = instruction[7:0];
-wire [2:0] instr_type = pred_val ? instruction[2:0] : 0; //Spoof no-op if predicate is false
-
-wire is_NOP = instr_type == 0; //done
-wire is_ALU = instr_type == 1; //done
-wire is_Imm = instr_type == 2; //done
-wire is_pred = instr_type == 3; //done
-wire is_loadstore = instr_type == 4; //done
-wire is_branch = instr_type == 5; //done
-wire is_jump = instr_type == 6; //done
-
-assign pred_idx = instruction[10:8];
-assign dest_pred = is_pred ? instruction[13:11] : 0;
-assign dest_idx = is_ALU || is_Imm || is_jump ? instruction[`REG_IDX+11:11] : 0;
-assign reg1_idx = is_branch ? instruction[`REG_IDX+11:11] : instruction[`REG_IDX+18:18];
-assign reg2_idx = is_branch ? instruction[`REG_IDX+18:18] : instruction[`REG_IDX+25:25];
-assign loadstore_dest = instruction[`REG_IDX+11:11];
-
-wire [16:0] imm = instruction[41:25];
-wire [31:0] signed_imm = {{15{imm[16]}}, imm};
-
-wire [3:0] alu_op = instruction[6:3];
-wire upper = is_ALU ? instruction[41] : imm[0];
-wire needs_whole_reg = (alu_op == 1 && is_Imm) || (alu_op == 2 && is_Imm) || alu_op[3] || (is_ALU && !instruction[40]) || (is_Imm && !instruction[17]);
-wire [15:0] alu_imm = imm[16:1];
-wire sign_extend_imm = instruction[24];
-
-wire [31:0] alu_in2 = is_Imm ? (upper ? {alu_imm, 16'h0000} : (sign_extend_imm ? {{16{alu_imm[15]}}, alu_imm} : {16'h0000, alu_imm})) : reg2_val;
-assign dest_mask = is_jump ? 2'b11 : (is_load ? (!opcode[7] ? 2'b11 : (instruction[24] ? 2'b00 : 2'b01)) : (needs_whole_reg ? 2'b11 : (upper ? 2'b10 : 2'b01)));
-
-/*
- * A bit ugly, but an ultra good optimization
- * Reduce the number of barrel shifters in the design to 1 by using the same one for
- * both left and right shifts.
- * It right shifts by default, but can left-shift by inverting the bit order (a free operation in hardware)
- */
-wire [4:0] shift_amount = alu_in2[4:0];
-wire is_leftshift = alu_op == 2 && instruction[7];
-wire [31:0] shifter_in = is_leftshift ? 
-{reg1_val[0], reg1_val[1], reg1_val[2], reg1_val[3], reg1_val[4], reg1_val[5],
-reg1_val[6], reg1_val[7], reg1_val[8], reg1_val[9], reg1_val[10], reg1_val[11], reg1_val[12],
-reg1_val[13], reg1_val[14], reg1_val[15], reg1_val[16], reg1_val[17], reg1_val[18], reg1_val[19],
-reg1_val[20], reg1_val[21], reg1_val[22], reg1_val[23], reg1_val[24], reg1_val[25],
-reg1_val[26], reg1_val[27], reg1_val[28], reg1_val[29], reg1_val[30], reg1_val[31]}
- : reg1_val;
-wire is_signed_shift = alu_op == 1;
-wire [31:0] shifter = $signed({is_signed_shift & reg1_val[31], shifter_in}) >>> shift_amount;
-wire [31:0] leftshifted = {shifter[0], shifter[1], shifter[2], shifter[3], shifter[4], shifter[5], shifter[6],
-shifter[7], shifter[8], shifter[9], shifter[10], shifter[11], shifter[12], shifter[13], shifter[14], shifter[15],
-shifter[16], shifter[17], shifter[18], shifter[19], shifter[20], shifter[21], shifter[22],
-shifter[23], shifter[24], shifter[25], shifter[26], shifter[27], shifter[28], shifter[29],
-shifter[30], shifter[31]};
-
-/*
- * Decide how we want our multiplication - signed or unsigned
- */
-
-wire m1s = instruction[7] && reg1_val[31];
-wire m2s = instruction[7] && alu_in2[31];
-wire [31:0] rs1_inv = (~reg1_val) + 1;
-wire [31:0] rs2_inv = (~alu_in2) + 1;
-wire [31:0] muli1 = m1s ? rs1_inv : reg1_val;
-wire [31:0] muli2 = m2s ? rs2_inv : alu_in2;
-wire [63:0] mul = muli1 * muli2;
-wire [63:0] muls = (m1s ^ m2s) ? (~mul) + 1 : mul;
-
-wire [31:0] XOR = reg1_val ^ alu_in2;
-wire LT = reg1_val < alu_in2;
-wire LTS = $signed(reg1_val) < $signed(alu_in2);
-wire EQL = XOR == 0;
-
-reg [31:0] ALU_res;
-always @(*) begin
-	case(alu_op)
-		0: ALU_res = instruction[7] ? reg1_val - alu_in2 : reg1_val + alu_in2;
-		1: ALU_res = alu_in2[5] && is_Imm ? reg1_val + {4'h0, curr_PC} : shifter;
-		2: ALU_res = instruction[7] ? leftshifted : shifter;
-		3: ALU_res = LT ? 32'h00000001 : 32'h00000000;
-		4: ALU_res = LTS ? 32'h00000001 : 32'h00000000;
-		5: ALU_res = reg1_val & alu_in2;
-		6: ALU_res = reg1_val | alu_in2;
-		7: ALU_res = XOR;
-		8: ALU_res = muls[31:0];
-		9: ALU_res = muls[63:32];
-		default: ALU_res = 0;
-	endcase
-end
-
-assign dest_val = is_jump ? {4'h0, curr_PC+1'b1} : (alu_op == 4 && instruction[7] ? alu_in2 : ALU_res);
-
-assign is_load = is_loadstore && !opcode[3];
-assign is_store = is_loadstore && opcode[3];
-assign sign_extend = opcode[4];
-assign loadstore_size = opcode[6:5];
-assign loadstore_address = reg1_val + signed_imm;
-
-wire signed_comp = opcode[6];
-reg comparison_tbl;
-always @(*) begin
-	case(opcode[4:3])
-		default: comparison_tbl = 0;
-		0: comparison_tbl = signed_comp ? reg1_val[31] == alu_in2[31] : EQL;
-		1: comparison_tbl = signed_comp ? LTS : LT;
-		3: comparison_tbl = signed_comp ? (EQL || LTS) : (EQL || LT);
-	endcase
-end
-wire comparison = comparison_tbl ^ opcode[5];
-
-assign dest_pred_val = comparison;
-assign take_branch = (comparison && is_branch) || is_jump;
-
-//Jump needs TWO regs, the table is wrong. Destination = Imm + rs1, link to dest
-wire [27:0] branch_targ = curr_PC + signed_imm[27:0];
-wire [27:0] jump_targ = signed_imm[27:0] + reg1_val[27:0];
-assign new_PC = is_jump ? jump_targ : branch_targ;
 
 endmodule
 

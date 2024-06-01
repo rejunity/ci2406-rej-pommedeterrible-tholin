@@ -37,6 +37,8 @@
 `define ALU_XOR 56
 `define ALU_MUL 64
 `define ALU_MULU 72
+`define ALU_DIV 80
+`define ALU_MOD 88
 
 `define BR_EQL 0
 `define BR_LT 8
@@ -301,6 +303,9 @@ module vliw_tb;
 		$dumpvars(1, vliw_tb.uut.chip_core.mprj);
 		$dumpvars(0, vliw_tb.uut.chip_core.mprj.multiplexer);
 		$dumpvars(0, vliw_tb.uut.chip_core.mprj.vliw);
+		$dumpvars(0, vliw_tb.uut.chip_core.mprj.eu0);
+		$dumpvars(0, vliw_tb.uut.chip_core.mprj.eu1);
+		$dumpvars(0, vliw_tb.uut.chip_core.mprj.eu2);
 		wait(gpio == 0);
 		wait(gpio == 1);
 		$display("Monitor: Test started");
@@ -810,7 +815,53 @@ module vliw_tb;
 		instr_exec();
 		check_reg(3, 32'hF3CFBF3F);
 		check_reg(4, 32'h115656A9);
+		i0 = `INSTR_LUI(4, 0);
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
+		i0 = `INSTR_ALU(3, 4, 1, `ALU_DIV);
+		i1 = `INSTR_ALU(3, 4, 2, `ALU_MOD);
+		i2 = `OP_NOP;
+		counter = 2;
+		repeat(17) @(posedge clock);
+		#3;
+		counter = 1;
+		repeat(33) begin
+			failures += M1 != 0;
+			failures += le_lo != 0 || le_hi != 0;
+			failures += OEb == 0 || WEb_hi == 0 || WEb_lo == 0;
+			@(posedge clock);
+			#3;
+		end
+		failures += M1 == 0;
+		failures += OEb == 0;
+		expected_PC = expected_PC + 8;
+		check_reg(1, 32'h0002D03C);
+		check_reg(2, 32'h00001FA3);
 		
+		i0 = `INSTR_ALU(1, 2, 3, `ALU_DIV);
+		i1 = `INSTR_ALU(1, 2, 4, `ALU_MOD);
+		i2 = `OP_NOP;
+		counter = 2;
+		repeat(17) @(posedge clock);
+		#3;
+		counter = 1;
+		repeat(33) begin
+			failures += M1 != 0;
+			failures += le_lo != 0 || le_hi != 0;
+			failures += OEb == 0 || WEb_hi == 0 || WEb_lo == 0;
+			@(posedge clock);
+			#3;
+		end
+		failures += M1 == 0;
+		failures += OEb == 0;
+		expected_PC = expected_PC + 8;
+		check_reg(3, 32'h00000016);
+		check_reg(4, 32'h0000183A);
+		
+		i0 = `OP_NOP;
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
 		@(posedge clock);
 		@(posedge clock);
 		if(failures == 0) begin

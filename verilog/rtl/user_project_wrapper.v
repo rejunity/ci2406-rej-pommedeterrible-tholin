@@ -81,6 +81,16 @@ module user_project_wrapper #(
 wire [31:0] custom_settings;
 wire [35:0] designs_io_in = {io_in[37:4], io_in[2:1]};
 
+wire rst_scrapcpu;
+wire [35:0] io_out_scrapcpu;
+wire [35:0] io_oeb_scrapcpu;
+wire rst_vliw;
+wire [35:0] io_out_vliw;
+wire [35:0] io_oeb_vliw;
+wire rst_z80;
+wire [35:0] io_out_z80;
+wire [35:0] io_oeb_z80;
+
 multiplexer multiplexer(
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
@@ -116,10 +126,6 @@ multiplexer multiplexer(
     .custom_settings(custom_settings)
 );
 
-wire rst_scrapcpu;
-wire [35:0] io_out_scrapcpu;
-wire [35:0] io_oeb_scrapcpu;
-
 scrapcpu scrapcpu(
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
@@ -130,23 +136,6 @@ scrapcpu scrapcpu(
     .io_in(designs_io_in),
     .io_out(io_out_scrapcpu),
     .io_oeb(io_oeb_scrapcpu)
-);
-
-wire rst_vliw;
-wire [35:0] io_out_vliw;
-wire [35:0] io_oeb_vliw;
-
-vliw vliw(
-`ifdef USE_POWER_PINS
-	.vccd1(vccd1),	// User area 1 1.8V power
-	.vssd1(vssd1),	// User area 1 digital ground
-`endif
-	.wb_clk_i(wb_clk_i),
-	.rst_n(rst_vliw),
-	.io_in(designs_io_in),
-	.io_out(io_out_vliw),
-	.io_oeb(io_oeb_vliw),
-	.custom_settings(custom_settings)
 );
 
 unused_tie unused_tie(
@@ -160,10 +149,6 @@ unused_tie unused_tie(
     .la_data_out(la_data_out[127:40])
 );
 
-wire rst_z80;
-wire [35:0] io_out_z80;
-wire [35:0] io_oeb_z80;
-
 ci2406_z80 ci2406_z80(
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
@@ -175,6 +160,256 @@ ci2406_z80 ci2406_z80(
     .io_out(io_out_z80),
     .io_oeb(io_oeb_z80)
 );
+/*
+`define NUM_REGS 32
+`define REG_IDX ($clog2(`NUM_REGS)-1)
+
+wire rst_eu;
+wire [27:0] curr_PC;
+
+wire [`REG_IDX:0] reg1_idx0;
+wire [`REG_IDX:0] reg2_idx0;
+wire [31:0]       dest_val0;
+wire [1:0]        dest_mask0;
+wire [`REG_IDX:0] dest_idx0;
+wire [2:0]        pred_idx0;
+wire [2:0]        dest_pred0;
+wire              dest_pred_val0;
+wire [31:0]       loadstore_address0;
+wire              is_load0;
+wire              is_store0;
+wire              sign_extend0;
+wire [1:0]        loadstore_size0;
+wire [`REG_IDX:0] loadstore_dest0;
+wire              take_branch0;
+wire [27:0]       new_PC0;
+wire              eu0_busy;
+wire [41:0]       eu0_instruction;
+wire [31:0]       reg1_val0;
+wire [31:0]       reg2_val0;
+wire              pred_val0;
+
+wire [`REG_IDX:0] reg1_idx1;
+wire [`REG_IDX:0] reg2_idx1;
+wire [31:0]       dest_val1;
+wire [1:0]        dest_mask1;
+wire [`REG_IDX:0] dest_idx1;
+wire [2:0]        pred_idx1;
+wire [2:0]        dest_pred1;
+wire              dest_pred_val1;
+wire [31:0]       loadstore_address1;
+wire              is_load1;
+wire              is_store1;
+wire              sign_extend1;
+wire [1:0]        loadstore_size1;
+wire [`REG_IDX:0] loadstore_dest1;
+wire              take_branch1;
+wire [27:0]       new_PC1;
+wire              eu1_busy;
+wire [41:0]       eu1_instruction;
+wire [31:0]       reg1_val1;
+wire [31:0]       reg2_val1;
+wire              pred_val1;
+
+wire [`REG_IDX:0] reg1_idx2;
+wire [`REG_IDX:0] reg2_idx2;
+wire [31:0]       dest_val2;
+wire [1:0]        dest_mask2;
+wire [`REG_IDX:0] dest_idx2;
+wire [2:0]        pred_idx2;
+wire [2:0]        dest_pred2;
+wire              dest_pred_val2;
+wire [31:0]       loadstore_address2;
+wire              is_load2;
+wire              is_store2;
+wire              sign_extend2;
+wire [1:0]        loadstore_size2;
+wire [`REG_IDX:0] loadstore_dest2;
+wire              take_branch2;
+wire [27:0]       new_PC2;
+wire              eu2_busy;
+wire [41:0]       eu2_instruction;
+wire [31:0]       reg1_val2;
+wire [31:0]       reg2_val2;
+wire              pred_val2;
+
+vliw vliw(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+	.wb_clk_i(wb_clk_i),
+	.rst_n(rst_vliw),
+	.io_in(designs_io_in),
+	.io_out(io_out_vliw),
+	.io_oeb(io_oeb_vliw),
+	.custom_settings(custom_settings[4:0]),
+	
+	.rst_eu(rst_eu),
+	.curr_PC(curr_PC),
+	
+	.reg1_idx0(reg1_idx0),
+	.reg2_idx0(reg2_idx0),
+	.dest_val0(dest_val0),
+	.dest_mask0(dest_mask0),
+	.dest_idx0(dest_idx0),
+	.pred_idx0(pred_idx0),
+	.dest_pred0(dest_pred0),
+	.dest_pred_val0(dest_pred_val0),
+	.loadstore_address0(loadstore_address0),
+	.is_load0(is_load0),
+	.is_store0(is_store0),
+	.sign_extend0(sign_extend0),
+	.loadstore_size0(loadstore_size0),
+	.loadstore_dest0(loadstore_dest0),
+	.take_branch0(take_branch0),
+	.new_PC0(new_PC0),
+	.eu0_busy(eu0_busy),
+	.eu0_instruction(eu0_instruction),
+	.reg1_val0(reg1_val0),
+	.reg2_val0(reg2_val0),
+	.pred_val0(pred_val0),
+	
+	.reg1_idx1(reg1_idx1),
+	.reg2_idx1(reg2_idx1),
+	.dest_val1(dest_val1),
+	.dest_mask1(dest_mask1),
+	.dest_idx1(dest_idx1),
+	.pred_idx1(pred_idx1),
+	.dest_pred1(dest_pred1),
+	.dest_pred_val1(dest_pred_val1),
+	.loadstore_address1(loadstore_address1),
+	.is_load1(is_load1),
+	.is_store1(is_store1),
+	.sign_extend1(sign_extend1),
+	.loadstore_size1(loadstore_size1),
+	.loadstore_dest1(loadstore_dest1),
+	.take_branch1(take_branch1),
+	.new_PC1(new_PC1),
+	.eu1_busy(eu1_busy),
+	.eu1_instruction(eu1_instruction),
+	.reg1_val1(reg1_val1),
+	.reg2_val1(reg2_val1),
+	.pred_val1(pred_val1),
+	
+	.reg1_idx2(reg1_idx2),
+	.reg2_idx2(reg2_idx2),
+	.dest_val2(dest_val2),
+	.dest_mask2(dest_mask2),
+	.dest_idx2(dest_idx2),
+	.pred_idx2(pred_idx2),
+	.dest_pred2(dest_pred2),
+	.dest_pred_val2(dest_pred_val2),
+	.loadstore_address2(loadstore_address2),
+	.is_load2(is_load2),
+	.is_store2(is_store2),
+	.sign_extend2(sign_extend2),
+	.loadstore_size2(loadstore_size2),
+	.loadstore_dest2(loadstore_dest2),
+	.take_branch2(take_branch2),
+	.new_PC2(new_PC2),
+	.eu2_busy(eu2_busy),
+	.eu2_instruction(eu2_instruction),
+	.reg1_val2(reg1_val2),
+	.reg2_val2(reg2_val2),
+	.pred_val2(pred_val2)
+);
+
+execution_unit eu0(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .rst(rst_eu),
+    .curr_PC(curr_PC),
+    
+    .instruction(eu0_instruction),
+    .reg1_idx(reg1_idx0),
+    .reg2_idx(reg2_idx0),
+    .reg1_val(reg1_val0),
+    .reg2_val(reg2_val0),
+    .dest_val(dest_val0),
+    .dest_mask(dest_mask0),
+    .dest_idx(dest_idx0),
+    .pred_idx(pred_idx0),
+    .pred_val(pred_val0),
+    .dest_pred(dest_pred0),
+    .dest_pred_val(dest_pred_val0),
+    .loadstore_address(loadstore_address0),
+    .loadstore_dest(loadstore_dest0),
+    .is_load(is_load0),
+    .is_store(is_store0),
+    .sign_extend(sign_extend0),
+    .loadstore_size(loadstore_size0),
+    .take_branch(take_branch0),
+    .new_PC(new_PC0),
+    .busy(eu0_busy)
+);
+
+execution_unit eu1(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .rst(rst_eu),
+    .curr_PC(curr_PC),
+    
+    .instruction(eu1_instruction),
+    .reg1_idx(reg1_idx1),
+    .reg2_idx(reg2_idx1),
+    .reg1_val(reg1_val1),
+    .reg2_val(reg2_val1),
+    .dest_val(dest_val1),
+    .dest_mask(dest_mask1),
+    .dest_idx(dest_idx1),
+    .pred_idx(pred_idx1),
+    .pred_val(pred_val1),
+    .dest_pred(dest_pred1),
+    .dest_pred_val(dest_pred_val1),
+    .loadstore_address(loadstore_address1),
+    .loadstore_dest(loadstore_dest1),
+    .is_load(is_load1),
+    .is_store(is_store1),
+    .sign_extend(sign_extend1),
+    .loadstore_size(loadstore_size1),
+    .take_branch(take_branch1),
+    .new_PC(new_PC1),
+    .busy(eu1_busy)
+);
+
+execution_unit eu2(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .rst(rst_eu),
+    .curr_PC(curr_PC),
+    
+    .instruction(eu2_instruction),
+    .reg1_idx(reg1_idx2),
+    .reg2_idx(reg2_idx2),
+    .reg1_val(reg1_val2),
+    .reg2_val(reg2_val2),
+    .dest_val(dest_val2),
+    .dest_mask(dest_mask2),
+    .dest_idx(dest_idx2),
+    .pred_idx(pred_idx2),
+    .pred_val(pred_val2),
+    .dest_pred(dest_pred2),
+    .dest_pred_val(dest_pred_val2),
+    .loadstore_address(loadstore_address2),
+    .loadstore_dest(loadstore_dest2),
+    .is_load(is_load2),
+    .is_store(is_store2),
+    .sign_extend(sign_extend2),
+    .loadstore_size(loadstore_size2),
+    .take_branch(take_branch2),
+    .new_PC(new_PC2),
+    .busy(eu2_busy)
+);*/
 
 endmodule	// user_project_wrapper
 

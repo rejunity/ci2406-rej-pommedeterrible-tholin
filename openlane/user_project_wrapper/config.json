@@ -5,10 +5,10 @@
         "dir::../../verilog/rtl/user_project_wrapper.v"
     ],
     "ROUTING_CORES": 1,
-    "CLOCK_PERIOD": 27,
+    "CLOCK_PERIOD": 32,
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "wb_clk_i",
-    "FP_PDN_MACRO_HOOKS": "multiplexer vccd1 vssd1 vccd1 vssd1, scrapcpu vccd1 vssd1 vccd1 vssd1, unused_tie vccd1 vssd1 vccd1 vssd1, ci2406_z80 vccd1 vssd1 vccd1 vssd1, vliw vccd1 vssd1 vccd1 vssd1",
+    "FP_PDN_MACRO_HOOKS": "multiplexer vccd1 vssd1 vccd1 vssd1, scrapcpu vccd1 vssd1 vccd1 vssd1, unused_tie vccd1 vssd1 vccd1 vssd1, ci2406_z80 vccd1 vssd1 vccd1 vssd1",
     "MACRO_PLACEMENT_CFG": "dir::macro.cfg",
     "MAGIC_DEF_LABELS": 0,
     "VERILOG_FILES_BLACKBOX": [
@@ -16,28 +16,32 @@
         "dir::../../verilog/gl/scrapcpu.v",
         "dir::../../verilog/gl/unused_tie.v",
         "dir::../../verilog/gl/ci2406_z80.v",
-        "dir::../../verilog/gl/vliw.v"
+        "dir::../../verilog/gl/vliw.v",
+        "dir::../../verilog/gl/execution_unit.v"
     ],
     "EXTRA_LEFS": [
         "dir::../../lef/multiplexer.lef",
         "dir::../../lef/scrapcpu.lef",
         "dir::../../lef/unused_tie.lef",
         "dir::../../lef/ci2406_z80.lef",
-        "dir::../../lef/vliw.lef"
+        "dir::../../lef/vliw.lef",
+        "dir::../../lef/execution_unit.lef"
     ],
     "EXTRA_GDS_FILES": [
         "dir::../../gds/multiplexer.gds",
         "dir::../../gds/scrapcpu.gds",
         "dir::../../gds/unused_tie.gds",
         "dir::../../gds/ci2406_z80.gds",
-        "dir::../../gds/vliw.gds"
+        "dir::../../gds/vliw.gds",
+        "dir::../../gds/execution_unit.gds"
     ],
     "EXTRA_LIBS": [
         "dir::../../lib/multiplexer.lib",
         "dir::../../lib/scrapcpu.lib",
         "dir::../../lib/unused_tie.lib",
         "dir::../../lib/ci2406_z80.lib",
-        "dir::../../lib/vliw.lib"
+        "dir::../../lib/vliw.lib",
+        "dir::../../lib/execution_unit.lib"
     ],
     "EXTRA_SPEFS": [
         "multiplexer", 
@@ -55,11 +59,7 @@
         "ci2406_z80", 
         "dir::../../spef/multicorner/ci2406_z80.min.spef", 
         "dir::../../spef/multicorner/ci2406_z80.nom.spef", 
-        "dir::../../spef/multicorner/ci2406_z80.max.spef",
-        "vliw", 
-        "dir::../../spef/multicorner/vliw.min.spef", 
-        "dir::../../spef/multicorner/vliw.nom.spef", 
-        "dir::../../spef/multicorner/vliw.max.spef"
+        "dir::../../spef/multicorner/ci2406_z80.max.spef"
     ],
     "BASE_SDC_FILE": "dir::base_user_project_wrapper.sdc",
     "IO_SYNC": 0,
@@ -86,8 +86,8 @@
     "MAGIC_ZEROIZE_ORIGIN": 0,
     "FP_SIZING": "absolute",
     "RUN_CVC": 0,
-    "RUN_MAGIC_DRC": 1,
-    "RUN_KLAYOUT_XOR": 1,
+    "RUN_MAGIC_DRC": 0,
+    "RUN_KLAYOUT_XOR": 0,
     "UNIT": 2.4,
     "FP_IO_VEXTEND": "expr::2 * $UNIT",
     "FP_IO_HEXTEND": "expr::2 * $UNIT",

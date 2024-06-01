@@ -44,9 +44,9 @@ module wb_port_tb;
 
 	initial begin
 		$dumpfile("wb_port.vcd");
-		$dumpvars(1, wb_port_tb);
-		$dumpvars(1, wb_port_tb.uut.chip_core.mprj);
-		$dumpvars(0, wb_port_tb.uut.chip_core.mprj.multiplexer);
+		$dumpvars(0, wb_port_tb);
+		//$dumpvars(1, wb_port_tb.uut.chip_core.mprj);
+		//$dumpvars(0, wb_port_tb.uut.chip_core.mprj.multiplexer);
 
 		repeat (70) begin
 			repeat (1000) @(posedge clock);

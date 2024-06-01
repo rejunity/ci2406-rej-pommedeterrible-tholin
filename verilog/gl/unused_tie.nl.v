@@ -500,7 +500,6 @@ module unused_tie (wb_clk_i,
  wire net45;
  wire net450;
  wire net451;
- wire net452;
  wire net46;
  wire net47;
  wire net48;
@@ -1013,8 +1012,7 @@ module unused_tie (wb_clk_i,
  sky130_ef_sc_hd__decap_12 FILLER_0_19_69 ();
  sky130_ef_sc_hd__decap_12 FILLER_0_19_81 ();
  sky130_ef_sc_hd__decap_12 FILLER_0_19_93 ();
- sky130_fd_sc_hd__fill_2 FILLER_0_1_113 ();
- sky130_fd_sc_hd__decap_4 FILLER_0_1_117 ();
+ sky130_fd_sc_hd__decap_8 FILLER_0_1_113 ();
  sky130_fd_sc_hd__fill_1 FILLER_0_1_121 ();
  sky130_fd_sc_hd__decap_4 FILLER_0_1_147 ();
  sky130_fd_sc_hd__fill_1 FILLER_0_1_151 ();
@@ -1729,6 +1727,8 @@ module unused_tie (wb_clk_i,
  sky130_fd_sc_hd__fill_2 FILLER_0_39_93 ();
  sky130_ef_sc_hd__decap_12 FILLER_0_39_97 ();
  sky130_fd_sc_hd__fill_1 FILLER_0_3_105 ();
+ sky130_fd_sc_hd__fill_2 FILLER_0_3_113 ();
+ sky130_fd_sc_hd__decap_4 FILLER_0_3_117 ();
  sky130_fd_sc_hd__fill_1 FILLER_0_3_121 ();
  sky130_fd_sc_hd__fill_1 FILLER_0_3_139 ();
  sky130_fd_sc_hd__decap_6 FILLER_0_3_148 ();
@@ -3554,7 +3554,7 @@ module unused_tie (wb_clk_i,
     .X(net254));
  sky130_fd_sc_hd__buf_12 hold156 (.A(net255),
     .X(la_data_out[2]));
- sky130_fd_sc_hd__clkdlybuf4s25_1 hold157 (.A(net438),
+ sky130_fd_sc_hd__dlygate4sd3_1 hold157 (.A(net438),
     .X(net256));
  sky130_fd_sc_hd__buf_12 hold158 (.A(net257),
     .X(la_data_out[30]));
@@ -3980,18 +3980,16 @@ module unused_tie (wb_clk_i,
     .X(net446));
  sky130_fd_sc_hd__dlygate4sd3_1 hold348 (.A(net268),
     .X(net447));
- sky130_fd_sc_hd__dlygate4sd3_1 hold349 (.A(net452),
+ sky130_fd_sc_hd__dlygate4sd3_1 hold349 (.A(net58),
     .X(net448));
  sky130_fd_sc_hd__dlygate4sd3_1 hold35 (.A(net284),
     .X(net134));
- sky130_fd_sc_hd__clkdlybuf4s25_1 hold350 (.A(net274),
+ sky130_fd_sc_hd__dlygate4sd3_1 hold350 (.A(net274),
     .X(net449));
  sky130_fd_sc_hd__dlygate4sd3_1 hold351 (.A(net46),
     .X(net450));
  sky130_fd_sc_hd__buf_1 hold352 (.A(net272),
     .X(net451));
- sky130_fd_sc_hd__dlygate4sd3_1 hold353 (.A(net58),
-    .X(net452));
  sky130_fd_sc_hd__buf_12 hold36 (.A(net135),
     .X(la_data_out[49]));
  sky130_fd_sc_hd__dlygate4sd3_1 hold37 (.A(net288),

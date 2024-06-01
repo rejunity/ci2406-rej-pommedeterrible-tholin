@@ -503,7 +503,6 @@ module unused_tie (vccd1,
  wire net45;
  wire net450;
  wire net451;
- wire net452;
  wire net46;
  wire net47;
  wire net48;
@@ -2485,11 +2484,7 @@ module unused_tie (vccd1,
     .VNB(vssd1),
     .VPB(vccd1),
     .VPWR(vccd1));
- sky130_fd_sc_hd__fill_2 FILLER_0_1_113 (.VGND(vssd1),
-    .VNB(vssd1),
-    .VPB(vccd1),
-    .VPWR(vccd1));
- sky130_fd_sc_hd__decap_4 FILLER_0_1_117 (.VGND(vssd1),
+ sky130_fd_sc_hd__decap_8 FILLER_0_1_113 (.VGND(vssd1),
     .VNB(vssd1),
     .VPB(vccd1),
     .VPWR(vccd1));
@@ -5346,6 +5341,14 @@ module unused_tie (vccd1,
     .VPB(vccd1),
     .VPWR(vccd1));
  sky130_fd_sc_hd__fill_1 FILLER_0_3_105 (.VGND(vssd1),
+    .VNB(vssd1),
+    .VPB(vccd1),
+    .VPWR(vccd1));
+ sky130_fd_sc_hd__fill_2 FILLER_0_3_113 (.VGND(vssd1),
+    .VNB(vssd1),
+    .VPB(vccd1),
+    .VPWR(vccd1));
+ sky130_fd_sc_hd__decap_4 FILLER_0_3_117 (.VGND(vssd1),
     .VNB(vssd1),
     .VPB(vccd1),
     .VPWR(vccd1));
@@ -10913,7 +10916,7 @@ module unused_tie (vccd1,
     .VPB(vccd1),
     .VPWR(vccd1),
     .X(la_data_out[2]));
- sky130_fd_sc_hd__clkdlybuf4s25_1 hold157 (.A(net438),
+ sky130_fd_sc_hd__dlygate4sd3_1 hold157 (.A(net438),
     .VGND(vssd1),
     .VNB(vssd1),
     .VPB(vccd1),
@@ -12191,7 +12194,7 @@ module unused_tie (vccd1,
     .VPB(vccd1),
     .VPWR(vccd1),
     .X(net447));
- sky130_fd_sc_hd__dlygate4sd3_1 hold349 (.A(net452),
+ sky130_fd_sc_hd__dlygate4sd3_1 hold349 (.A(net58),
     .VGND(vssd1),
     .VNB(vssd1),
     .VPB(vccd1),
@@ -12203,7 +12206,7 @@ module unused_tie (vccd1,
     .VPB(vccd1),
     .VPWR(vccd1),
     .X(net134));
- sky130_fd_sc_hd__clkdlybuf4s25_1 hold350 (.A(net274),
+ sky130_fd_sc_hd__dlygate4sd3_1 hold350 (.A(net274),
     .VGND(vssd1),
     .VNB(vssd1),
     .VPB(vccd1),
@@ -12221,12 +12224,6 @@ module unused_tie (vccd1,
     .VPB(vccd1),
     .VPWR(vccd1),
     .X(net451));
- sky130_fd_sc_hd__dlygate4sd3_1 hold353 (.A(net58),
-    .VGND(vssd1),
-    .VNB(vssd1),
-    .VPB(vccd1),
-    .VPWR(vccd1),
-    .X(net452));
  sky130_fd_sc_hd__buf_12 hold36 (.A(net135),
     .VGND(vssd1),
     .VNB(vssd1),
