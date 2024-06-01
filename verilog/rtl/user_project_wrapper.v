@@ -160,7 +160,7 @@ ci2406_z80 ci2406_z80(
     .io_out(io_out_z80),
     .io_oeb(io_oeb_z80)
 );
-/*
+
 `define NUM_REGS 32
 `define REG_IDX ($clog2(`NUM_REGS)-1)
 
@@ -409,7 +409,7 @@ execution_unit eu2(
     .take_branch(take_branch2),
     .new_PC(new_PC2),
     .busy(eu2_busy)
-);*/
+);
 
 endmodule	// user_project_wrapper
 

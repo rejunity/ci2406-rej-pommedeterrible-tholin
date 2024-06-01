@@ -1,7 +1,7 @@
 magic
 tech sky130B
 magscale 1 2
-timestamp 1717100011
+timestamp 1717259630
 << obsli1 >>
 rect 1104 2159 33856 32657
 << obsm1 >>
@@ -416,7 +416,7 @@ string FIXED_BBOX 0 0 35000 35000
 string LEFclass BLOCK
 string LEFview TRUE
 string GDS_END 1402612
-string GDS_FILE /run/media/tholin/8a6b8802-051e-45a8-8492-771202e4c08a/ci2406-rej-pommedeterrible-tholin/openlane/TieUnused/runs/24_05_30_22_11/results/signoff/unused_tie.magic.gds
+string GDS_FILE /home/tholin/Desktop/ci2406-rej-pommedeterrible-tholin/openlane/TieUnused/runs/24_06_01_18_31/results/signoff/unused_tie.magic.gds
 string GDS_START 108930
 << end >>
 

@@ -8,7 +8,7 @@
     "CLOCK_PERIOD": 32,
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "wb_clk_i",
-    "FP_PDN_MACRO_HOOKS": "multiplexer vccd1 vssd1 vccd1 vssd1, scrapcpu vccd1 vssd1 vccd1 vssd1, unused_tie vccd1 vssd1 vccd1 vssd1, ci2406_z80 vccd1 vssd1 vccd1 vssd1",
+    "FP_PDN_MACRO_HOOKS": "multiplexer vccd1 vssd1 vccd1 vssd1, scrapcpu vccd1 vssd1 vccd1 vssd1, unused_tie vccd1 vssd1 vccd1 vssd1, ci2406_z80 vccd1 vssd1 vccd1 vssd1, vliw vccd1 vssd1 vccd1 vssd1, eu0 vccd1 vssd1 vccd1 vssd1, eu1 vccd1 vssd1 vccd1 vssd1, eu2 vccd1 vssd1 vccd1 vssd1",
     "MACRO_PLACEMENT_CFG": "dir::macro.cfg",
     "MAGIC_DEF_LABELS": 0,
     "VERILOG_FILES_BLACKBOX": [
@@ -59,7 +59,15 @@
         "ci2406_z80", 
         "dir::../../spef/multicorner/ci2406_z80.min.spef", 
         "dir::../../spef/multicorner/ci2406_z80.nom.spef", 
-        "dir::../../spef/multicorner/ci2406_z80.max.spef"
+        "dir::../../spef/multicorner/ci2406_z80.max.spef",
+        "vliw", 
+        "dir::../../spef/multicorner/vliw.min.spef", 
+        "dir::../../spef/multicorner/vliw.nom.spef", 
+        "dir::../../spef/multicorner/vliw.max.spef",
+        "execution_unit", 
+        "dir::../../spef/multicorner/execution_unit.min.spef", 
+        "dir::../../spef/multicorner/execution_unit.nom.spef", 
+        "dir::../../spef/multicorner/execution_unit.max.spef"
     ],
     "BASE_SDC_FILE": "dir::base_user_project_wrapper.sdc",
     "IO_SYNC": 0,
@@ -124,7 +132,7 @@
         "DIE_AREA": "0 0 2920 3520",
         "FP_DEF_TEMPLATE": "dir::fixed_dont_change/user_project_wrapper.def",
         "scl::sky130_fd_sc_hd": {
-            "CLOCK_PERIOD": 25
+            "CLOCK_PERIOD": 27
         },
         "scl::sky130_fd_sc_hdll": {
             "CLOCK_PERIOD": 10

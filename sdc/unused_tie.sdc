@@ -1,18 +1,18 @@
 ###############################################################################
 # Created by write_sdc
-# Thu May 30 20:12:20 2024
+# Sat Jun  1 16:32:36 2024
 ###############################################################################
 current_design unused_tie
 ###############################################################################
 # Timing Constraints
 ###############################################################################
-create_clock -name clk -period 25.0000 [get_ports {wb_clk_i}]
+create_clock -name clk -period 27.0000 [get_ports {wb_clk_i}]
 set_clock_transition 0.1500 [get_clocks {clk}]
 set_clock_uncertainty 0.2500 clk
 set_propagated_clock [get_clocks {clk}]
 set_clock_latency -source -min 4.6500 [get_clocks {clk}]
 set_clock_latency -source -max 5.5700 [get_clocks {clk}]
-set_input_delay 12.5000 -clock [get_clocks {clk}] -add_delay [get_ports {wb_rst_i}]
+set_input_delay 13.5000 -clock [get_clocks {clk}] -add_delay [get_ports {wb_rst_i}]
 set_output_delay 0.0000 -clock [get_clocks {clk}] -min -add_delay [get_ports {la_data_out[0]}]
 set_output_delay 1.0000 -clock [get_clocks {clk}] -max -add_delay [get_ports {la_data_out[0]}]
 set_output_delay 0.0000 -clock [get_clocks {clk}] -min -add_delay [get_ports {la_data_out[10]}]
