@@ -102,6 +102,11 @@ if { $::env(IO_SYNC) } {
 	set_input_delay -min [expr $in_ext_delay + 1.26] -clock [get_clocks {clk}] [get_ports {io_in[*]}]
 }
 
+set_input_delay -min 1 -clock [get_clocks {clk}] [get_ports {custom_settings[*]}]
+set_input_delay -max 5.5 -clock [get_clocks {clk}] [get_ports {custom_settings[*]}]
+set_input_delay -min 1 -clock [get_clocks {clk}] [get_ports {rst_n}]
+set_input_delay -max 5.5 -clock [get_clocks {clk}] [get_ports {rst_n}]
+
 set_input_delay -min 16  -clock [get_clocks {clk}] [get_ports {dest_val0[*]}]
 set_input_delay -min 16  -clock [get_clocks {clk}] [get_ports {dest_pred_val0[*]}]
 set_input_delay -min 16  -clock [get_clocks {clk}] [get_ports {take_branch0[*]}]

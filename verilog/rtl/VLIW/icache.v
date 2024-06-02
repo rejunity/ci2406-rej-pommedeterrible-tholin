@@ -66,8 +66,15 @@ wire [4:0] random_entry = {rng[13], rng[12], rng[10], rng[7], rng[3]};
 
 always @(posedge wb_clk_i) begin
 	if(rst || invalidate) begin
-		if(!invalidate) rng <= 16'hABCD;
-		for(integer i = 0; i < 16; i++) cache_addrs[i] <= 28'hFFFFFFF;
+		if(rst) rng <= 16'hABCD;
+		cache_addrs[0] <= 28'hFFFFFFF; cache_addrs[1] <= 28'hFFFFFFF; cache_addrs[2] <= 28'hFFFFFFF; cache_addrs[3] <= 28'hFFFFFFF;
+		cache_addrs[4] <= 28'hFFFFFFF; cache_addrs[5] <= 28'hFFFFFFF; cache_addrs[6] <= 28'hFFFFFFF; cache_addrs[7] <= 28'hFFFFFFF;
+		cache_addrs[8] <= 28'hFFFFFFF; cache_addrs[9] <= 28'hFFFFFFF; cache_addrs[10] <= 28'hFFFFFFF; cache_addrs[11] <= 28'hFFFFFFF;
+		cache_addrs[12] <= 28'hFFFFFFF; cache_addrs[13] <= 28'hFFFFFFF; cache_addrs[14] <= 28'hFFFFFFF; cache_addrs[15] <= 28'hFFFFFFF;
+		cache_addrs[16] <= 28'hFFFFFFF; cache_addrs[17] <= 28'hFFFFFFF; cache_addrs[18] <= 28'hFFFFFFF; cache_addrs[19] <= 28'hFFFFFFF;
+		cache_addrs[20] <= 28'hFFFFFFF; cache_addrs[21] <= 28'hFFFFFFF; cache_addrs[22] <= 28'hFFFFFFF; cache_addrs[23] <= 28'hFFFFFFF;
+		cache_addrs[24] <= 28'hFFFFFFF; cache_addrs[25] <= 28'hFFFFFFF; cache_addrs[26] <= 28'hFFFFFFF; cache_addrs[27] <= 28'hFFFFFFF;
+		cache_addrs[28] <= 28'hFFFFFFF; cache_addrs[29] <= 28'hFFFFFFF; cache_addrs[30] <= 28'hFFFFFFF; cache_addrs[31] <= 28'hFFFFFFF;
 	end else if(entry_valid) begin
 		cache_packs[random_entry] <= new_entry;
 		cache_addrs[random_entry] <= curr_PC;

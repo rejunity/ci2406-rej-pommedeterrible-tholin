@@ -29,6 +29,7 @@ module execution_unit(
 	
 	input [27:0] curr_PC,
 	output take_branch,
+	output int_return,
 	output [27:0] new_PC,
 
 	input wb_clk_i,
@@ -160,6 +161,7 @@ assign take_branch = (comparison && is_branch) || is_jump;
 wire [27:0] branch_targ = curr_PC + signed_imm[27:0];
 wire [27:0] jump_targ = signed_imm[27:0] + reg1_val[27:0];
 assign new_PC = is_jump ? jump_targ : branch_targ;
+assign int_return = is_jump && reg1_idx == (`NUM_REGS-1);
 
 reg divi1_sign;
 wire [31:0] divi1 = muli1;

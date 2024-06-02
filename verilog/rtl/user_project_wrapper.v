@@ -90,6 +90,12 @@ wire [35:0] io_oeb_vliw;
 wire rst_z80;
 wire [35:0] io_out_z80;
 wire [35:0] io_oeb_z80;
+wire rst_6502;
+wire [35:0] io_out_6502;
+wire io_oeb_6502;
+wire rst_as1802;
+wire [35:0] io_out_as1802;
+wire io_oeb_as1802;
 
 multiplexer multiplexer(
 `ifdef USE_POWER_PINS
@@ -118,6 +124,14 @@ multiplexer multiplexer(
     .rst_z80(rst_z80),
     .io_out_z80(io_out_z80),
     .io_oeb_z80(io_oeb_z80),
+    
+    .rst_6502(rst_6502),
+    .io_out_6502(io_out_6502),
+    .io_oeb_6502(io_oeb_6502),
+    
+    .rst_as1802(rst_as1802),
+    .io_out_as1802(io_out_as1802),
+    .io_oeb_as1802(io_oeb_as1802),
     
     .io_in_0(io_in[0]),
     .io_out(io_out),
@@ -161,6 +175,32 @@ ci2406_z80 ci2406_z80(
     .io_oeb(io_oeb_z80)
 );
 
+wrapped_6502 wrapped_6502(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .io_in(designs_io_in),
+    .rst_n(rst_6502),
+    .io_out(io_out_6502),
+    .io_oeb(io_oeb_6502),
+    .custom_settings(custom_settings[1:0])
+);
+
+wrapped_as1802 wrapped_as1802(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .io_in(designs_io_in),
+    .rst_n(rst_as1802),
+    .io_out(io_out_as1802),
+    .io_oeb(io_oeb_as1802),
+    .custom_settings(custom_settings[29:0])
+);
+
 `define NUM_REGS 32
 `define REG_IDX ($clog2(`NUM_REGS)-1)
 
@@ -188,6 +228,7 @@ wire [41:0]       eu0_instruction;
 wire [31:0]       reg1_val0;
 wire [31:0]       reg2_val0;
 wire              pred_val0;
+wire              int_return0;
 
 wire [`REG_IDX:0] reg1_idx1;
 wire [`REG_IDX:0] reg2_idx1;
@@ -210,6 +251,7 @@ wire [41:0]       eu1_instruction;
 wire [31:0]       reg1_val1;
 wire [31:0]       reg2_val1;
 wire              pred_val1;
+wire              int_return1;
 
 wire [`REG_IDX:0] reg1_idx2;
 wire [`REG_IDX:0] reg2_idx2;
@@ -232,6 +274,15 @@ wire [41:0]       eu2_instruction;
 wire [31:0]       reg1_val2;
 wire [31:0]       reg2_val2;
 wire              pred_val2;
+wire              int_return2;
+
+wire cache_hit;
+wire cache_invalidate;
+wire [127:0] cache_entry;
+wire [127:0] cache_new_entry;
+wire [27:0] cache_PC;
+wire cache_rst;
+wire cache_entry_valid;
 
 vliw vliw(
 `ifdef USE_POWER_PINS
@@ -269,6 +320,7 @@ vliw vliw(
 	.reg1_val0(reg1_val0),
 	.reg2_val0(reg2_val0),
 	.pred_val0(pred_val0),
+	.int_return0(int_return0),
 	
 	.reg1_idx1(reg1_idx1),
 	.reg2_idx1(reg2_idx1),
@@ -291,6 +343,7 @@ vliw vliw(
 	.reg1_val1(reg1_val1),
 	.reg2_val1(reg2_val1),
 	.pred_val1(pred_val1),
+	.int_return1(int_return1),
 	
 	.reg1_idx2(reg1_idx2),
 	.reg2_idx2(reg2_idx2),
@@ -312,7 +365,31 @@ vliw vliw(
 	.eu2_instruction(eu2_instruction),
 	.reg1_val2(reg1_val2),
 	.reg2_val2(reg2_val2),
-	.pred_val2(pred_val2)
+	.pred_val2(pred_val2),
+	.int_return2(int_return2),
+	
+	.cache_hit(cache_hit),
+	.cache_invalidate(cache_invalidate),
+	.cache_entry(cache_entry),
+	.cache_new_entry(cache_new_entry),
+	.cache_PC(cache_PC),
+	.cache_rst(cache_rst),
+	.cache_entry_valid(cache_entry_valid)
+);
+
+icache icache(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .rst(cache_rst),
+    .curr_PC(cache_PC),
+    .cache_entry(cache_entry),
+    .cache_hit(cache_hit),
+    .new_entry(cache_new_entry),
+    .entry_valid(cache_entry_valid),
+    .invalidate(cache_invalidate)
 );
 
 execution_unit eu0(
@@ -344,7 +421,8 @@ execution_unit eu0(
     .loadstore_size(loadstore_size0),
     .take_branch(take_branch0),
     .new_PC(new_PC0),
-    .busy(eu0_busy)
+    .busy(eu0_busy),
+    .int_return(int_return0)
 );
 
 execution_unit eu1(
@@ -376,7 +454,8 @@ execution_unit eu1(
     .loadstore_size(loadstore_size1),
     .take_branch(take_branch1),
     .new_PC(new_PC1),
-    .busy(eu1_busy)
+    .busy(eu1_busy),
+    .int_return(int_return1)
 );
 
 execution_unit eu2(
@@ -408,7 +487,8 @@ execution_unit eu2(
     .loadstore_size(loadstore_size2),
     .take_branch(take_branch2),
     .new_PC(new_PC2),
-    .busy(eu2_busy)
+    .busy(eu2_busy),
+    .int_return(int_return2)
 );
 
 endmodule	// user_project_wrapper

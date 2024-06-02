@@ -23,6 +23,7 @@
 -v $(USER_PROJECT_VERILOG)/rtl/VLIW/uart.v
 -v $(USER_PROJECT_VERILOG)/rtl/VLIW/execution_unit.v
 -v $(USER_PROJECT_VERILOG)/rtl/VLIW/mul.v
+-v $(USER_PROJECT_VERILOG)/rtl/VLIW/icache.v
 -v $(USER_PROJECT_VERILOG)/rtl/Z80/tv80s.v
 -v $(USER_PROJECT_VERILOG)/rtl/Z80/tv80_reg.v
 -v $(USER_PROJECT_VERILOG)/rtl/Z80/tv80_mcode.v
@@ -33,3 +34,5 @@
 -v $(USER_PROJECT_VERILOG)/rtl/MOS6502/wrapped_6502.v
 -v $(USER_PROJECT_VERILOG)/rtl/AS1802/AS1802.v
 -v $(USER_PROJECT_VERILOG)/rtl/AS1802/wrapped_as1802.v
+-v $(USER_PROJECT_VERILOG)/rtl/S8x305/8x305.v
+-v $(USER_PROJECT_VERILOG)/rtl/S8x305/wrapped_8x305.v

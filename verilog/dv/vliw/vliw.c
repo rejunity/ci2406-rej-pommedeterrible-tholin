@@ -83,7 +83,7 @@ void main() {
 	
 	reg_mprj_xfer = 1;
 	while(reg_mprj_xfer == 1);
-	reg_mprj_settings = 4;
+	reg_mprj_settings = 4+16;
 	//reg_mprj_proj_sel = 0b01101;
 	reg_mprj_proj_sel = 0b01100;
 	for(uint8_t i = 0; i < 16; i++) reg_gpio_out = i & 1;

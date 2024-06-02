@@ -12,24 +12,28 @@ module wrapped_6502(
   //It is recommended to use them as outputs only
   input [35:0] io_in,
   output [35:0] io_out,
-  output [35:0] io_oeb //Output Enable Bar ; 0 = Output, 1 = Input
+  output io_oeb, //Output Enable Bar ; 0 = Output, 1 = Input
+  input [1:0] custom_settings
 );
 
 wire WE;
-assign io_out[27] = WE;
-assign io_oeb[18:0] = 0;
-assign io_oeb[26:19] = {8{~WE}};
-assign io_oeb[30:28] = 3'b111;
-assign io_oeb[33:31] = 0;
+wire WE_a = rst_n ? WE : 0;
+assign io_out[27] = (custom_settings == 1 ? WE_a & (~wb_clk_i)  : (custom_settings == 2 ? WE_a & wb_clk_i : WE_a));
+assign io_oeb = ~WE_a;
 assign io_out[35:34] = 0;
-assign io_oeb[35:34] = 2'b11;
 assign io_out[30:28] = 0;
+
+reg [7:0] din_latched;
+always @(posedge wb_clk_i) begin
+	if(rst_n) din_latched <= io_in[26:19];
+	else din_latched <= 0;
+end
 
 MOS6502 MOS6502(
   .clk(wb_clk_i),
   .reset(~rst_n),
   .AB(io_out[18:3]),
-  .DI(io_in[26:19]),
+  .DI(din_latched),
   .DO(io_out[26:19]),
   .WE(WE),
   .IRQ(io_in[28]),

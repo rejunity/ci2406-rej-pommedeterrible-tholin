@@ -31,6 +31,14 @@ module multiplexer(
 	input [35:0] io_out_z80,
 	input [35:0] io_oeb_z80,
 	
+	output rst_6502,
+	input [35:0] io_out_6502,
+	input io_oeb_6502,
+	
+	output rst_as1802,
+	input [35:0] io_out_as1802,
+	input io_oeb_as1802,
+	
 	output reg [31:0] custom_settings,
 	output [39:0] la_data_out
 );
@@ -105,6 +113,8 @@ end
 assign rst_z80 = design_select == 1 && design_rst_base;
 assign rst_scrapcpu = design_select == 2 && design_rst_base;
 assign rst_vliw = design_select == 3 && design_rst_base;
+assign rst_6502 = design_select == 4 &&  design_rst_base;
+assign rst_as1802 = design_select == 5 && design_rst_base;
 
 always @(*) begin
 	case(design_select)
@@ -119,6 +129,14 @@ always @(*) begin
 		3: begin
 			design_out = io_out_vliw;
 			design_oeb = io_oeb_vliw;
+		end
+		4: begin
+			design_out = io_out_6502;
+			design_oeb = {2'b11, 3'b000, 3'b111, 1'b0, {8{io_oeb_6502}}, 19'h0};
+		end
+		5: begin
+			design_out = io_out_as1802;
+			design_oeb = {6'h0, 5'h1F, 6'h00, {8{io_oeb_as1802}}, 11'h0};
 		end
 		default: begin
 			design_out = 36'h0;

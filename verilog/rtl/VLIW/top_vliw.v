@@ -1,6 +1,6 @@
 `default_nettype none
 
-`define NUM_REGS 32
+`define NUM_REGS 64
 `define REG_IDX ($clog2(`NUM_REGS)-1)
 
 module vliw(
@@ -41,6 +41,7 @@ module vliw(
    
    input take_branch0,
    input [27:0] new_PC0,
+   input int_return0,
    
    input eu0_busy,
    
@@ -69,6 +70,7 @@ module vliw(
    
    input take_branch1,
    input [27:0] new_PC1,
+   input int_return1,
    
    input eu1_busy,
    
@@ -97,6 +99,7 @@ module vliw(
    
    input take_branch2,
    input [27:0] new_PC2,
+   input int_return2,
    
    input eu2_busy,
    
@@ -106,8 +109,25 @@ module vliw(
    output pred_val2,
    
    output rst_eu,
-   output [27:0] curr_PC
+   output [27:0] curr_PC,
+   
+   input cache_hit,
+   output cache_invalidate,
+   input [127:0] cache_entry,
+   output [127:0] cache_new_entry,
+   output [27:0] cache_PC,
+   output cache_rst,
+   output cache_entry_valid
 );
+wire [127:0] curr_pack_next = {bus_in, curr_pack[127:16]};
+wire cache_enabled;
+assign cache_new_entry = curr_pack_next;
+assign cache_entry_valid = memory_cyc == 4'hF;
+assign cache_PC = cache_entry_valid || memory_cyc[3] ? PC : PC_inc;
+assign cache_rst = !rst_n;
+assign cache_invalidate = !cache_enabled;
+wire valid_cache_hit = custom_settings[4] && cache_enabled;
+
 assign rst_eu = !rst_n || !startup_delay || memory_cyc[3];
 assign curr_PC = PC;
 
@@ -190,166 +210,6 @@ reg predicates [7:0];
 reg fetched;
 
 /*
-//Execution Unit 0
-wire [`REG_IDX:0] reg1_idx0;
-wire [`REG_IDX:0] reg2_idx0;
-wire [31:0] dest_val0;
-wire [1:0] dest_mask0;
-wire [`REG_IDX:0] dest_idx0;
-
-wire [2:0] pred_idx0;
-wire [2:0] dest_pred0;
-wire dest_pred_val0;
-
-wire [31:0] loadstore_address0;
-wire is_load0;
-wire is_store0;
-wire sign_extend0;
-wire [1:0] loadstore_size0;
-wire [`REG_IDX:0] loadstore_dest0;
-
-wire take_branch0;
-wire [27:0] new_PC0;
-
-wire eu0_busy;
-
-execution_unit eu0(
-	.instruction(curr_pack[41:0]),
-	.reg1_idx(reg1_idx0),
-	.reg2_idx(reg2_idx0),
-	.reg1_val(regfile[reg1_idx0]),
-	.reg2_val(regfile[reg2_idx0]),
-	.dest_val(dest_val0),
-	.dest_mask(dest_mask0),
-	.dest_idx(dest_idx0),
-	.pred_idx(pred_idx0),
-	.pred_val(predicates[pred_idx0] & execution_mask[0] & fetched),
-	.dest_pred(dest_pred0),
-	.dest_pred_val(dest_pred_val0),
-
-	.loadstore_address(loadstore_address0),
-	.loadstore_dest(loadstore_dest0),
-	.is_load(is_load0),
-	.is_store(is_store0),
-	.sign_extend(sign_extend0),
-	.loadstore_size(loadstore_size0),
-	
-	.curr_PC(PC),
-	.take_branch(take_branch0),
-	.new_PC(new_PC0),
-
-	.clk(wb_clk_i),
-	.rst(!rst_n || !startup_delay || memory_cyc[3]),
-	.busy(eu0_busy)
-);
-
-//Execution Unit 1
-wire [`REG_IDX:0] reg1_idx1;
-wire [`REG_IDX:0] reg2_idx1;
-wire [31:0] dest_val1;
-wire [1:0] dest_mask1;
-wire [`REG_IDX:0] dest_idx1;
-
-wire [2:0] pred_idx1;
-wire [2:0] dest_pred1;
-wire dest_pred_val1;
-
-wire [31:0] loadstore_address1;
-wire is_load1;
-wire is_store1;
-wire sign_extend1;
-wire [1:0] loadstore_size1;
-wire [`REG_IDX:0] loadstore_dest1;
-
-wire take_branch1;
-wire [27:0] new_PC1;
-
-wire eu1_busy;
-
-execution_unit eu1(
-	.instruction(curr_pack[83:42]),
-	.reg1_idx(reg1_idx1),
-	.reg2_idx(reg2_idx1),
-	.reg1_val(regfile[reg1_idx1]),
-	.reg2_val(regfile[reg2_idx1]),
-	.dest_val(dest_val1),
-	.dest_mask(dest_mask1),
-	.dest_idx(dest_idx1),
-	.pred_idx(pred_idx1),
-	.pred_val(predicates[pred_idx1] & execution_mask[1] & fetched),
-	.dest_pred(dest_pred1),
-	.dest_pred_val(dest_pred_val1),
-
-	.loadstore_address(loadstore_address1),
-	.loadstore_dest(loadstore_dest1),
-	.is_load(is_load1),
-	.is_store(is_store1),
-	.sign_extend(sign_extend1),
-	.loadstore_size(loadstore_size1),
-	
-	.curr_PC(PC),
-	.take_branch(take_branch1),
-	.new_PC(new_PC1),
-
-	.clk(wb_clk_i),
-	.rst(!rst_n || !startup_delay || memory_cyc[3]),
-	.busy(eu1_busy)
-);
-
-//Execution Unit 2
-wire [`REG_IDX:0] reg1_idx2;
-wire [`REG_IDX:0] reg2_idx2;
-wire [31:0] dest_val2;
-wire [1:0] dest_mask2;
-wire [`REG_IDX:0] dest_idx2;
-
-wire [2:0] pred_idx2;
-wire [2:0] dest_pred2;
-wire dest_pred_val2;
-
-wire [31:0] loadstore_address2;
-wire is_load2;
-wire is_store2;
-wire sign_extend2;
-wire [1:0] loadstore_size2;
-wire [`REG_IDX:0] loadstore_dest2;
-
-wire take_branch2;
-wire [27:0] new_PC2;
-
-wire eu2_busy;
-
-execution_unit eu2(
-	.instruction(curr_pack[125:84]),
-	.reg1_idx(reg1_idx2),
-	.reg2_idx(reg2_idx2),
-	.reg1_val(regfile[reg1_idx2]),
-	.reg2_val(regfile[reg2_idx2]),
-	.dest_val(dest_val2),
-	.dest_mask(dest_mask2),
-	.dest_idx(dest_idx2),
-	.pred_idx(pred_idx2),
-	.pred_val(predicates[pred_idx2] & execution_mask[2] & fetched),
-	.dest_pred(dest_pred2),
-	.dest_pred_val(dest_pred_val2),
-
-	.loadstore_address(loadstore_address2),
-	.loadstore_dest(loadstore_dest2),
-	.is_load(is_load2),
-	.is_store(is_store2),
-	.sign_extend(sign_extend2),
-	.loadstore_size(loadstore_size2),
-	
-	.curr_PC(PC),
-	.take_branch(take_branch2),
-	.new_PC(new_PC2),
-
-	.clk(wb_clk_i),
-	.rst(!rst_n || !startup_delay || memory_cyc[3]),
-	.busy(eu2_busy)
-);*/
-
-/*
  * Having multiple loadstore type instructions in one pack is illegal.
  * But without proper exception support, the best way to build this is to
  * always handle the first loadstore in the pack.
@@ -401,10 +261,18 @@ always @(*) begin
 	endcase
 end
 
+reg serving_interrupt;
 wire io_access = requested_addr[30:6] == 25'h1FFFFFF && requested_len == 2 && (processing_load || processing_store) && memory_cyc[3];
 wire [31:0] io_rval;
 wire [7:0] ioport_out;
 wire [7:0] ioport_oeb;
+wire int0;
+wire int1;
+wire int2;
+wire int_enable;
+wire needs_interrupt = int0 && int1 && int2 && int_enable;
+wire [27:0] int_loc = int1 ? 2 : (int2 ? 3 : 1);
+wire int_return = int_return0 || int_return1 || int_return2;
 io_block io_block(
 	.io_addr(requested_addr[5:1]),
 	.io_wval(mem_buff),
@@ -419,7 +287,14 @@ io_block io_block(
 	.ioport_in({io_in[0], io_in[2], io_in[35:30]}),
 	.ioport_oeb(ioport_oeb),
 	.clk(wb_clk_i),
-	.rst(!rst_n || !startup_delay)
+	.rst(!rst_n || !startup_delay),
+	.cache_enabled(cache_enabled),
+	.int0(int0),
+	.int1(int1),
+	.int2(int2),
+	.ie(int_enable),
+	.int_return(int_return),
+	.serving_interrupt(serving_interrupt)
 );
 assign io_out[29] = 1'b0;
 assign io_out[26] = 1'b1;
@@ -437,14 +312,19 @@ assign io_out[0] = custom_settings[2] ? predicates[1] : ioport_out[7];
 assign io_oeb[0] = custom_settings[2] ? 1'b0 : ioport_oeb[7];
 
 reg [27:0] PC;
-wire [27:0] next_PC = take_branch0 ? new_PC0 : (take_branch1 ? new_PC1 : (take_branch2 ? new_PC2 : (PC + 1'b1)));
+wire [27:0] PC_inc = PC + 1'b1;
+wire [27:0] next_PC = take_branch0 ? new_PC0 : (take_branch1 ? new_PC1 : (take_branch2 ? new_PC2 : PC_inc));
 wire take_branch = take_branch0 || take_branch1 || take_branch2;
+wire [27:0] fetch_PC = processing_load || processing_store ? PC : next_PC;
 
+reg just_branched;
 reg startup_delay;
 always @(posedge wb_clk_i) begin
 	regfile[0] <= 0;
 	predicates[0] <= 1;
 	M1 <= 0;
+	just_branched <= 0;
+	serving_interrupt <= 0;
 	if(!rst_n) startup_delay <= 0;
 	else startup_delay <= 1;
 	if(!rst_n || !startup_delay) begin
@@ -484,24 +364,28 @@ always @(posedge wb_clk_i) begin
 	end else begin
 		if(le_hi) curr_addr[30:16] <= requested_addr[30:16];
 		if(le_lo) curr_addr[15:0] <= requested_addr[15:0];
-		if(curr_addr == requested_addr || io_access) begin
+		if(just_branched && valid_cache_hit) begin
+			curr_pack <= cache_entry;
+			fetched <= 1;
+			memory_cyc <= 0;
+		end else if(curr_addr == requested_addr || io_access) begin
 			if(memory_cyc[3]) begin
 				memory_cyc <= 0;
 				if(io_access) begin
 					if(processing_load) begin
 						regfile[load_dest] <= io_rval;
 					end
-					next_instr(0);
+					next_instr();
 				end else if(memory_cyc[2:0] == 0) begin
 					if(requested_len == 0) begin
-						if(processing_store || processing_load) next_instr(0);
+						if(processing_store || processing_load) next_instr();
 						if(processing_load) begin
 							regfile[load_dest][7:0] <= in_8bit_se[7:0];
 							if(load_mask[0]) regfile[load_dest][15:8] <= in_8bit_se[15:8];
 							if(load_mask[1]) regfile[load_dest][31:16] <= in_8bit_se[31:16];
 						end
 					end else if(requested_len == 1) begin
-						if(processing_store || processing_load) next_instr(0);
+						if(processing_store || processing_load) next_instr();
 						if(processing_load) begin
 							regfile[load_dest][15:0] <= in_16bit_se[15:0];
 							if(load_mask[1]) regfile[load_dest][31:16] <= in_16bit_se[31:16];
@@ -512,7 +396,7 @@ always @(posedge wb_clk_i) begin
 						requested_addr <= requested_addr + 1;
 					end
 				end else if(memory_cyc[2:0] == 1) begin
-					if(processing_store || processing_load) next_instr(0);
+					if(processing_store || processing_load) next_instr();
 					if(processing_load) regfile[load_dest] <= {bus_in[15:0], mem_buff[15:0]};
 					if(requested_len == 3) begin
 						//This is an instruction pack fetch
@@ -521,7 +405,7 @@ always @(posedge wb_clk_i) begin
 						requested_addr <= requested_addr + 1;
 					end
 				end else begin
-					curr_pack <= {bus_in, curr_pack[127:16]};
+					curr_pack <= curr_pack_next;
 					if(memory_cyc != 4'hF) requested_addr <= requested_addr + 1;
 					else fetched <= 1;
 					memory_cyc <= memory_cyc + 1;
@@ -556,14 +440,14 @@ always @(posedge wb_clk_i) begin
 					end
 					memory_cyc <= 8;
 				end else begin
-					next_instr(1);
+					next_instr();
 				end
 			end
 		end
 	end
 end
 
-task next_instr(input useNP);
+task next_instr();
 	begin
 		processing_load <= 0;
 		processing_store <= 0;
@@ -571,10 +455,24 @@ task next_instr(input useNP);
 		//If there are stops, instructions after the stop following the branch are aborted even though
 		//They are in the same pack
 		if(execution_mask[2] || take_branch) begin
-			requested_addr <= {useNP ? next_PC : PC, 3'b000};
-			memory_cyc <= 8;
-			requested_len <= 3;
-			fetched <= 0;
+			if(needs_interrupt) begin
+				requested_addr <= {int_loc, 3'b000};
+				memory_cyc <= 8;
+				requested_len <= 3;
+				fetched <= 0;
+				regfile[`NUM_REGS-1] <= {4'h0, fetch_PC};
+				serving_interrupt <= 1;
+			end else begin
+				if(cache_hit && !take_branch && valid_cache_hit) begin
+					curr_pack <= cache_entry;
+				end else begin
+					just_branched <= take_branch;
+					requested_addr <= {fetch_PC, 3'b000};
+					memory_cyc <= 8;
+					requested_len <= 3;
+					fetched <= 0;
+				end
+			end
 		//Define all possible transitions for the execution mask based on stops configuration
 		end else if(execution_mask == 3'b001) begin
 			execution_mask <= stops[1] ? 3'b010 : 3'b110;
@@ -586,6 +484,8 @@ task next_instr(input useNP);
 endtask
 
 `ifdef SIM
+wire dbg_icache_enabled = custom_settings[4] && cache_enabled;
+
 wire [31:0] r0 = regfile[0];
 wire [31:0] r1 = regfile[1];
 wire [31:0] r2 = regfile[2];
@@ -632,6 +532,15 @@ module io_block(
 	output [7:0] ioport_out,
 	input [7:0] ioport_in,
 	output [7:0] ioport_oeb,
+	
+	output reg cache_enabled,
+	
+	output reg int0,
+	output reg int1,
+	output reg int2,
+	output reg ie,
+	input int_return,
+	input serving_interrupt,
 
 	input clk,
 	input rst
@@ -654,6 +563,8 @@ reg [16:0] timer1_pre_counter;
 
 reg [15:0] udiv;
 reg [7:0] sdiv;
+
+reg [3:0] alt_funct;
 
 wire uart_busy;
 wire uart_has_byte;
@@ -679,9 +590,12 @@ always @(*) begin
 		11: io_rval_tbl = {24'h000000, io_dir};
 		12: io_rval_tbl = {24'h000000, io_dat};
 		13: io_rval_tbl = {24'h000000, ioport_in};
+		14: alt_funct = {28'h0000000,  alt_funct};
 	endcase
 end
 assign io_rval = io_rval_tbl;
+
+reg int_edge;
 
 always @(posedge clk) begin
 	if(rst) begin
@@ -697,7 +611,21 @@ always @(posedge clk) begin
 		io_dat <= 8'h55;
 		udiv <= 16'h0080;
 		sdiv <= 8'h08;
+		cache_enabled <= 0;
+		alt_funct <= 0;
+		int_edge <= 0;
+		int0 <= 0;
+		int1 <= 0;
+		int2 <= 0;
+		ie <= 0;
 	end else begin
+		if(alt_funct[3]) io_dat[0] <= 0;
+		if(int_return) ie <= 1;
+		if(serving_interrupt) ie <= 0;
+		if(alt_funct[1]) begin
+			if(ioport_in[1] && !int_edge) int0 <= 1;
+			int_edge <= ioport_in[1];
+		end else int_edge <= 0;
 		timer0_pre_counter <= timer0_pre_counter + 1;
 		timer1_pre_counter <= timer1_pre_counter + 1;
 		if(timer0_prescaler == timer0_pre_counter) begin
@@ -705,6 +633,7 @@ always @(posedge clk) begin
 			timer0 <= timer0 + 1;
 			if(timer0 == timer0_top) begin
 				timer0 <= 0;
+				if(alt_funct[2]) int1 <= 1;
 			end
 		end
 		if(timer1_prescaler == timer1_pre_counter) begin
@@ -712,6 +641,7 @@ always @(posedge clk) begin
 			timer1 <= timer1 + 1;
 			if(timer1 == timer1_top) begin
 				timer1 <= 0;
+				if(alt_funct[0]) io_dat[0] <= ~io_dat[0];
 			end
 		end
 		if(io_wen) begin
@@ -726,9 +656,16 @@ always @(posedge clk) begin
 				7: sdiv <= io_wval[7:0];
 				11: io_dir <= io_wval[7:0];
 				12: io_dat <= io_wval[7:0];
+				13: cache_enabled <= io_wval[0];
+				14: alt_funct <= io_wval[3:0];
+				15: begin
+					if(io_wval[0]) int0 <= 0;
+					if(io_wval[1]) int1 <= 0;
+					int2 <= io_wval[2];
+					ie <= io_wval[4] ? io_wval[3] : ie;
+				end
 			endcase
 		end
-
 	end
 end
 

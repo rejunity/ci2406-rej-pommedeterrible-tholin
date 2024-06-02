@@ -152,11 +152,13 @@ jobs:
           make TieUnused
           make ScrapCPU
           make Z80
+          make MOS6502
+          make AS1802
           make icache
           make ExecutionUnit
           make VLIW
           make user_project_wrapper
-          rm -rf openlane/Multiplexer/runs openlane/ExecutionUnit/runs openlane/icache/runs openlane/TieUnused/runs openlane/ScrapCPU/runs openlane/user_project_wrapper/runs openlane/Z80/runs openlane/VLIW/runs pdk openlane_src caravel mgmt_core_wrapper timing-scripts mpw_precheck
+          rm -rf openlane/MOS6502/runs openlane/AS1802/runs openlane/Multiplexer/runs openlane/ExecutionUnit/runs openlane/icache/runs openlane/TieUnused/runs openlane/ScrapCPU/runs openlane/user_project_wrapper/runs openlane/Z80/runs openlane/VLIW/runs pdk openlane_src caravel mgmt_core_wrapper timing-scripts mpw_precheck
 
       - name: Create reproducible
         if: failure()

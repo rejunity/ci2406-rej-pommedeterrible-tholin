@@ -9,6 +9,7 @@ module as1802(
 	output [7:0] data_out,
 	
 	output [7:0] address,
+	output reg [2:0] N,
 	
 	output Q,
 	output MRD,
@@ -26,7 +27,8 @@ module as1802(
 	
 	output reg IE,
 	output reg EXTEND,
-	output reg DF
+	output reg DF,
+	output reg idle
 );
 
 reg [15:0] regs [15:0];
@@ -41,7 +43,6 @@ reg Q_l;
 reg tpa_l;
 reg mrd_l;
 reg mwr_l;
-reg idle;
 reg [1:0] S;
 reg will_interrupt;
 assign TPA = tpa_l;
@@ -66,6 +67,7 @@ reg [7:0] MHI;
 wire [3:0] op_high = instr_latch[7:4];
 wire [3:0] ireg_addr = instr_latch[3:0];
 wire [15:0] sel_reg = regs[ireg_addr];
+wire [15:0] dec_reg = sel_reg - 1;
 wire cond_inv = instr_latch[3]; //Invert condition on branch instr.
 
 reg branch_condition;
@@ -105,7 +107,8 @@ always @(*) begin
 		15: longbranch_condition <= DF;
 	endcase
 end
-wire is_skip = (instr_latch[3:0] >= 5 && instr_latch[3:0] <= 8) || (instr_latch[3:2] == 2'b11);
+wire longbranch_condition_ext = (longbranch_condition && !EXTEND) || (EXTEND && dec_reg != 0);
+wire is_skip = ((instr_latch[3:0] >= 5 && instr_latch[3:0] <= 8) || (instr_latch[3:2] == 2'b11)) && !EXTEND;
 
 `ifdef SIM
 wire [15:0] r0 = regs[0];
@@ -144,6 +147,7 @@ always @(posedge clk) begin
 		Q_l <= 0;
 		DF <= 0;
 		T <= 0;
+		N <= 0;
 		last_hi_addr <= 8'hFF;
 		addr_out_buff <= 0;
 		instr_cycle <= 0;
@@ -151,6 +155,8 @@ always @(posedge clk) begin
 		mem_cycle <= 0;
 		EXTEND <= 0;
 		MHI <= 0;
+		D <= 0;
+		instr_latch <= 8'hC4;
 	end else begin
 		if(mem_cycle != 0) begin
 			mem_cycle <= mem_cycle + 1;
@@ -162,7 +168,7 @@ always @(posedge clk) begin
 				end else begin
 					addr_out_buff <= addr_buff[15:8];
 					last_hi_addr <= addr_buff[15:8];
-					#2;
+					//#2;
 					tpa_l <= 1;
 				end
 			end else if(mem_cycle == 2) begin
@@ -187,11 +193,12 @@ always @(posedge clk) begin
 					end
 				end
 				mem_cycle <= 0;
-				#2;
+				//#2;
 				mwr_l <= 1;
 			end
 		end else begin
 			if(instr_cycle == 0) begin
+				N <= 0;
 				if(will_interrupt) begin
 					will_interrupt <= 0;
 					if(IE) begin
@@ -202,7 +209,7 @@ always @(posedge clk) begin
 						P <= 1;
 						X <= 2;
 					end
-				end else if(intr && IE) begin
+				end else if(!intr && IE) begin
 					will_interrupt <= 1;
 				end else if(!idle) begin
 					S <= 2'b00;
@@ -230,7 +237,7 @@ always @(posedge clk) begin
 					regs[ireg_addr] <= sel_reg + 1;
 					instr_cycle <= 0;
 				end else if(op_high == 2) begin //DEC [reg]
-					regs[ireg_addr] <= sel_reg - 1;
+					regs[ireg_addr] <= dec_reg;
 					instr_cycle <= 0;
 				end else if(op_high == 3) begin //Branch instrs
 					if(instr_cycle == 1) begin
@@ -270,9 +277,15 @@ always @(posedge clk) begin
 					
 					end else begin
 						if(instr_latch[3]) begin //INP
-							D <= 0;
+							mem_write <= 0;
+							mem_cycle <= 1;
+							lda <= 1;
+							N <= instr_latch[2:0];
 						end else begin //OUT
-						
+							mem_write <= 1;
+							mem_cycle <= 1;
+							B <= D;
+							N <= instr_latch[2:0];
 						end
 					end
 					instr_cycle <= 0;
@@ -396,27 +409,31 @@ always @(posedge clk) begin
 					D <= sel_reg[15:8];
 					instr_cycle <= 0;
 				end else if(op_high == 10) begin //PLO [reg]
-					regs[ireg_addr][7:0] <= D;
-					instr_cycle <= 0;
-				end else if(op_high == 11) begin //PHI [reg]
 					if(EXTEND) begin
 						MHI <= ireg_addr == 0 ? 0 : D;
+					end else begin
+						regs[ireg_addr][7:0] <= D;
+						instr_cycle <= 0;
+					end
+				end else if(op_high == 11) begin //PHI [reg]
+					if(EXTEND) begin
+						regs[X] <= regs[ireg_addr];
 					end else begin
 						regs[ireg_addr][15:8] <= D;
 					end
 					instr_cycle <= 0;
-				end else if(op_high == 12) begin //skips & long branch (& NOP)
-					if(instr_latch[3:0] == 4) begin
+				end else if(op_high == 12 || (EXTEND && op_high == 2)) begin //skips & long branch (& NOP)
+					if(instr_latch[3:0] == 4 && !EXTEND) begin
 						instr_cycle <= 0; //NOP
 					end else begin
 						if(is_skip) begin
-							if(longbranch_condition) begin
+							if(longbranch_condition_ext) begin
 								regs[P] <= regs[P] + 2;
 							end
 							instr_cycle <= 0;
 						end else begin
 							if(instr_cycle == 1) begin
-								if(!longbranch_condition) begin
+								if(!longbranch_condition_ext) begin
 									regs[P] <= regs[P] + 2;
 									instr_cycle <= 0;
 								end else begin
@@ -435,6 +452,7 @@ always @(posedge clk) begin
 								instr_cycle <= 3;
 							end else begin
 								regs[P][7:0] <= B;
+								if(EXTEND) regs[ireg_addr] <= dec_reg;
 								instr_cycle <= 0;
 							end
 						end
@@ -478,7 +496,11 @@ always @(posedge clk) begin
 								end
 								3: begin
 									//XOR,XRI
-									D <= D ^ B;
+									if(EXTEND) begin
+										D <= {MHI, D} % B;
+									end else begin
+										D <= D ^ B;
+									end
 								end
 								4: begin
 									//ADD,ADI
@@ -491,7 +513,7 @@ always @(posedge clk) begin
 								5: begin
 									//SD,SDI
 									if(EXTEND) begin
-										D <= D / B;
+										{MHI, D} <= {MHI, D} / {8'h00, B};
 									end else begin
 										D <= B + ~D + 1;
 										DF <= ~(B < D);

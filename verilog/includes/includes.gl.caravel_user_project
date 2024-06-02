@@ -21,6 +21,9 @@
 -v $(USER_PROJECT_VERILOG)/gl/ci2406_z80.v
 -v $(USER_PROJECT_VERILOG)/gl/vliw.v
 -v $(USER_PROJECT_VERILOG)/gl/execution_unit.v
+-v $(USER_PROJECT_VERILOG)/gl/icache.v
+-v $(USER_PROJECT_VERILOG)/gl/wrapped_6502.v
+-v $(USER_PROJECT_VERILOG)/gl/wrapped_as1802.v
 
 -v $(USER_PROJECT_VERILOG)/../caravel/verilog/gl/caravel_core.v
 

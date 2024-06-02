@@ -38,6 +38,294 @@ module user_project_wrapper (user_clock2,
  output [31:0] wbs_dat_o;
  input [3:0] wbs_sel_i;
 
+ wire \cache_PC[0] ;
+ wire \cache_PC[10] ;
+ wire \cache_PC[11] ;
+ wire \cache_PC[12] ;
+ wire \cache_PC[13] ;
+ wire \cache_PC[14] ;
+ wire \cache_PC[15] ;
+ wire \cache_PC[16] ;
+ wire \cache_PC[17] ;
+ wire \cache_PC[18] ;
+ wire \cache_PC[19] ;
+ wire \cache_PC[1] ;
+ wire \cache_PC[20] ;
+ wire \cache_PC[21] ;
+ wire \cache_PC[22] ;
+ wire \cache_PC[23] ;
+ wire \cache_PC[24] ;
+ wire \cache_PC[25] ;
+ wire \cache_PC[26] ;
+ wire \cache_PC[27] ;
+ wire \cache_PC[2] ;
+ wire \cache_PC[3] ;
+ wire \cache_PC[4] ;
+ wire \cache_PC[5] ;
+ wire \cache_PC[6] ;
+ wire \cache_PC[7] ;
+ wire \cache_PC[8] ;
+ wire \cache_PC[9] ;
+ wire \cache_entry[0] ;
+ wire \cache_entry[100] ;
+ wire \cache_entry[101] ;
+ wire \cache_entry[102] ;
+ wire \cache_entry[103] ;
+ wire \cache_entry[104] ;
+ wire \cache_entry[105] ;
+ wire \cache_entry[106] ;
+ wire \cache_entry[107] ;
+ wire \cache_entry[108] ;
+ wire \cache_entry[109] ;
+ wire \cache_entry[10] ;
+ wire \cache_entry[110] ;
+ wire \cache_entry[111] ;
+ wire \cache_entry[112] ;
+ wire \cache_entry[113] ;
+ wire \cache_entry[114] ;
+ wire \cache_entry[115] ;
+ wire \cache_entry[116] ;
+ wire \cache_entry[117] ;
+ wire \cache_entry[118] ;
+ wire \cache_entry[119] ;
+ wire \cache_entry[11] ;
+ wire \cache_entry[120] ;
+ wire \cache_entry[121] ;
+ wire \cache_entry[122] ;
+ wire \cache_entry[123] ;
+ wire \cache_entry[124] ;
+ wire \cache_entry[125] ;
+ wire \cache_entry[126] ;
+ wire \cache_entry[127] ;
+ wire \cache_entry[12] ;
+ wire \cache_entry[13] ;
+ wire \cache_entry[14] ;
+ wire \cache_entry[15] ;
+ wire \cache_entry[16] ;
+ wire \cache_entry[17] ;
+ wire \cache_entry[18] ;
+ wire \cache_entry[19] ;
+ wire \cache_entry[1] ;
+ wire \cache_entry[20] ;
+ wire \cache_entry[21] ;
+ wire \cache_entry[22] ;
+ wire \cache_entry[23] ;
+ wire \cache_entry[24] ;
+ wire \cache_entry[25] ;
+ wire \cache_entry[26] ;
+ wire \cache_entry[27] ;
+ wire \cache_entry[28] ;
+ wire \cache_entry[29] ;
+ wire \cache_entry[2] ;
+ wire \cache_entry[30] ;
+ wire \cache_entry[31] ;
+ wire \cache_entry[32] ;
+ wire \cache_entry[33] ;
+ wire \cache_entry[34] ;
+ wire \cache_entry[35] ;
+ wire \cache_entry[36] ;
+ wire \cache_entry[37] ;
+ wire \cache_entry[38] ;
+ wire \cache_entry[39] ;
+ wire \cache_entry[3] ;
+ wire \cache_entry[40] ;
+ wire \cache_entry[41] ;
+ wire \cache_entry[42] ;
+ wire \cache_entry[43] ;
+ wire \cache_entry[44] ;
+ wire \cache_entry[45] ;
+ wire \cache_entry[46] ;
+ wire \cache_entry[47] ;
+ wire \cache_entry[48] ;
+ wire \cache_entry[49] ;
+ wire \cache_entry[4] ;
+ wire \cache_entry[50] ;
+ wire \cache_entry[51] ;
+ wire \cache_entry[52] ;
+ wire \cache_entry[53] ;
+ wire \cache_entry[54] ;
+ wire \cache_entry[55] ;
+ wire \cache_entry[56] ;
+ wire \cache_entry[57] ;
+ wire \cache_entry[58] ;
+ wire \cache_entry[59] ;
+ wire \cache_entry[5] ;
+ wire \cache_entry[60] ;
+ wire \cache_entry[61] ;
+ wire \cache_entry[62] ;
+ wire \cache_entry[63] ;
+ wire \cache_entry[64] ;
+ wire \cache_entry[65] ;
+ wire \cache_entry[66] ;
+ wire \cache_entry[67] ;
+ wire \cache_entry[68] ;
+ wire \cache_entry[69] ;
+ wire \cache_entry[6] ;
+ wire \cache_entry[70] ;
+ wire \cache_entry[71] ;
+ wire \cache_entry[72] ;
+ wire \cache_entry[73] ;
+ wire \cache_entry[74] ;
+ wire \cache_entry[75] ;
+ wire \cache_entry[76] ;
+ wire \cache_entry[77] ;
+ wire \cache_entry[78] ;
+ wire \cache_entry[79] ;
+ wire \cache_entry[7] ;
+ wire \cache_entry[80] ;
+ wire \cache_entry[81] ;
+ wire \cache_entry[82] ;
+ wire \cache_entry[83] ;
+ wire \cache_entry[84] ;
+ wire \cache_entry[85] ;
+ wire \cache_entry[86] ;
+ wire \cache_entry[87] ;
+ wire \cache_entry[88] ;
+ wire \cache_entry[89] ;
+ wire \cache_entry[8] ;
+ wire \cache_entry[90] ;
+ wire \cache_entry[91] ;
+ wire \cache_entry[92] ;
+ wire \cache_entry[93] ;
+ wire \cache_entry[94] ;
+ wire \cache_entry[95] ;
+ wire \cache_entry[96] ;
+ wire \cache_entry[97] ;
+ wire \cache_entry[98] ;
+ wire \cache_entry[99] ;
+ wire \cache_entry[9] ;
+ wire cache_entry_valid;
+ wire cache_hit;
+ wire cache_invalidate;
+ wire \cache_new_entry[0] ;
+ wire \cache_new_entry[100] ;
+ wire \cache_new_entry[101] ;
+ wire \cache_new_entry[102] ;
+ wire \cache_new_entry[103] ;
+ wire \cache_new_entry[104] ;
+ wire \cache_new_entry[105] ;
+ wire \cache_new_entry[106] ;
+ wire \cache_new_entry[107] ;
+ wire \cache_new_entry[108] ;
+ wire \cache_new_entry[109] ;
+ wire \cache_new_entry[10] ;
+ wire \cache_new_entry[110] ;
+ wire \cache_new_entry[111] ;
+ wire \cache_new_entry[112] ;
+ wire \cache_new_entry[113] ;
+ wire \cache_new_entry[114] ;
+ wire \cache_new_entry[115] ;
+ wire \cache_new_entry[116] ;
+ wire \cache_new_entry[117] ;
+ wire \cache_new_entry[118] ;
+ wire \cache_new_entry[119] ;
+ wire \cache_new_entry[11] ;
+ wire \cache_new_entry[120] ;
+ wire \cache_new_entry[121] ;
+ wire \cache_new_entry[122] ;
+ wire \cache_new_entry[123] ;
+ wire \cache_new_entry[124] ;
+ wire \cache_new_entry[125] ;
+ wire \cache_new_entry[126] ;
+ wire \cache_new_entry[127] ;
+ wire \cache_new_entry[12] ;
+ wire \cache_new_entry[13] ;
+ wire \cache_new_entry[14] ;
+ wire \cache_new_entry[15] ;
+ wire \cache_new_entry[16] ;
+ wire \cache_new_entry[17] ;
+ wire \cache_new_entry[18] ;
+ wire \cache_new_entry[19] ;
+ wire \cache_new_entry[1] ;
+ wire \cache_new_entry[20] ;
+ wire \cache_new_entry[21] ;
+ wire \cache_new_entry[22] ;
+ wire \cache_new_entry[23] ;
+ wire \cache_new_entry[24] ;
+ wire \cache_new_entry[25] ;
+ wire \cache_new_entry[26] ;
+ wire \cache_new_entry[27] ;
+ wire \cache_new_entry[28] ;
+ wire \cache_new_entry[29] ;
+ wire \cache_new_entry[2] ;
+ wire \cache_new_entry[30] ;
+ wire \cache_new_entry[31] ;
+ wire \cache_new_entry[32] ;
+ wire \cache_new_entry[33] ;
+ wire \cache_new_entry[34] ;
+ wire \cache_new_entry[35] ;
+ wire \cache_new_entry[36] ;
+ wire \cache_new_entry[37] ;
+ wire \cache_new_entry[38] ;
+ wire \cache_new_entry[39] ;
+ wire \cache_new_entry[3] ;
+ wire \cache_new_entry[40] ;
+ wire \cache_new_entry[41] ;
+ wire \cache_new_entry[42] ;
+ wire \cache_new_entry[43] ;
+ wire \cache_new_entry[44] ;
+ wire \cache_new_entry[45] ;
+ wire \cache_new_entry[46] ;
+ wire \cache_new_entry[47] ;
+ wire \cache_new_entry[48] ;
+ wire \cache_new_entry[49] ;
+ wire \cache_new_entry[4] ;
+ wire \cache_new_entry[50] ;
+ wire \cache_new_entry[51] ;
+ wire \cache_new_entry[52] ;
+ wire \cache_new_entry[53] ;
+ wire \cache_new_entry[54] ;
+ wire \cache_new_entry[55] ;
+ wire \cache_new_entry[56] ;
+ wire \cache_new_entry[57] ;
+ wire \cache_new_entry[58] ;
+ wire \cache_new_entry[59] ;
+ wire \cache_new_entry[5] ;
+ wire \cache_new_entry[60] ;
+ wire \cache_new_entry[61] ;
+ wire \cache_new_entry[62] ;
+ wire \cache_new_entry[63] ;
+ wire \cache_new_entry[64] ;
+ wire \cache_new_entry[65] ;
+ wire \cache_new_entry[66] ;
+ wire \cache_new_entry[67] ;
+ wire \cache_new_entry[68] ;
+ wire \cache_new_entry[69] ;
+ wire \cache_new_entry[6] ;
+ wire \cache_new_entry[70] ;
+ wire \cache_new_entry[71] ;
+ wire \cache_new_entry[72] ;
+ wire \cache_new_entry[73] ;
+ wire \cache_new_entry[74] ;
+ wire \cache_new_entry[75] ;
+ wire \cache_new_entry[76] ;
+ wire \cache_new_entry[77] ;
+ wire \cache_new_entry[78] ;
+ wire \cache_new_entry[79] ;
+ wire \cache_new_entry[7] ;
+ wire \cache_new_entry[80] ;
+ wire \cache_new_entry[81] ;
+ wire \cache_new_entry[82] ;
+ wire \cache_new_entry[83] ;
+ wire \cache_new_entry[84] ;
+ wire \cache_new_entry[85] ;
+ wire \cache_new_entry[86] ;
+ wire \cache_new_entry[87] ;
+ wire \cache_new_entry[88] ;
+ wire \cache_new_entry[89] ;
+ wire \cache_new_entry[8] ;
+ wire \cache_new_entry[90] ;
+ wire \cache_new_entry[91] ;
+ wire \cache_new_entry[92] ;
+ wire \cache_new_entry[93] ;
+ wire \cache_new_entry[94] ;
+ wire \cache_new_entry[95] ;
+ wire \cache_new_entry[96] ;
+ wire \cache_new_entry[97] ;
+ wire \cache_new_entry[98] ;
+ wire \cache_new_entry[99] ;
+ wire \cache_new_entry[9] ;
+ wire cache_rst;
  wire \curr_PC[0] ;
  wire \curr_PC[10] ;
  wire \curr_PC[11] ;
@@ -356,6 +644,11 @@ module user_project_wrapper (user_clock2,
  wire \eu2_instruction[7] ;
  wire \eu2_instruction[8] ;
  wire \eu2_instruction[9] ;
+ wire int_return0;
+ wire int_return1;
+ wire int_return2;
+ wire io_oeb_6502;
+ wire io_oeb_as1802;
  wire \io_oeb_scrapcpu[0] ;
  wire \io_oeb_scrapcpu[10] ;
  wire \io_oeb_scrapcpu[11] ;
@@ -464,6 +757,78 @@ module user_project_wrapper (user_clock2,
  wire \io_oeb_z80[7] ;
  wire \io_oeb_z80[8] ;
  wire \io_oeb_z80[9] ;
+ wire \io_out_6502[0] ;
+ wire \io_out_6502[10] ;
+ wire \io_out_6502[11] ;
+ wire \io_out_6502[12] ;
+ wire \io_out_6502[13] ;
+ wire \io_out_6502[14] ;
+ wire \io_out_6502[15] ;
+ wire \io_out_6502[16] ;
+ wire \io_out_6502[17] ;
+ wire \io_out_6502[18] ;
+ wire \io_out_6502[19] ;
+ wire \io_out_6502[1] ;
+ wire \io_out_6502[20] ;
+ wire \io_out_6502[21] ;
+ wire \io_out_6502[22] ;
+ wire \io_out_6502[23] ;
+ wire \io_out_6502[24] ;
+ wire \io_out_6502[25] ;
+ wire \io_out_6502[26] ;
+ wire \io_out_6502[27] ;
+ wire \io_out_6502[28] ;
+ wire \io_out_6502[29] ;
+ wire \io_out_6502[2] ;
+ wire \io_out_6502[30] ;
+ wire \io_out_6502[31] ;
+ wire \io_out_6502[32] ;
+ wire \io_out_6502[33] ;
+ wire \io_out_6502[34] ;
+ wire \io_out_6502[35] ;
+ wire \io_out_6502[3] ;
+ wire \io_out_6502[4] ;
+ wire \io_out_6502[5] ;
+ wire \io_out_6502[6] ;
+ wire \io_out_6502[7] ;
+ wire \io_out_6502[8] ;
+ wire \io_out_6502[9] ;
+ wire \io_out_as1802[0] ;
+ wire \io_out_as1802[10] ;
+ wire \io_out_as1802[11] ;
+ wire \io_out_as1802[12] ;
+ wire \io_out_as1802[13] ;
+ wire \io_out_as1802[14] ;
+ wire \io_out_as1802[15] ;
+ wire \io_out_as1802[16] ;
+ wire \io_out_as1802[17] ;
+ wire \io_out_as1802[18] ;
+ wire \io_out_as1802[19] ;
+ wire \io_out_as1802[1] ;
+ wire \io_out_as1802[20] ;
+ wire \io_out_as1802[21] ;
+ wire \io_out_as1802[22] ;
+ wire \io_out_as1802[23] ;
+ wire \io_out_as1802[24] ;
+ wire \io_out_as1802[25] ;
+ wire \io_out_as1802[26] ;
+ wire \io_out_as1802[27] ;
+ wire \io_out_as1802[28] ;
+ wire \io_out_as1802[29] ;
+ wire \io_out_as1802[2] ;
+ wire \io_out_as1802[30] ;
+ wire \io_out_as1802[31] ;
+ wire \io_out_as1802[32] ;
+ wire \io_out_as1802[33] ;
+ wire \io_out_as1802[34] ;
+ wire \io_out_as1802[35] ;
+ wire \io_out_as1802[3] ;
+ wire \io_out_as1802[4] ;
+ wire \io_out_as1802[5] ;
+ wire \io_out_as1802[6] ;
+ wire \io_out_as1802[7] ;
+ wire \io_out_as1802[8] ;
+ wire \io_out_as1802[9] ;
  wire \io_out_scrapcpu[0] ;
  wire \io_out_scrapcpu[10] ;
  wire \io_out_scrapcpu[11] ;
@@ -1013,6 +1378,8 @@ module user_project_wrapper (user_clock2,
  wire \reg2_val2[7] ;
  wire \reg2_val2[8] ;
  wire \reg2_val2[9] ;
+ wire rst_6502;
+ wire rst_as1802;
  wire rst_eu;
  wire rst_scrapcpu;
  wire rst_vliw;
@@ -1136,6 +1503,7 @@ module user_project_wrapper (user_clock2,
     \io_out_z80[0] }));
  execution_unit eu0 (.busy(eu0_busy),
     .dest_pred_val(dest_pred_val0),
+    .int_return(int_return0),
     .is_load(is_load0),
     .is_store(is_store0),
     .pred_val(pred_val0),
@@ -1401,6 +1769,7 @@ module user_project_wrapper (user_clock2,
     \reg2_val0[0] }));
  execution_unit eu1 (.busy(eu1_busy),
     .dest_pred_val(dest_pred_val1),
+    .int_return(int_return1),
     .is_load(is_load1),
     .is_store(is_store1),
     .pred_val(pred_val1),
@@ -1666,6 +2035,7 @@ module user_project_wrapper (user_clock2,
     \reg2_val1[0] }));
  execution_unit eu2 (.busy(eu2_busy),
     .dest_pred_val(dest_pred_val2),
+    .int_return(int_return2),
     .is_load(is_load2),
     .is_store(is_store2),
     .pred_val(pred_val2),
@@ -1929,7 +2299,300 @@ module user_project_wrapper (user_clock2,
     \reg2_val2[2] ,
     \reg2_val2[1] ,
     \reg2_val2[0] }));
+ icache icache (.cache_hit(cache_hit),
+    .entry_valid(cache_entry_valid),
+    .invalidate(cache_invalidate),
+    .rst(cache_rst),
+    .wb_clk_i(wb_clk_i),
+    .cache_entry({\cache_entry[127] ,
+    \cache_entry[126] ,
+    \cache_entry[125] ,
+    \cache_entry[124] ,
+    \cache_entry[123] ,
+    \cache_entry[122] ,
+    \cache_entry[121] ,
+    \cache_entry[120] ,
+    \cache_entry[119] ,
+    \cache_entry[118] ,
+    \cache_entry[117] ,
+    \cache_entry[116] ,
+    \cache_entry[115] ,
+    \cache_entry[114] ,
+    \cache_entry[113] ,
+    \cache_entry[112] ,
+    \cache_entry[111] ,
+    \cache_entry[110] ,
+    \cache_entry[109] ,
+    \cache_entry[108] ,
+    \cache_entry[107] ,
+    \cache_entry[106] ,
+    \cache_entry[105] ,
+    \cache_entry[104] ,
+    \cache_entry[103] ,
+    \cache_entry[102] ,
+    \cache_entry[101] ,
+    \cache_entry[100] ,
+    \cache_entry[99] ,
+    \cache_entry[98] ,
+    \cache_entry[97] ,
+    \cache_entry[96] ,
+    \cache_entry[95] ,
+    \cache_entry[94] ,
+    \cache_entry[93] ,
+    \cache_entry[92] ,
+    \cache_entry[91] ,
+    \cache_entry[90] ,
+    \cache_entry[89] ,
+    \cache_entry[88] ,
+    \cache_entry[87] ,
+    \cache_entry[86] ,
+    \cache_entry[85] ,
+    \cache_entry[84] ,
+    \cache_entry[83] ,
+    \cache_entry[82] ,
+    \cache_entry[81] ,
+    \cache_entry[80] ,
+    \cache_entry[79] ,
+    \cache_entry[78] ,
+    \cache_entry[77] ,
+    \cache_entry[76] ,
+    \cache_entry[75] ,
+    \cache_entry[74] ,
+    \cache_entry[73] ,
+    \cache_entry[72] ,
+    \cache_entry[71] ,
+    \cache_entry[70] ,
+    \cache_entry[69] ,
+    \cache_entry[68] ,
+    \cache_entry[67] ,
+    \cache_entry[66] ,
+    \cache_entry[65] ,
+    \cache_entry[64] ,
+    \cache_entry[63] ,
+    \cache_entry[62] ,
+    \cache_entry[61] ,
+    \cache_entry[60] ,
+    \cache_entry[59] ,
+    \cache_entry[58] ,
+    \cache_entry[57] ,
+    \cache_entry[56] ,
+    \cache_entry[55] ,
+    \cache_entry[54] ,
+    \cache_entry[53] ,
+    \cache_entry[52] ,
+    \cache_entry[51] ,
+    \cache_entry[50] ,
+    \cache_entry[49] ,
+    \cache_entry[48] ,
+    \cache_entry[47] ,
+    \cache_entry[46] ,
+    \cache_entry[45] ,
+    \cache_entry[44] ,
+    \cache_entry[43] ,
+    \cache_entry[42] ,
+    \cache_entry[41] ,
+    \cache_entry[40] ,
+    \cache_entry[39] ,
+    \cache_entry[38] ,
+    \cache_entry[37] ,
+    \cache_entry[36] ,
+    \cache_entry[35] ,
+    \cache_entry[34] ,
+    \cache_entry[33] ,
+    \cache_entry[32] ,
+    \cache_entry[31] ,
+    \cache_entry[30] ,
+    \cache_entry[29] ,
+    \cache_entry[28] ,
+    \cache_entry[27] ,
+    \cache_entry[26] ,
+    \cache_entry[25] ,
+    \cache_entry[24] ,
+    \cache_entry[23] ,
+    \cache_entry[22] ,
+    \cache_entry[21] ,
+    \cache_entry[20] ,
+    \cache_entry[19] ,
+    \cache_entry[18] ,
+    \cache_entry[17] ,
+    \cache_entry[16] ,
+    \cache_entry[15] ,
+    \cache_entry[14] ,
+    \cache_entry[13] ,
+    \cache_entry[12] ,
+    \cache_entry[11] ,
+    \cache_entry[10] ,
+    \cache_entry[9] ,
+    \cache_entry[8] ,
+    \cache_entry[7] ,
+    \cache_entry[6] ,
+    \cache_entry[5] ,
+    \cache_entry[4] ,
+    \cache_entry[3] ,
+    \cache_entry[2] ,
+    \cache_entry[1] ,
+    \cache_entry[0] }),
+    .curr_PC({\cache_PC[27] ,
+    \cache_PC[26] ,
+    \cache_PC[25] ,
+    \cache_PC[24] ,
+    \cache_PC[23] ,
+    \cache_PC[22] ,
+    \cache_PC[21] ,
+    \cache_PC[20] ,
+    \cache_PC[19] ,
+    \cache_PC[18] ,
+    \cache_PC[17] ,
+    \cache_PC[16] ,
+    \cache_PC[15] ,
+    \cache_PC[14] ,
+    \cache_PC[13] ,
+    \cache_PC[12] ,
+    \cache_PC[11] ,
+    \cache_PC[10] ,
+    \cache_PC[9] ,
+    \cache_PC[8] ,
+    \cache_PC[7] ,
+    \cache_PC[6] ,
+    \cache_PC[5] ,
+    \cache_PC[4] ,
+    \cache_PC[3] ,
+    \cache_PC[2] ,
+    \cache_PC[1] ,
+    \cache_PC[0] }),
+    .new_entry({\cache_new_entry[127] ,
+    \cache_new_entry[126] ,
+    \cache_new_entry[125] ,
+    \cache_new_entry[124] ,
+    \cache_new_entry[123] ,
+    \cache_new_entry[122] ,
+    \cache_new_entry[121] ,
+    \cache_new_entry[120] ,
+    \cache_new_entry[119] ,
+    \cache_new_entry[118] ,
+    \cache_new_entry[117] ,
+    \cache_new_entry[116] ,
+    \cache_new_entry[115] ,
+    \cache_new_entry[114] ,
+    \cache_new_entry[113] ,
+    \cache_new_entry[112] ,
+    \cache_new_entry[111] ,
+    \cache_new_entry[110] ,
+    \cache_new_entry[109] ,
+    \cache_new_entry[108] ,
+    \cache_new_entry[107] ,
+    \cache_new_entry[106] ,
+    \cache_new_entry[105] ,
+    \cache_new_entry[104] ,
+    \cache_new_entry[103] ,
+    \cache_new_entry[102] ,
+    \cache_new_entry[101] ,
+    \cache_new_entry[100] ,
+    \cache_new_entry[99] ,
+    \cache_new_entry[98] ,
+    \cache_new_entry[97] ,
+    \cache_new_entry[96] ,
+    \cache_new_entry[95] ,
+    \cache_new_entry[94] ,
+    \cache_new_entry[93] ,
+    \cache_new_entry[92] ,
+    \cache_new_entry[91] ,
+    \cache_new_entry[90] ,
+    \cache_new_entry[89] ,
+    \cache_new_entry[88] ,
+    \cache_new_entry[87] ,
+    \cache_new_entry[86] ,
+    \cache_new_entry[85] ,
+    \cache_new_entry[84] ,
+    \cache_new_entry[83] ,
+    \cache_new_entry[82] ,
+    \cache_new_entry[81] ,
+    \cache_new_entry[80] ,
+    \cache_new_entry[79] ,
+    \cache_new_entry[78] ,
+    \cache_new_entry[77] ,
+    \cache_new_entry[76] ,
+    \cache_new_entry[75] ,
+    \cache_new_entry[74] ,
+    \cache_new_entry[73] ,
+    \cache_new_entry[72] ,
+    \cache_new_entry[71] ,
+    \cache_new_entry[70] ,
+    \cache_new_entry[69] ,
+    \cache_new_entry[68] ,
+    \cache_new_entry[67] ,
+    \cache_new_entry[66] ,
+    \cache_new_entry[65] ,
+    \cache_new_entry[64] ,
+    \cache_new_entry[63] ,
+    \cache_new_entry[62] ,
+    \cache_new_entry[61] ,
+    \cache_new_entry[60] ,
+    \cache_new_entry[59] ,
+    \cache_new_entry[58] ,
+    \cache_new_entry[57] ,
+    \cache_new_entry[56] ,
+    \cache_new_entry[55] ,
+    \cache_new_entry[54] ,
+    \cache_new_entry[53] ,
+    \cache_new_entry[52] ,
+    \cache_new_entry[51] ,
+    \cache_new_entry[50] ,
+    \cache_new_entry[49] ,
+    \cache_new_entry[48] ,
+    \cache_new_entry[47] ,
+    \cache_new_entry[46] ,
+    \cache_new_entry[45] ,
+    \cache_new_entry[44] ,
+    \cache_new_entry[43] ,
+    \cache_new_entry[42] ,
+    \cache_new_entry[41] ,
+    \cache_new_entry[40] ,
+    \cache_new_entry[39] ,
+    \cache_new_entry[38] ,
+    \cache_new_entry[37] ,
+    \cache_new_entry[36] ,
+    \cache_new_entry[35] ,
+    \cache_new_entry[34] ,
+    \cache_new_entry[33] ,
+    \cache_new_entry[32] ,
+    \cache_new_entry[31] ,
+    \cache_new_entry[30] ,
+    \cache_new_entry[29] ,
+    \cache_new_entry[28] ,
+    \cache_new_entry[27] ,
+    \cache_new_entry[26] ,
+    \cache_new_entry[25] ,
+    \cache_new_entry[24] ,
+    \cache_new_entry[23] ,
+    \cache_new_entry[22] ,
+    \cache_new_entry[21] ,
+    \cache_new_entry[20] ,
+    \cache_new_entry[19] ,
+    \cache_new_entry[18] ,
+    \cache_new_entry[17] ,
+    \cache_new_entry[16] ,
+    \cache_new_entry[15] ,
+    \cache_new_entry[14] ,
+    \cache_new_entry[13] ,
+    \cache_new_entry[12] ,
+    \cache_new_entry[11] ,
+    \cache_new_entry[10] ,
+    \cache_new_entry[9] ,
+    \cache_new_entry[8] ,
+    \cache_new_entry[7] ,
+    \cache_new_entry[6] ,
+    \cache_new_entry[5] ,
+    \cache_new_entry[4] ,
+    \cache_new_entry[3] ,
+    \cache_new_entry[2] ,
+    \cache_new_entry[1] ,
+    \cache_new_entry[0] }));
  multiplexer multiplexer (.io_in_0(io_in[0]),
+    .io_oeb_6502(io_oeb_6502),
+    .io_oeb_as1802(io_oeb_as1802),
+    .rst_6502(rst_6502),
+    .rst_as1802(rst_as1802),
     .rst_scrapcpu(rst_scrapcpu),
     .rst_vliw(rst_vliw),
     .rst_z80(rst_z80),
@@ -2155,6 +2818,78 @@ module user_project_wrapper (user_clock2,
     io_out[2],
     io_out[1],
     io_out[0]}),
+    .io_out_6502({\io_out_6502[35] ,
+    \io_out_6502[34] ,
+    \io_out_6502[33] ,
+    \io_out_6502[32] ,
+    \io_out_6502[31] ,
+    \io_out_6502[30] ,
+    \io_out_6502[29] ,
+    \io_out_6502[28] ,
+    \io_out_6502[27] ,
+    \io_out_6502[26] ,
+    \io_out_6502[25] ,
+    \io_out_6502[24] ,
+    \io_out_6502[23] ,
+    \io_out_6502[22] ,
+    \io_out_6502[21] ,
+    \io_out_6502[20] ,
+    \io_out_6502[19] ,
+    \io_out_6502[18] ,
+    \io_out_6502[17] ,
+    \io_out_6502[16] ,
+    \io_out_6502[15] ,
+    \io_out_6502[14] ,
+    \io_out_6502[13] ,
+    \io_out_6502[12] ,
+    \io_out_6502[11] ,
+    \io_out_6502[10] ,
+    \io_out_6502[9] ,
+    \io_out_6502[8] ,
+    \io_out_6502[7] ,
+    \io_out_6502[6] ,
+    \io_out_6502[5] ,
+    \io_out_6502[4] ,
+    \io_out_6502[3] ,
+    \io_out_6502[2] ,
+    \io_out_6502[1] ,
+    \io_out_6502[0] }),
+    .io_out_as1802({\io_out_as1802[35] ,
+    \io_out_as1802[34] ,
+    \io_out_as1802[33] ,
+    \io_out_as1802[32] ,
+    \io_out_as1802[31] ,
+    \io_out_as1802[30] ,
+    \io_out_as1802[29] ,
+    \io_out_as1802[28] ,
+    \io_out_as1802[27] ,
+    \io_out_as1802[26] ,
+    \io_out_as1802[25] ,
+    \io_out_as1802[24] ,
+    \io_out_as1802[23] ,
+    \io_out_as1802[22] ,
+    \io_out_as1802[21] ,
+    \io_out_as1802[20] ,
+    \io_out_as1802[19] ,
+    \io_out_as1802[18] ,
+    \io_out_as1802[17] ,
+    \io_out_as1802[16] ,
+    \io_out_as1802[15] ,
+    \io_out_as1802[14] ,
+    \io_out_as1802[13] ,
+    \io_out_as1802[12] ,
+    \io_out_as1802[11] ,
+    \io_out_as1802[10] ,
+    \io_out_as1802[9] ,
+    \io_out_as1802[8] ,
+    \io_out_as1802[7] ,
+    \io_out_as1802[6] ,
+    \io_out_as1802[5] ,
+    \io_out_as1802[4] ,
+    \io_out_as1802[3] ,
+    \io_out_as1802[2] ,
+    \io_out_as1802[1] ,
+    \io_out_as1802[0] }),
     .io_out_scrapcpu({\io_out_scrapcpu[35] ,
     \io_out_scrapcpu[34] ,
     \io_out_scrapcpu[33] ,
@@ -2602,12 +3337,19 @@ module user_project_wrapper (user_clock2,
     la_data_out[42],
     la_data_out[41],
     la_data_out[40]}));
- vliw vliw (.dest_pred_val0(dest_pred_val0),
+ vliw vliw (.cache_entry_valid(cache_entry_valid),
+    .cache_hit(cache_hit),
+    .cache_invalidate(cache_invalidate),
+    .cache_rst(cache_rst),
+    .dest_pred_val0(dest_pred_val0),
     .dest_pred_val1(dest_pred_val1),
     .dest_pred_val2(dest_pred_val2),
     .eu0_busy(eu0_busy),
     .eu1_busy(eu1_busy),
     .eu2_busy(eu2_busy),
+    .int_return0(int_return0),
+    .int_return1(int_return1),
+    .int_return2(int_return2),
     .is_load0(is_load0),
     .is_load1(is_load1),
     .is_load2(is_load2),
@@ -2626,6 +3368,290 @@ module user_project_wrapper (user_clock2,
     .take_branch1(take_branch1),
     .take_branch2(take_branch2),
     .wb_clk_i(wb_clk_i),
+    .cache_PC({\cache_PC[27] ,
+    \cache_PC[26] ,
+    \cache_PC[25] ,
+    \cache_PC[24] ,
+    \cache_PC[23] ,
+    \cache_PC[22] ,
+    \cache_PC[21] ,
+    \cache_PC[20] ,
+    \cache_PC[19] ,
+    \cache_PC[18] ,
+    \cache_PC[17] ,
+    \cache_PC[16] ,
+    \cache_PC[15] ,
+    \cache_PC[14] ,
+    \cache_PC[13] ,
+    \cache_PC[12] ,
+    \cache_PC[11] ,
+    \cache_PC[10] ,
+    \cache_PC[9] ,
+    \cache_PC[8] ,
+    \cache_PC[7] ,
+    \cache_PC[6] ,
+    \cache_PC[5] ,
+    \cache_PC[4] ,
+    \cache_PC[3] ,
+    \cache_PC[2] ,
+    \cache_PC[1] ,
+    \cache_PC[0] }),
+    .cache_entry({\cache_entry[127] ,
+    \cache_entry[126] ,
+    \cache_entry[125] ,
+    \cache_entry[124] ,
+    \cache_entry[123] ,
+    \cache_entry[122] ,
+    \cache_entry[121] ,
+    \cache_entry[120] ,
+    \cache_entry[119] ,
+    \cache_entry[118] ,
+    \cache_entry[117] ,
+    \cache_entry[116] ,
+    \cache_entry[115] ,
+    \cache_entry[114] ,
+    \cache_entry[113] ,
+    \cache_entry[112] ,
+    \cache_entry[111] ,
+    \cache_entry[110] ,
+    \cache_entry[109] ,
+    \cache_entry[108] ,
+    \cache_entry[107] ,
+    \cache_entry[106] ,
+    \cache_entry[105] ,
+    \cache_entry[104] ,
+    \cache_entry[103] ,
+    \cache_entry[102] ,
+    \cache_entry[101] ,
+    \cache_entry[100] ,
+    \cache_entry[99] ,
+    \cache_entry[98] ,
+    \cache_entry[97] ,
+    \cache_entry[96] ,
+    \cache_entry[95] ,
+    \cache_entry[94] ,
+    \cache_entry[93] ,
+    \cache_entry[92] ,
+    \cache_entry[91] ,
+    \cache_entry[90] ,
+    \cache_entry[89] ,
+    \cache_entry[88] ,
+    \cache_entry[87] ,
+    \cache_entry[86] ,
+    \cache_entry[85] ,
+    \cache_entry[84] ,
+    \cache_entry[83] ,
+    \cache_entry[82] ,
+    \cache_entry[81] ,
+    \cache_entry[80] ,
+    \cache_entry[79] ,
+    \cache_entry[78] ,
+    \cache_entry[77] ,
+    \cache_entry[76] ,
+    \cache_entry[75] ,
+    \cache_entry[74] ,
+    \cache_entry[73] ,
+    \cache_entry[72] ,
+    \cache_entry[71] ,
+    \cache_entry[70] ,
+    \cache_entry[69] ,
+    \cache_entry[68] ,
+    \cache_entry[67] ,
+    \cache_entry[66] ,
+    \cache_entry[65] ,
+    \cache_entry[64] ,
+    \cache_entry[63] ,
+    \cache_entry[62] ,
+    \cache_entry[61] ,
+    \cache_entry[60] ,
+    \cache_entry[59] ,
+    \cache_entry[58] ,
+    \cache_entry[57] ,
+    \cache_entry[56] ,
+    \cache_entry[55] ,
+    \cache_entry[54] ,
+    \cache_entry[53] ,
+    \cache_entry[52] ,
+    \cache_entry[51] ,
+    \cache_entry[50] ,
+    \cache_entry[49] ,
+    \cache_entry[48] ,
+    \cache_entry[47] ,
+    \cache_entry[46] ,
+    \cache_entry[45] ,
+    \cache_entry[44] ,
+    \cache_entry[43] ,
+    \cache_entry[42] ,
+    \cache_entry[41] ,
+    \cache_entry[40] ,
+    \cache_entry[39] ,
+    \cache_entry[38] ,
+    \cache_entry[37] ,
+    \cache_entry[36] ,
+    \cache_entry[35] ,
+    \cache_entry[34] ,
+    \cache_entry[33] ,
+    \cache_entry[32] ,
+    \cache_entry[31] ,
+    \cache_entry[30] ,
+    \cache_entry[29] ,
+    \cache_entry[28] ,
+    \cache_entry[27] ,
+    \cache_entry[26] ,
+    \cache_entry[25] ,
+    \cache_entry[24] ,
+    \cache_entry[23] ,
+    \cache_entry[22] ,
+    \cache_entry[21] ,
+    \cache_entry[20] ,
+    \cache_entry[19] ,
+    \cache_entry[18] ,
+    \cache_entry[17] ,
+    \cache_entry[16] ,
+    \cache_entry[15] ,
+    \cache_entry[14] ,
+    \cache_entry[13] ,
+    \cache_entry[12] ,
+    \cache_entry[11] ,
+    \cache_entry[10] ,
+    \cache_entry[9] ,
+    \cache_entry[8] ,
+    \cache_entry[7] ,
+    \cache_entry[6] ,
+    \cache_entry[5] ,
+    \cache_entry[4] ,
+    \cache_entry[3] ,
+    \cache_entry[2] ,
+    \cache_entry[1] ,
+    \cache_entry[0] }),
+    .cache_new_entry({\cache_new_entry[127] ,
+    \cache_new_entry[126] ,
+    \cache_new_entry[125] ,
+    \cache_new_entry[124] ,
+    \cache_new_entry[123] ,
+    \cache_new_entry[122] ,
+    \cache_new_entry[121] ,
+    \cache_new_entry[120] ,
+    \cache_new_entry[119] ,
+    \cache_new_entry[118] ,
+    \cache_new_entry[117] ,
+    \cache_new_entry[116] ,
+    \cache_new_entry[115] ,
+    \cache_new_entry[114] ,
+    \cache_new_entry[113] ,
+    \cache_new_entry[112] ,
+    \cache_new_entry[111] ,
+    \cache_new_entry[110] ,
+    \cache_new_entry[109] ,
+    \cache_new_entry[108] ,
+    \cache_new_entry[107] ,
+    \cache_new_entry[106] ,
+    \cache_new_entry[105] ,
+    \cache_new_entry[104] ,
+    \cache_new_entry[103] ,
+    \cache_new_entry[102] ,
+    \cache_new_entry[101] ,
+    \cache_new_entry[100] ,
+    \cache_new_entry[99] ,
+    \cache_new_entry[98] ,
+    \cache_new_entry[97] ,
+    \cache_new_entry[96] ,
+    \cache_new_entry[95] ,
+    \cache_new_entry[94] ,
+    \cache_new_entry[93] ,
+    \cache_new_entry[92] ,
+    \cache_new_entry[91] ,
+    \cache_new_entry[90] ,
+    \cache_new_entry[89] ,
+    \cache_new_entry[88] ,
+    \cache_new_entry[87] ,
+    \cache_new_entry[86] ,
+    \cache_new_entry[85] ,
+    \cache_new_entry[84] ,
+    \cache_new_entry[83] ,
+    \cache_new_entry[82] ,
+    \cache_new_entry[81] ,
+    \cache_new_entry[80] ,
+    \cache_new_entry[79] ,
+    \cache_new_entry[78] ,
+    \cache_new_entry[77] ,
+    \cache_new_entry[76] ,
+    \cache_new_entry[75] ,
+    \cache_new_entry[74] ,
+    \cache_new_entry[73] ,
+    \cache_new_entry[72] ,
+    \cache_new_entry[71] ,
+    \cache_new_entry[70] ,
+    \cache_new_entry[69] ,
+    \cache_new_entry[68] ,
+    \cache_new_entry[67] ,
+    \cache_new_entry[66] ,
+    \cache_new_entry[65] ,
+    \cache_new_entry[64] ,
+    \cache_new_entry[63] ,
+    \cache_new_entry[62] ,
+    \cache_new_entry[61] ,
+    \cache_new_entry[60] ,
+    \cache_new_entry[59] ,
+    \cache_new_entry[58] ,
+    \cache_new_entry[57] ,
+    \cache_new_entry[56] ,
+    \cache_new_entry[55] ,
+    \cache_new_entry[54] ,
+    \cache_new_entry[53] ,
+    \cache_new_entry[52] ,
+    \cache_new_entry[51] ,
+    \cache_new_entry[50] ,
+    \cache_new_entry[49] ,
+    \cache_new_entry[48] ,
+    \cache_new_entry[47] ,
+    \cache_new_entry[46] ,
+    \cache_new_entry[45] ,
+    \cache_new_entry[44] ,
+    \cache_new_entry[43] ,
+    \cache_new_entry[42] ,
+    \cache_new_entry[41] ,
+    \cache_new_entry[40] ,
+    \cache_new_entry[39] ,
+    \cache_new_entry[38] ,
+    \cache_new_entry[37] ,
+    \cache_new_entry[36] ,
+    \cache_new_entry[35] ,
+    \cache_new_entry[34] ,
+    \cache_new_entry[33] ,
+    \cache_new_entry[32] ,
+    \cache_new_entry[31] ,
+    \cache_new_entry[30] ,
+    \cache_new_entry[29] ,
+    \cache_new_entry[28] ,
+    \cache_new_entry[27] ,
+    \cache_new_entry[26] ,
+    \cache_new_entry[25] ,
+    \cache_new_entry[24] ,
+    \cache_new_entry[23] ,
+    \cache_new_entry[22] ,
+    \cache_new_entry[21] ,
+    \cache_new_entry[20] ,
+    \cache_new_entry[19] ,
+    \cache_new_entry[18] ,
+    \cache_new_entry[17] ,
+    \cache_new_entry[16] ,
+    \cache_new_entry[15] ,
+    \cache_new_entry[14] ,
+    \cache_new_entry[13] ,
+    \cache_new_entry[12] ,
+    \cache_new_entry[11] ,
+    \cache_new_entry[10] ,
+    \cache_new_entry[9] ,
+    \cache_new_entry[8] ,
+    \cache_new_entry[7] ,
+    \cache_new_entry[6] ,
+    \cache_new_entry[5] ,
+    \cache_new_entry[4] ,
+    \cache_new_entry[3] ,
+    \cache_new_entry[2] ,
+    \cache_new_entry[1] ,
+    \cache_new_entry[0] }),
     .curr_PC({\curr_PC[27] ,
     \curr_PC[26] ,
     \curr_PC[25] ,
@@ -3451,5 +4477,187 @@ module user_project_wrapper (user_clock2,
     \reg2_val2[2] ,
     \reg2_val2[1] ,
     \reg2_val2[0] }));
+ wrapped_6502 wrapped_6502 (.io_oeb(io_oeb_6502),
+    .rst_n(rst_6502),
+    .wb_clk_i(wb_clk_i),
+    .custom_settings({\custom_settings[1] ,
+    \custom_settings[0] }),
+    .io_in({io_in[37],
+    io_in[36],
+    io_in[35],
+    io_in[34],
+    io_in[33],
+    io_in[32],
+    io_in[31],
+    io_in[30],
+    io_in[29],
+    io_in[28],
+    io_in[27],
+    io_in[26],
+    io_in[25],
+    io_in[24],
+    io_in[23],
+    io_in[22],
+    io_in[21],
+    io_in[20],
+    io_in[19],
+    io_in[18],
+    io_in[17],
+    io_in[16],
+    io_in[15],
+    io_in[14],
+    io_in[13],
+    io_in[12],
+    io_in[11],
+    io_in[10],
+    io_in[9],
+    io_in[8],
+    io_in[7],
+    io_in[6],
+    io_in[5],
+    io_in[4],
+    io_in[2],
+    io_in[1]}),
+    .io_out({\io_out_6502[35] ,
+    \io_out_6502[34] ,
+    \io_out_6502[33] ,
+    \io_out_6502[32] ,
+    \io_out_6502[31] ,
+    \io_out_6502[30] ,
+    \io_out_6502[29] ,
+    \io_out_6502[28] ,
+    \io_out_6502[27] ,
+    \io_out_6502[26] ,
+    \io_out_6502[25] ,
+    \io_out_6502[24] ,
+    \io_out_6502[23] ,
+    \io_out_6502[22] ,
+    \io_out_6502[21] ,
+    \io_out_6502[20] ,
+    \io_out_6502[19] ,
+    \io_out_6502[18] ,
+    \io_out_6502[17] ,
+    \io_out_6502[16] ,
+    \io_out_6502[15] ,
+    \io_out_6502[14] ,
+    \io_out_6502[13] ,
+    \io_out_6502[12] ,
+    \io_out_6502[11] ,
+    \io_out_6502[10] ,
+    \io_out_6502[9] ,
+    \io_out_6502[8] ,
+    \io_out_6502[7] ,
+    \io_out_6502[6] ,
+    \io_out_6502[5] ,
+    \io_out_6502[4] ,
+    \io_out_6502[3] ,
+    \io_out_6502[2] ,
+    \io_out_6502[1] ,
+    \io_out_6502[0] }));
+ wrapped_as1802 wrapped_as1802 (.io_oeb(io_oeb_as1802),
+    .rst_n(rst_as1802),
+    .wb_clk_i(wb_clk_i),
+    .custom_settings({\custom_settings[29] ,
+    \custom_settings[28] ,
+    \custom_settings[27] ,
+    \custom_settings[26] ,
+    \custom_settings[25] ,
+    \custom_settings[24] ,
+    \custom_settings[23] ,
+    \custom_settings[22] ,
+    \custom_settings[21] ,
+    \custom_settings[20] ,
+    \custom_settings[19] ,
+    \custom_settings[18] ,
+    \custom_settings[17] ,
+    \custom_settings[16] ,
+    \custom_settings[15] ,
+    \custom_settings[14] ,
+    \custom_settings[13] ,
+    \custom_settings[12] ,
+    \custom_settings[11] ,
+    \custom_settings[10] ,
+    \custom_settings[9] ,
+    \custom_settings[8] ,
+    \custom_settings[7] ,
+    \custom_settings[6] ,
+    \custom_settings[5] ,
+    \custom_settings[4] ,
+    \custom_settings[3] ,
+    \custom_settings[2] ,
+    \custom_settings[1] ,
+    \custom_settings[0] }),
+    .io_in({io_in[37],
+    io_in[36],
+    io_in[35],
+    io_in[34],
+    io_in[33],
+    io_in[32],
+    io_in[31],
+    io_in[30],
+    io_in[29],
+    io_in[28],
+    io_in[27],
+    io_in[26],
+    io_in[25],
+    io_in[24],
+    io_in[23],
+    io_in[22],
+    io_in[21],
+    io_in[20],
+    io_in[19],
+    io_in[18],
+    io_in[17],
+    io_in[16],
+    io_in[15],
+    io_in[14],
+    io_in[13],
+    io_in[12],
+    io_in[11],
+    io_in[10],
+    io_in[9],
+    io_in[8],
+    io_in[7],
+    io_in[6],
+    io_in[5],
+    io_in[4],
+    io_in[2],
+    io_in[1]}),
+    .io_out({\io_out_as1802[35] ,
+    \io_out_as1802[34] ,
+    \io_out_as1802[33] ,
+    \io_out_as1802[32] ,
+    \io_out_as1802[31] ,
+    \io_out_as1802[30] ,
+    \io_out_as1802[29] ,
+    \io_out_as1802[28] ,
+    \io_out_as1802[27] ,
+    \io_out_as1802[26] ,
+    \io_out_as1802[25] ,
+    \io_out_as1802[24] ,
+    \io_out_as1802[23] ,
+    \io_out_as1802[22] ,
+    \io_out_as1802[21] ,
+    \io_out_as1802[20] ,
+    \io_out_as1802[19] ,
+    \io_out_as1802[18] ,
+    \io_out_as1802[17] ,
+    \io_out_as1802[16] ,
+    \io_out_as1802[15] ,
+    \io_out_as1802[14] ,
+    \io_out_as1802[13] ,
+    \io_out_as1802[12] ,
+    \io_out_as1802[11] ,
+    \io_out_as1802[10] ,
+    \io_out_as1802[9] ,
+    \io_out_as1802[8] ,
+    \io_out_as1802[7] ,
+    \io_out_as1802[6] ,
+    \io_out_as1802[5] ,
+    \io_out_as1802[4] ,
+    \io_out_as1802[3] ,
+    \io_out_as1802[2] ,
+    \io_out_as1802[1] ,
+    \io_out_as1802[0] }));
 endmodule
 

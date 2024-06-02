@@ -717,10 +717,17 @@ module vliw_tb;
 		
 		//Test built-in memory-mapped IO
 		i0 = `INSTR_LUI(2, 16'hFFFF);
-		i1 = `INSTR_LLI(3, 16'h0040);
+		i1 = `INSTR_LLI(3, 16'h0041);
 		i2 = `INSTR_LLI(2, 16'hFF80);
 		instr_exec();
 		check_reg(2, 32'hFFFFFF80);
+		//Enable icache already
+		i0 = `INSTR_STORE32(2, 3, 17'h00034);
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
+		@(posedge clock);
+		#3;
 		i0 = `INSTR_STORE32(2, 3, 17'h0002C);
 		i1 = `INSTR_LLI(3, 16'h0000);
 		i2 = `OP_NOP;
@@ -858,6 +865,36 @@ module vliw_tb;
 		expected_PC = expected_PC + 8;
 		check_reg(3, 32'h00000016);
 		check_reg(4, 32'h0000183A);
+		
+		//Test icache
+		i0 = `INSTR_IMM(4, 4, 4, `ALU_ADD);
+		i1 = `INSTR_IMM(3, 2, 3, `ALU_MUL);
+		i2 = `OP_NOP;
+		instr_exec();
+		i2 = `INSTR_ALU(4, 3, 1, `ALU_XOR);
+		i0 = `OP_NOP;
+		i1 = `OP_NOP;
+		instr_exec();
+		//Now branch back but also make sure this branch will not be taken again
+		i0 = `INSTR_BRANCH(0, 0, 17'h1FFFE) | `BR_EQL | 256;
+		i1 = `INSTR_PREDICATE(0, 0, 1, `BR_NEQL);
+		i2 = `OP_NOP;
+		instr_exec();
+		//Now expecting three cache hits
+		@(posedge clock); //One clock delay on first cache hit
+		repeat(2) begin
+			@(posedge clock);
+			#3;
+			failures += M1 == 0;
+			failures += le_lo != 0 || le_hi != 0 || OEb == 0;
+		end
+		@(posedge clock);
+		#3;
+		failures += M1 == 0;
+		failures += le_lo == 0 || le_hi != 0 || OEb == 0;
+		check_reg(4, 32'h00001842);
+		check_reg(3, 32'h00000058);
+		check_reg(1, 32'h0000181A);
 		
 		i0 = `OP_NOP;
 		i1 = `OP_NOP;

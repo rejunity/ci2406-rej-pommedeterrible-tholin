@@ -8,7 +8,7 @@
     "CLOCK_PERIOD": 32,
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "wb_clk_i",
-    "FP_PDN_MACRO_HOOKS": "multiplexer vccd1 vssd1 vccd1 vssd1, scrapcpu vccd1 vssd1 vccd1 vssd1, unused_tie vccd1 vssd1 vccd1 vssd1, ci2406_z80 vccd1 vssd1 vccd1 vssd1, vliw vccd1 vssd1 vccd1 vssd1, eu0 vccd1 vssd1 vccd1 vssd1, eu1 vccd1 vssd1 vccd1 vssd1, eu2 vccd1 vssd1 vccd1 vssd1",
+    "FP_PDN_MACRO_HOOKS": "multiplexer vccd1 vssd1 vccd1 vssd1, scrapcpu vccd1 vssd1 vccd1 vssd1, unused_tie vccd1 vssd1 vccd1 vssd1, ci2406_z80 vccd1 vssd1 vccd1 vssd1, vliw vccd1 vssd1 vccd1 vssd1, eu0 vccd1 vssd1 vccd1 vssd1, eu1 vccd1 vssd1 vccd1 vssd1, eu2 vccd1 vssd1 vccd1 vssd1, wrapped_6502 vccd1 vssd1 vccd1 vssd1, icache vccd1 vssd1 vccd1 vssd1, wrapped_as1802 vccd1 vssd1 vccd1 vssd1",
     "MACRO_PLACEMENT_CFG": "dir::macro.cfg",
     "MAGIC_DEF_LABELS": 0,
     "VERILOG_FILES_BLACKBOX": [
@@ -17,7 +17,10 @@
         "dir::../../verilog/gl/unused_tie.v",
         "dir::../../verilog/gl/ci2406_z80.v",
         "dir::../../verilog/gl/vliw.v",
-        "dir::../../verilog/gl/execution_unit.v"
+        "dir::../../verilog/gl/execution_unit.v",
+        "dir::../../verilog/gl/wrapped_6502.v",
+        "dir::../../verilog/gl/icache.v",
+        "dir::../../verilog/gl/wrapped_as1802.v"
     ],
     "EXTRA_LEFS": [
         "dir::../../lef/multiplexer.lef",
@@ -25,7 +28,10 @@
         "dir::../../lef/unused_tie.lef",
         "dir::../../lef/ci2406_z80.lef",
         "dir::../../lef/vliw.lef",
-        "dir::../../lef/execution_unit.lef"
+        "dir::../../lef/execution_unit.lef",
+        "dir::../../lef/wrapped_6502.lef",
+        "dir::../../lef/icache.lef",
+        "dir::../../lef/wrapped_as1802.lef"
     ],
     "EXTRA_GDS_FILES": [
         "dir::../../gds/multiplexer.gds",
@@ -33,7 +39,10 @@
         "dir::../../gds/unused_tie.gds",
         "dir::../../gds/ci2406_z80.gds",
         "dir::../../gds/vliw.gds",
-        "dir::../../gds/execution_unit.gds"
+        "dir::../../gds/execution_unit.gds",
+        "dir::../../gds/wrapped_6502.gds",
+        "dir::../../gds/icache.gds",
+        "dir::../../gds/wrapped_as1802.gds"
     ],
     "EXTRA_LIBS": [
         "dir::../../lib/multiplexer.lib",
@@ -41,7 +50,10 @@
         "dir::../../lib/unused_tie.lib",
         "dir::../../lib/ci2406_z80.lib",
         "dir::../../lib/vliw.lib",
-        "dir::../../lib/execution_unit.lib"
+        "dir::../../lib/execution_unit.lib",
+        "dir::../../lib/wrapped_6502.lib",
+        "dir::../../lib/icache.lib",
+        "dir::../../lib/wrapped_as1802.lib"
     ],
     "EXTRA_SPEFS": [
         "multiplexer", 
@@ -67,7 +79,19 @@
         "execution_unit", 
         "dir::../../spef/multicorner/execution_unit.min.spef", 
         "dir::../../spef/multicorner/execution_unit.nom.spef", 
-        "dir::../../spef/multicorner/execution_unit.max.spef"
+        "dir::../../spef/multicorner/execution_unit.max.spef",
+        "wrapped_6502", 
+        "dir::../../spef/multicorner/wrapped_6502.min.spef", 
+        "dir::../../spef/multicorner/wrapped_6502.nom.spef", 
+        "dir::../../spef/multicorner/wrapped_6502.max.spef",
+        "icache", 
+        "dir::../../spef/multicorner/icache.min.spef", 
+        "dir::../../spef/multicorner/icache.nom.spef", 
+        "dir::../../spef/multicorner/icache.max.spef",
+        "wrapped_as1802", 
+        "dir::../../spef/multicorner/wrapped_as1802.min.spef", 
+        "dir::../../spef/multicorner/wrapped_as1802.nom.spef", 
+        "dir::../../spef/multicorner/wrapped_as1802.max.spef"
     ],
     "BASE_SDC_FILE": "dir::base_user_project_wrapper.sdc",
     "IO_SYNC": 0,
@@ -132,7 +156,7 @@
         "DIE_AREA": "0 0 2920 3520",
         "FP_DEF_TEMPLATE": "dir::fixed_dont_change/user_project_wrapper.def",
         "scl::sky130_fd_sc_hd": {
-            "CLOCK_PERIOD": 27
+            "CLOCK_PERIOD": 26
         },
         "scl::sky130_fd_sc_hdll": {
             "CLOCK_PERIOD": 10

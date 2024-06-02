@@ -3,7 +3,9 @@ module S8x305(
 	output reg x2,
 	input reset,
 	
-	inout [7:0] IV,
+	input [7:0] IV_in,
+	output [7:0] IV_out,
+	output IV_oeb,
 	output RB,
 	output LB,
 	output SC,
@@ -11,10 +13,11 @@ module S8x305(
 	
 	output [12:0] A,
 	input [15:0] I,
+	input instr_ready,
 
 	output MCLK,
 	
-`ifdef BENCH
+`ifdef SIM
 	output [7:0] r10,
 	output [7:0] r11,
 	output [7:0] r7,
@@ -30,7 +33,7 @@ reg [1:0] cycle;
 
 reg [7:0] regs [15:0];
 
-`ifdef BENCH
+`ifdef SIM
 assign r0 = regs[0];
 wire [7:0] r1 = regs[1];
 wire [7:0] r2 = regs[2];
@@ -119,7 +122,7 @@ wire [7:0] l_bitmask_shifted = l_bitmask << (is_XMIT ? lsh_xmit : lsh_amount);
 wire [7:0] ALU_res_adj = MOVE_special || is_MOVE_IV_REG ? ALU_res[7:0] : (iv_latch & ~l_bitmask_shifted) | ((ALU_res[7:0] << lsh_amount) & l_bitmask_shifted);
 wire [7:0] XMIT_res_adj = S_field[4] ? (J_field_xmit & l_bitmask_shifted) | (iv_latch & ~l_bitmask_shifted) : J_field_xmit;
 
-wire [7:0] iv_in_adj = {!IV[0], !IV[1], !IV[2], !IV[3], !IV[4], !IV[5], !IV[6], !IV[7]};
+wire [7:0] iv_in_adj = {!IV_in[0], !IV_in[1], !IV_in[2], !IV_in[3], !IV_in[4], !IV_in[5], !IV_in[6], !IV_in[7]};
 wire [7:0] iv_in_adj_rr = (iv_latch >> rr_amount) | (iv_latch << (8-rr_amount));
 wire [7:0] iv_in_adj_rr_masked = is_XMIT ? iv_latch : iv_in_adj_rr & l_bitmask;
 
@@ -127,7 +130,7 @@ wire input_phase = cycle == 0;
 wire processing_phase = cycle == 1;
 wire output_phase = cycle == 2 || cycle == 3;
 
-wire is_output_reg = (D_field[3:0] == 4'h0A || D_field[3:0] == 4'h0B) && is_XMIT;
+wire is_output_reg = (D_field[3:0] == 4'hA || D_field[3:0] == 4'hB) && is_XMIT;
 
 assign LB = !((input_phase && S_field[4] && !S_field[3]) ||
 				(output_phase && (is_ALU_op || is_XMIT) && D_field == 5'h07) ||
@@ -149,19 +152,35 @@ assign WC = AAA && output_phase;
 wire will_output = to_iv_bus_address || AAA;
 wire is_output = output_phase && will_output;
 
-assign IV = is_output ? {!iv_latch[0], !iv_latch[1], !iv_latch[2], !iv_latch[3], !iv_latch[4], !iv_latch[5], !iv_latch[6], !iv_latch[7]} : 8'hzz;
+assign IV_oeb = is_output ? 1'b0 : 1'b1;
+assign IV_out = {!iv_latch[0], !iv_latch[1], !iv_latch[2], !iv_latch[3], !iv_latch[4], !iv_latch[5], !iv_latch[6], !iv_latch[7]};
 
-assign #0.01 MCLK = cycle == 3;
+assign MCLK = cycle == 3;
 
 always @(posedge x1) begin
 	if(!reset) begin
 		x2 <= 1'b0;
 		cycle <= 2'b00;
+		regs[0] <= 0;
+		regs[1] <= 0;
+		regs[2] <= 0;
+		regs[3] <= 0;
+		regs[4] <= 0;
+		regs[5] <= 0;
+		regs[6] <= 0;
+		regs[7] <= 0;
 		regs[8] <= 8'h00;
+		regs[9] <= 0;
+		regs[10] <= 0;
+		regs[11] <= 0;
+		regs[12] <= 0;
+		regs[13] <= 0;
+		regs[14] <= 0;
+		regs[15] <= 0;
 		iv_latch <= 8'h00;
 		PC <= 13'h0000;
 		addr_reg <= 13'h0000;
-	end else begin
+	end else if(instr_ready) begin
 		regs[8] <= regs[8] & 8'h01;
 		x2 <= !x2;
 		cycle <= cycle + 2'b01;
