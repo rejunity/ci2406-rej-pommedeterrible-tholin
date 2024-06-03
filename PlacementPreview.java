@@ -26,7 +26,7 @@ public class PlacementPreview {
 			new Macro(250, 250, 175, 175, Color.GREEN, "TieUnused"), //TieUnused
 			new Macro(2450, 3000, 250, 275, Color.GREEN, "ScrapCPU"), //ScrapCPU
 			new Macro(250, 1200, 300, 300, Color.RED, "Z80"), //Z80
-			new Macro(300, 1950, 2200, 650, Color.RED, "VLIW"), //VLIW
+			new Macro(300, 1950, 2200, 750, Color.RED, "VLIW"), //VLIW
 			new Macro(300, 2800, 375, 375, Color.CYAN, "Execution Unit 0"), //VLIW
 			new Macro(900, 2800, 375, 375, Color.CYAN, "Execution Unit 1"), //VLIW
 			new Macro(1500, 2800, 375, 375, Color.CYAN, "Execution Unit 1"), //VLIW

@@ -119,13 +119,14 @@ module vliw(
    output cache_rst,
    output cache_entry_valid
 );
+reg cache_hit_used;
 wire [127:0] curr_pack_next = {bus_in, curr_pack[127:16]};
 wire cache_enabled;
 assign cache_new_entry = curr_pack_next;
 assign cache_entry_valid = memory_cyc == 4'hF;
 assign cache_PC = cache_entry_valid || memory_cyc[3] ? PC : PC_inc;
 assign cache_rst = !rst_n;
-assign cache_invalidate = !cache_enabled;
+assign cache_invalidate = !cache_enabled || serving_interrupt;
 wire valid_cache_hit = custom_settings[4] && cache_enabled;
 
 assign rst_eu = !rst_n || !startup_delay || memory_cyc[3];
@@ -153,6 +154,7 @@ blink blink(
 reg M1;
 reg processing_load;
 reg processing_store;
+wire processing_loadstore = processing_store || processing_load;
 
 wire [15:0] bus_in = io_in[18:3];
 wire [7:0] in_8bit = loadstore_address[0] ? bus_in[15:8] : bus_in[7:0];
@@ -294,7 +296,8 @@ io_block io_block(
 	.int2(int2),
 	.ie(int_enable),
 	.int_return(int_return),
-	.serving_interrupt(serving_interrupt)
+	.serving_interrupt(serving_interrupt),
+	.cache_hit_used(cache_hit_used)
 );
 assign io_out[29] = 1'b0;
 assign io_out[26] = 1'b1;
@@ -325,6 +328,8 @@ always @(posedge wb_clk_i) begin
 	M1 <= 0;
 	just_branched <= 0;
 	serving_interrupt <= 0;
+	cache_hit_used <= 0;
+	
 	if(!rst_n) startup_delay <= 0;
 	else startup_delay <= 1;
 	if(!rst_n || !startup_delay) begin
@@ -368,6 +373,7 @@ always @(posedge wb_clk_i) begin
 			curr_pack <= cache_entry;
 			fetched <= 1;
 			memory_cyc <= 0;
+			cache_hit_used <= 1;
 		end else if(curr_addr == requested_addr || io_access) begin
 			if(memory_cyc[3]) begin
 				memory_cyc <= 0;
@@ -378,14 +384,14 @@ always @(posedge wb_clk_i) begin
 					next_instr();
 				end else if(memory_cyc[2:0] == 0) begin
 					if(requested_len == 0) begin
-						if(processing_store || processing_load) next_instr();
+						if(processing_loadstore) next_instr();
 						if(processing_load) begin
 							regfile[load_dest][7:0] <= in_8bit_se[7:0];
 							if(load_mask[0]) regfile[load_dest][15:8] <= in_8bit_se[15:8];
 							if(load_mask[1]) regfile[load_dest][31:16] <= in_8bit_se[31:16];
 						end
 					end else if(requested_len == 1) begin
-						if(processing_store || processing_load) next_instr();
+						if(processing_loadstore) next_instr();
 						if(processing_load) begin
 							regfile[load_dest][15:0] <= in_16bit_se[15:0];
 							if(load_mask[1]) regfile[load_dest][31:16] <= in_16bit_se[31:16];
@@ -396,7 +402,7 @@ always @(posedge wb_clk_i) begin
 						requested_addr <= requested_addr + 1;
 					end
 				end else if(memory_cyc[2:0] == 1) begin
-					if(processing_store || processing_load) next_instr();
+					if(processing_loadstore) next_instr();
 					if(processing_load) regfile[load_dest] <= {bus_in[15:0], mem_buff[15:0]};
 					if(requested_len == 3) begin
 						//This is an instruction pack fetch
@@ -457,6 +463,7 @@ task next_instr();
 		if(execution_mask[2] || take_branch) begin
 			if(needs_interrupt) begin
 				requested_addr <= {int_loc, 3'b000};
+				PC <= int_loc;
 				memory_cyc <= 8;
 				requested_len <= 3;
 				fetched <= 0;
@@ -465,6 +472,7 @@ task next_instr();
 			end else begin
 				if(cache_hit && !take_branch && valid_cache_hit) begin
 					curr_pack <= cache_entry;
+					cache_hit_used <= 1;
 				end else begin
 					just_branched <= take_branch;
 					requested_addr <= {fetch_PC, 3'b000};
@@ -541,6 +549,7 @@ module io_block(
 	output reg ie,
 	input int_return,
 	input serving_interrupt,
+	input cache_hit_used,
 
 	input clk,
 	input rst
@@ -566,6 +575,9 @@ reg [7:0] sdiv;
 
 reg [3:0] alt_funct;
 
+reg [17:0] cache_hit_ctr;
+reg [31:0] test;
+
 wire uart_busy;
 wire uart_has_byte;
 wire spi_busy;
@@ -590,7 +602,11 @@ always @(*) begin
 		11: io_rval_tbl = {24'h000000, io_dir};
 		12: io_rval_tbl = {24'h000000, io_dat};
 		13: io_rval_tbl = {24'h000000, ioport_in};
-		14: alt_funct = {28'h0000000,  alt_funct};
+		14: io_rval_tbl = {28'h0000000,  alt_funct};
+		16: io_rval_tbl = {14'h0000, cache_hit_ctr};
+		17: io_rval_tbl = test;
+		18: io_rval_tbl = {8'h72, 8'h69, 8'h68, 8'h43};
+		19: io_rval_tbl = {16'h0000, 8'h21, 8'h70};
 	endcase
 end
 assign io_rval = io_rval_tbl;
@@ -618,7 +634,10 @@ always @(posedge clk) begin
 		int1 <= 0;
 		int2 <= 0;
 		ie <= 0;
+		cache_hit_ctr <= 0;
+		test <= 0;
 	end else begin
+		if(cache_hit_used) cache_hit_ctr <= cache_hit_ctr + 1;
 		if(alt_funct[3]) io_dat[0] <= 0;
 		if(int_return) ie <= 1;
 		if(serving_interrupt) ie <= 0;
@@ -664,6 +683,8 @@ always @(posedge clk) begin
 					int2 <= io_wval[2];
 					ie <= io_wval[4] ? io_wval[3] : ie;
 				end
+				16: cache_hit_ctr <= io_wval[17:0];
+				17: test <= io_wval;
 			endcase
 		end
 	end

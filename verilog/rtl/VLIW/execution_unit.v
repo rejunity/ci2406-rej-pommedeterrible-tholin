@@ -1,4 +1,4 @@
-`define NUM_REGS 32
+`define NUM_REGS 64
 `define REG_IDX ($clog2(`NUM_REGS)-1)
 
 module execution_unit(

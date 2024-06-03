@@ -201,7 +201,7 @@ wrapped_as1802 wrapped_as1802(
     .custom_settings(custom_settings[29:0])
 );
 
-`define NUM_REGS 32
+`define NUM_REGS 64
 `define REG_IDX ($clog2(`NUM_REGS)-1)
 
 wire rst_eu;

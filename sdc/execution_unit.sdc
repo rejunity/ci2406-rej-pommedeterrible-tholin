@@ -1,6 +1,6 @@
 ###############################################################################
 # Created by write_sdc
-# Sun Jun  2 01:18:56 2024
+# Mon Jun  3 10:56:46 2024
 ###############################################################################
 current_design execution_unit
 ###############################################################################
@@ -22,6 +22,7 @@ set_load -pin_load 0.1900 [get_ports {is_load}]
 set_load -pin_load 0.1900 [get_ports {is_store}]
 set_load -pin_load 0.1900 [get_ports {sign_extend}]
 set_load -pin_load 0.1900 [get_ports {take_branch}]
+set_load -pin_load 0.1900 [get_ports {dest_idx[5]}]
 set_load -pin_load 0.1900 [get_ports {dest_idx[4]}]
 set_load -pin_load 0.1900 [get_ports {dest_idx[3]}]
 set_load -pin_load 0.1900 [get_ports {dest_idx[2]}]
@@ -96,6 +97,7 @@ set_load -pin_load 0.1900 [get_ports {loadstore_address[3]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_address[2]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_address[1]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_address[0]}]
+set_load -pin_load 0.1900 [get_ports {loadstore_dest[5]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_dest[4]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_dest[3]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_dest[2]}]
@@ -134,11 +136,13 @@ set_load -pin_load 0.1900 [get_ports {new_PC[0]}]
 set_load -pin_load 0.1900 [get_ports {pred_idx[2]}]
 set_load -pin_load 0.1900 [get_ports {pred_idx[1]}]
 set_load -pin_load 0.1900 [get_ports {pred_idx[0]}]
+set_load -pin_load 0.1900 [get_ports {reg1_idx[5]}]
 set_load -pin_load 0.1900 [get_ports {reg1_idx[4]}]
 set_load -pin_load 0.1900 [get_ports {reg1_idx[3]}]
 set_load -pin_load 0.1900 [get_ports {reg1_idx[2]}]
 set_load -pin_load 0.1900 [get_ports {reg1_idx[1]}]
 set_load -pin_load 0.1900 [get_ports {reg1_idx[0]}]
+set_load -pin_load 0.1900 [get_ports {reg2_idx[5]}]
 set_load -pin_load 0.1900 [get_ports {reg2_idx[4]}]
 set_load -pin_load 0.1900 [get_ports {reg2_idx[3]}]
 set_load -pin_load 0.1900 [get_ports {reg2_idx[2]}]

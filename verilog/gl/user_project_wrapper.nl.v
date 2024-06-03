@@ -391,16 +391,19 @@ module user_project_wrapper (user_clock2,
  wire \dest_idx0[2] ;
  wire \dest_idx0[3] ;
  wire \dest_idx0[4] ;
+ wire \dest_idx0[5] ;
  wire \dest_idx1[0] ;
  wire \dest_idx1[1] ;
  wire \dest_idx1[2] ;
  wire \dest_idx1[3] ;
  wire \dest_idx1[4] ;
+ wire \dest_idx1[5] ;
  wire \dest_idx2[0] ;
  wire \dest_idx2[1] ;
  wire \dest_idx2[2] ;
  wire \dest_idx2[3] ;
  wire \dest_idx2[4] ;
+ wire \dest_idx2[5] ;
  wire \dest_mask0[0] ;
  wire \dest_mask0[1] ;
  wire \dest_mask1[0] ;
@@ -1044,16 +1047,19 @@ module user_project_wrapper (user_clock2,
  wire \loadstore_dest0[2] ;
  wire \loadstore_dest0[3] ;
  wire \loadstore_dest0[4] ;
+ wire \loadstore_dest0[5] ;
  wire \loadstore_dest1[0] ;
  wire \loadstore_dest1[1] ;
  wire \loadstore_dest1[2] ;
  wire \loadstore_dest1[3] ;
  wire \loadstore_dest1[4] ;
+ wire \loadstore_dest1[5] ;
  wire \loadstore_dest2[0] ;
  wire \loadstore_dest2[1] ;
  wire \loadstore_dest2[2] ;
  wire \loadstore_dest2[3] ;
  wire \loadstore_dest2[4] ;
+ wire \loadstore_dest2[5] ;
  wire \loadstore_size0[0] ;
  wire \loadstore_size0[1] ;
  wire \loadstore_size1[0] ;
@@ -1161,16 +1167,19 @@ module user_project_wrapper (user_clock2,
  wire \reg1_idx0[2] ;
  wire \reg1_idx0[3] ;
  wire \reg1_idx0[4] ;
+ wire \reg1_idx0[5] ;
  wire \reg1_idx1[0] ;
  wire \reg1_idx1[1] ;
  wire \reg1_idx1[2] ;
  wire \reg1_idx1[3] ;
  wire \reg1_idx1[4] ;
+ wire \reg1_idx1[5] ;
  wire \reg1_idx2[0] ;
  wire \reg1_idx2[1] ;
  wire \reg1_idx2[2] ;
  wire \reg1_idx2[3] ;
  wire \reg1_idx2[4] ;
+ wire \reg1_idx2[5] ;
  wire \reg1_val0[0] ;
  wire \reg1_val0[10] ;
  wire \reg1_val0[11] ;
@@ -1272,16 +1281,19 @@ module user_project_wrapper (user_clock2,
  wire \reg2_idx0[2] ;
  wire \reg2_idx0[3] ;
  wire \reg2_idx0[4] ;
+ wire \reg2_idx0[5] ;
  wire \reg2_idx1[0] ;
  wire \reg2_idx1[1] ;
  wire \reg2_idx1[2] ;
  wire \reg2_idx1[3] ;
  wire \reg2_idx1[4] ;
+ wire \reg2_idx1[5] ;
  wire \reg2_idx2[0] ;
  wire \reg2_idx2[1] ;
  wire \reg2_idx2[2] ;
  wire \reg2_idx2[3] ;
  wire \reg2_idx2[4] ;
+ wire \reg2_idx2[5] ;
  wire \reg2_val0[0] ;
  wire \reg2_val0[10] ;
  wire \reg2_val0[11] ;
@@ -1539,7 +1551,8 @@ module user_project_wrapper (user_clock2,
     \curr_PC[2] ,
     \curr_PC[1] ,
     \curr_PC[0] }),
-    .dest_idx({\dest_idx0[4] ,
+    .dest_idx({\dest_idx0[5] ,
+    \dest_idx0[4] ,
     \dest_idx0[3] ,
     \dest_idx0[2] ,
     \dest_idx0[1] ,
@@ -1655,7 +1668,8 @@ module user_project_wrapper (user_clock2,
     \loadstore_address0[2] ,
     \loadstore_address0[1] ,
     \loadstore_address0[0] }),
-    .loadstore_dest({\loadstore_dest0[4] ,
+    .loadstore_dest({\loadstore_dest0[5] ,
+    \loadstore_dest0[4] ,
     \loadstore_dest0[3] ,
     \loadstore_dest0[2] ,
     \loadstore_dest0[1] ,
@@ -1693,7 +1707,8 @@ module user_project_wrapper (user_clock2,
     .pred_idx({\pred_idx0[2] ,
     \pred_idx0[1] ,
     \pred_idx0[0] }),
-    .reg1_idx({\reg1_idx0[4] ,
+    .reg1_idx({\reg1_idx0[5] ,
+    \reg1_idx0[4] ,
     \reg1_idx0[3] ,
     \reg1_idx0[2] ,
     \reg1_idx0[1] ,
@@ -1730,7 +1745,8 @@ module user_project_wrapper (user_clock2,
     \reg1_val0[2] ,
     \reg1_val0[1] ,
     \reg1_val0[0] }),
-    .reg2_idx({\reg2_idx0[4] ,
+    .reg2_idx({\reg2_idx0[5] ,
+    \reg2_idx0[4] ,
     \reg2_idx0[3] ,
     \reg2_idx0[2] ,
     \reg2_idx0[1] ,
@@ -1805,7 +1821,8 @@ module user_project_wrapper (user_clock2,
     \curr_PC[2] ,
     \curr_PC[1] ,
     \curr_PC[0] }),
-    .dest_idx({\dest_idx1[4] ,
+    .dest_idx({\dest_idx1[5] ,
+    \dest_idx1[4] ,
     \dest_idx1[3] ,
     \dest_idx1[2] ,
     \dest_idx1[1] ,
@@ -1921,7 +1938,8 @@ module user_project_wrapper (user_clock2,
     \loadstore_address1[2] ,
     \loadstore_address1[1] ,
     \loadstore_address1[0] }),
-    .loadstore_dest({\loadstore_dest1[4] ,
+    .loadstore_dest({\loadstore_dest1[5] ,
+    \loadstore_dest1[4] ,
     \loadstore_dest1[3] ,
     \loadstore_dest1[2] ,
     \loadstore_dest1[1] ,
@@ -1959,7 +1977,8 @@ module user_project_wrapper (user_clock2,
     .pred_idx({\pred_idx1[2] ,
     \pred_idx1[1] ,
     \pred_idx1[0] }),
-    .reg1_idx({\reg1_idx1[4] ,
+    .reg1_idx({\reg1_idx1[5] ,
+    \reg1_idx1[4] ,
     \reg1_idx1[3] ,
     \reg1_idx1[2] ,
     \reg1_idx1[1] ,
@@ -1996,7 +2015,8 @@ module user_project_wrapper (user_clock2,
     \reg1_val1[2] ,
     \reg1_val1[1] ,
     \reg1_val1[0] }),
-    .reg2_idx({\reg2_idx1[4] ,
+    .reg2_idx({\reg2_idx1[5] ,
+    \reg2_idx1[4] ,
     \reg2_idx1[3] ,
     \reg2_idx1[2] ,
     \reg2_idx1[1] ,
@@ -2071,7 +2091,8 @@ module user_project_wrapper (user_clock2,
     \curr_PC[2] ,
     \curr_PC[1] ,
     \curr_PC[0] }),
-    .dest_idx({\dest_idx2[4] ,
+    .dest_idx({\dest_idx2[5] ,
+    \dest_idx2[4] ,
     \dest_idx2[3] ,
     \dest_idx2[2] ,
     \dest_idx2[1] ,
@@ -2187,7 +2208,8 @@ module user_project_wrapper (user_clock2,
     \loadstore_address2[2] ,
     \loadstore_address2[1] ,
     \loadstore_address2[0] }),
-    .loadstore_dest({\loadstore_dest2[4] ,
+    .loadstore_dest({\loadstore_dest2[5] ,
+    \loadstore_dest2[4] ,
     \loadstore_dest2[3] ,
     \loadstore_dest2[2] ,
     \loadstore_dest2[1] ,
@@ -2225,7 +2247,8 @@ module user_project_wrapper (user_clock2,
     .pred_idx({\pred_idx2[2] ,
     \pred_idx2[1] ,
     \pred_idx2[0] }),
-    .reg1_idx({\reg1_idx2[4] ,
+    .reg1_idx({\reg1_idx2[5] ,
+    \reg1_idx2[4] ,
     \reg1_idx2[3] ,
     \reg1_idx2[2] ,
     \reg1_idx2[1] ,
@@ -2262,7 +2285,8 @@ module user_project_wrapper (user_clock2,
     \reg1_val2[2] ,
     \reg1_val2[1] ,
     \reg1_val2[0] }),
-    .reg2_idx({\reg2_idx2[4] ,
+    .reg2_idx({\reg2_idx2[5] ,
+    \reg2_idx2[4] ,
     \reg2_idx2[3] ,
     \reg2_idx2[2] ,
     \reg2_idx2[1] ,
@@ -3685,17 +3709,20 @@ module user_project_wrapper (user_clock2,
     \custom_settings[2] ,
     \custom_settings[1] ,
     \custom_settings[0] }),
-    .dest_idx0({\dest_idx0[4] ,
+    .dest_idx0({\dest_idx0[5] ,
+    \dest_idx0[4] ,
     \dest_idx0[3] ,
     \dest_idx0[2] ,
     \dest_idx0[1] ,
     \dest_idx0[0] }),
-    .dest_idx1({\dest_idx1[4] ,
+    .dest_idx1({\dest_idx1[5] ,
+    \dest_idx1[4] ,
     \dest_idx1[3] ,
     \dest_idx1[2] ,
     \dest_idx1[1] ,
     \dest_idx1[0] }),
-    .dest_idx2({\dest_idx2[4] ,
+    .dest_idx2({\dest_idx2[5] ,
+    \dest_idx2[4] ,
     \dest_idx2[3] ,
     \dest_idx2[2] ,
     \dest_idx2[1] ,
@@ -4141,17 +4168,20 @@ module user_project_wrapper (user_clock2,
     \loadstore_address2[2] ,
     \loadstore_address2[1] ,
     \loadstore_address2[0] }),
-    .loadstore_dest0({\loadstore_dest0[4] ,
+    .loadstore_dest0({\loadstore_dest0[5] ,
+    \loadstore_dest0[4] ,
     \loadstore_dest0[3] ,
     \loadstore_dest0[2] ,
     \loadstore_dest0[1] ,
     \loadstore_dest0[0] }),
-    .loadstore_dest1({\loadstore_dest1[4] ,
+    .loadstore_dest1({\loadstore_dest1[5] ,
+    \loadstore_dest1[4] ,
     \loadstore_dest1[3] ,
     \loadstore_dest1[2] ,
     \loadstore_dest1[1] ,
     \loadstore_dest1[0] }),
-    .loadstore_dest2({\loadstore_dest2[4] ,
+    .loadstore_dest2({\loadstore_dest2[5] ,
+    \loadstore_dest2[4] ,
     \loadstore_dest2[3] ,
     \loadstore_dest2[2] ,
     \loadstore_dest2[1] ,
@@ -4255,17 +4285,20 @@ module user_project_wrapper (user_clock2,
     .pred_idx2({\pred_idx2[2] ,
     \pred_idx2[1] ,
     \pred_idx2[0] }),
-    .reg1_idx0({\reg1_idx0[4] ,
+    .reg1_idx0({\reg1_idx0[5] ,
+    \reg1_idx0[4] ,
     \reg1_idx0[3] ,
     \reg1_idx0[2] ,
     \reg1_idx0[1] ,
     \reg1_idx0[0] }),
-    .reg1_idx1({\reg1_idx1[4] ,
+    .reg1_idx1({\reg1_idx1[5] ,
+    \reg1_idx1[4] ,
     \reg1_idx1[3] ,
     \reg1_idx1[2] ,
     \reg1_idx1[1] ,
     \reg1_idx1[0] }),
-    .reg1_idx2({\reg1_idx2[4] ,
+    .reg1_idx2({\reg1_idx2[5] ,
+    \reg1_idx2[4] ,
     \reg1_idx2[3] ,
     \reg1_idx2[2] ,
     \reg1_idx2[1] ,
@@ -4366,17 +4399,20 @@ module user_project_wrapper (user_clock2,
     \reg1_val2[2] ,
     \reg1_val2[1] ,
     \reg1_val2[0] }),
-    .reg2_idx0({\reg2_idx0[4] ,
+    .reg2_idx0({\reg2_idx0[5] ,
+    \reg2_idx0[4] ,
     \reg2_idx0[3] ,
     \reg2_idx0[2] ,
     \reg2_idx0[1] ,
     \reg2_idx0[0] }),
-    .reg2_idx1({\reg2_idx1[4] ,
+    .reg2_idx1({\reg2_idx1[5] ,
+    \reg2_idx1[4] ,
     \reg2_idx1[3] ,
     \reg2_idx1[2] ,
     \reg2_idx1[1] ,
     \reg2_idx1[0] }),
-    .reg2_idx2({\reg2_idx2[4] ,
+    .reg2_idx2({\reg2_idx2[5] ,
+    \reg2_idx2[4] ,
     \reg2_idx2[3] ,
     \reg2_idx2[2] ,
     \reg2_idx2[1] ,
