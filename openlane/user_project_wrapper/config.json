@@ -8,7 +8,7 @@
     "CLOCK_PERIOD": 32,
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "wb_clk_i",
-    "FP_PDN_MACRO_HOOKS": "multiplexer vccd1 vssd1 vccd1 vssd1, scrapcpu vccd1 vssd1 vccd1 vssd1, unused_tie vccd1 vssd1 vccd1 vssd1, ci2406_z80 vccd1 vssd1 vccd1 vssd1, vliw vccd1 vssd1 vccd1 vssd1, eu0 vccd1 vssd1 vccd1 vssd1, eu1 vccd1 vssd1 vccd1 vssd1, eu2 vccd1 vssd1 vccd1 vssd1, wrapped_6502 vccd1 vssd1 vccd1 vssd1, icache vccd1 vssd1 vccd1 vssd1, wrapped_as1802 vccd1 vssd1 vccd1 vssd1, wrapped_8x305 vccd1 vssd1 vccd1 vssd1",
+    "FP_PDN_MACRO_HOOKS": "multiplexer vccd1 vssd1 vccd1 vssd1, scrapcpu vccd1 vssd1 vccd1 vssd1, unused_tie vccd1 vssd1 vccd1 vssd1, ci2406_z80 vccd1 vssd1 vccd1 vssd1, vliw vccd1 vssd1 vccd1 vssd1, eu0 vccd1 vssd1 vccd1 vssd1, eu1 vccd1 vssd1 vccd1 vssd1, eu2 vccd1 vssd1 vccd1 vssd1, wrapped_6502 vccd1 vssd1 vccd1 vssd1, icache vccd1 vssd1 vccd1 vssd1, wrapped_as1802 vccd1 vssd1 vccd1 vssd1, wrapped_8x305 vccd1 vssd1 vccd1 vssd1, top_fgcaptest vccd2 vssd2 vccd2 vssd2",
     "MACRO_PLACEMENT_CFG": "dir::macro.cfg",
     "MAGIC_DEF_LABELS": 0,
     "VERILOG_FILES_BLACKBOX": [
@@ -21,7 +21,8 @@
         "dir::../../verilog/gl/wrapped_6502.v",
         "dir::../../verilog/gl/icache.v",
         "dir::../../verilog/gl/wrapped_as1802.v",
-        "dir::../../verilog/gl/wrapped_8x305.v"
+        "dir::../../verilog/gl/wrapped_8x305.v",
+        "dir::../../verilog/rtl/fgcaptest/fgcaptest.v"
     ],
     "EXTRA_LEFS": [
         "dir::../../lef/multiplexer.lef",
@@ -33,7 +34,8 @@
         "dir::../../lef/wrapped_6502.lef",
         "dir::../../lef/icache.lef",
         "dir::../../lef/wrapped_as1802.lef",
-        "dir::../../lef/wrapped_8x305.lef"
+        "dir::../../lef/wrapped_8x305.lef",
+        "dir::../../lef/top_fgcaptest.lef"
     ],
     "EXTRA_GDS_FILES": [
         "dir::../../gds/multiplexer.gds",
@@ -45,7 +47,8 @@
         "dir::../../gds/wrapped_6502.gds",
         "dir::../../gds/icache.gds",
         "dir::../../gds/wrapped_as1802.gds",
-        "dir::../../gds/wrapped_8x305.gds"
+        "dir::../../gds/wrapped_8x305.gds",
+        "dir::../../gds/top_fgcaptest.gds"
     ],
     "EXTRA_LIBS": [
         "dir::../../lib/multiplexer.lib",
@@ -127,7 +130,7 @@
     "FP_SIZING": "absolute",
     "RUN_CVC": 0,
     "RUN_MAGIC_DRC": 1,
-    "RUN_KLAYOUT_XOR": 1,
+    "RUN_KLAYOUT_XOR": 0,
     "UNIT": 2.4,
     "FP_IO_VEXTEND": "expr::2 * $UNIT",
     "FP_IO_HEXTEND": "expr::2 * $UNIT",

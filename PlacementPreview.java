@@ -30,12 +30,11 @@ public class PlacementPreview {
 			new Macro(350, 2950, 375, 375, Color.CYAN, "Execution Unit 0"), //VLIW
 			new Macro(950, 2950, 375, 375, Color.CYAN, "Execution Unit 1"), //VLIW
 			new Macro(1550, 2950, 375, 375, Color.CYAN, "Execution Unit 1"), //VLIW
-			new Macro(1800, 900, 700, 850, Color.CYAN, "icache"), //VLIW
+			new Macro(1800, 1000, 700, 850, Color.CYAN, "icache"), //VLIW
 			new Macro(1700, 450, 225, 225, Color.ORANGE, "MOS6502"), //MOS6502
-			new Macro(2200, 150, 600, 620, Color.BLUE, "fgcaptest"), //Pomme’s custom GDS
+			new Macro(2227, 200, 620, 640, Color.BLUE, "fgcaptest"), //Pomme’s custom GDS
 			new Macro(300, 650, 325, 325, Color.ORANGE, "AS1802"), //AS1802
 			new Macro(900, 200, 250, 250, Color.ORANGE, "8x305"), //S8x305
-			new Macro(2280, 1819, 10, 10, Color.RED, "ERROR"),
 		};
 
 		/*Macro[] macros = new Macro[] {
