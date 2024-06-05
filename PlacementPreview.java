@@ -23,17 +23,19 @@ public class PlacementPreview {
 		
 		Macro[] macros = new Macro[] {
 			new Macro(1200, 600, 200, 1100, Color.GREEN, "Multiplexer"), //Multiplexer
-			new Macro(250, 250, 175, 175, Color.GREEN, "TieUnused"), //TieUnused
-			new Macro(2450, 3000, 250, 275, Color.GREEN, "ScrapCPU"), //ScrapCPU
-			new Macro(250, 1200, 300, 300, Color.RED, "Z80"), //Z80
-			new Macro(300, 1950, 2200, 750, Color.RED, "VLIW"), //VLIW
-			new Macro(300, 2800, 375, 375, Color.CYAN, "Execution Unit 0"), //VLIW
-			new Macro(900, 2800, 375, 375, Color.CYAN, "Execution Unit 1"), //VLIW
-			new Macro(1500, 2800, 375, 375, Color.CYAN, "Execution Unit 1"), //VLIW
+			new Macro(250, 250, 195, 195, Color.GREEN, "TieUnused"), //TieUnused
+			new Macro(2450, 3000, 250, 275, Color.ORANGE, "ScrapCPU"), //ScrapCPU
+			new Macro(400, 1300, 300, 300, Color.RED, "Z80"), //Z80
+			new Macro(300, 2000, 2200, 800, Color.CYAN, "VLIW"), //VLIW
+			new Macro(350, 2950, 375, 375, Color.CYAN, "Execution Unit 0"), //VLIW
+			new Macro(950, 2950, 375, 375, Color.CYAN, "Execution Unit 1"), //VLIW
+			new Macro(1550, 2950, 375, 375, Color.CYAN, "Execution Unit 1"), //VLIW
 			new Macro(1800, 900, 700, 850, Color.CYAN, "icache"), //VLIW
-			new Macro(1800, 500, 225, 225, Color.ORANGE, "MOS6502"), //MOS6502
-			new Macro(2200, 150, 600, 620, Color.GREEN, "fgcaptest"), //Pomme’s custom GDS
-			new Macro(300, 600, 325, 325, Color.ORANGE, "AS1802"), //AS1802
+			new Macro(1700, 450, 225, 225, Color.ORANGE, "MOS6502"), //MOS6502
+			new Macro(2200, 150, 600, 620, Color.BLUE, "fgcaptest"), //Pomme’s custom GDS
+			new Macro(300, 650, 325, 325, Color.ORANGE, "AS1802"), //AS1802
+			new Macro(900, 200, 250, 250, Color.ORANGE, "8x305"), //S8x305
+			new Macro(2280, 1819, 10, 10, Color.RED, "ERROR"),
 		};
 
 		/*Macro[] macros = new Macro[] {

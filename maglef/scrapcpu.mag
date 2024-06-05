@@ -1,7 +1,7 @@
 magic
-tech sky130A
+tech sky130B
 magscale 1 2
-timestamp 1716593790
+timestamp 1717504583
 << obsli1 >>
 rect 1104 2159 48852 52785
 << obsm1 >>
@@ -275,7 +275,7 @@ rect 34928 2128 35248 52816
 << obsm4 >>
 rect 5579 2347 19488 52597
 rect 19968 2347 34848 52597
-rect 35328 2347 45573 52597
+rect 35328 2347 48149 52597
 << labels >>
 rlabel metal2 s 754 54200 810 55000 6 io_in[0]
 port 1 nsew signal input
@@ -507,8 +507,8 @@ port 112 nsew signal input
 string FIXED_BBOX 0 0 50000 55000
 string LEFclass BLOCK
 string LEFview TRUE
-string GDS_END 9216114
-string GDS_FILE /run/media/tholin/8a6b8802-051e-45a8-8492-771202e4c08a/ci2406-rej-pommedeterrible-tholin/openlane/ScrapCPU/runs/24_05_25_01_25/results/signoff/scrapcpu.magic.gds
-string GDS_START 925012
+string GDS_END 9176344
+string GDS_FILE /home/lucah/Desktop/ci2406-rej-pommedeterrible-tholin/openlane/ScrapCPU/runs/24_06_04_14_24/results/signoff/scrapcpu.magic.gds
+string GDS_START 914792
 << end >>
 

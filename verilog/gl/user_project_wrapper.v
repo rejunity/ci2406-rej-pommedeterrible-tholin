@@ -666,6 +666,11 @@ module user_project_wrapper (user_clock2,
  wire int_return1;
  wire int_return2;
  wire io_oeb_6502;
+ wire \io_oeb_8x305[0] ;
+ wire \io_oeb_8x305[1] ;
+ wire \io_oeb_8x305[2] ;
+ wire \io_oeb_8x305[3] ;
+ wire \io_oeb_8x305[4] ;
  wire io_oeb_as1802;
  wire \io_oeb_scrapcpu[0] ;
  wire \io_oeb_scrapcpu[10] ;
@@ -811,6 +816,42 @@ module user_project_wrapper (user_clock2,
  wire \io_out_6502[7] ;
  wire \io_out_6502[8] ;
  wire \io_out_6502[9] ;
+ wire \io_out_8x305[0] ;
+ wire \io_out_8x305[10] ;
+ wire \io_out_8x305[11] ;
+ wire \io_out_8x305[12] ;
+ wire \io_out_8x305[13] ;
+ wire \io_out_8x305[14] ;
+ wire \io_out_8x305[15] ;
+ wire \io_out_8x305[16] ;
+ wire \io_out_8x305[17] ;
+ wire \io_out_8x305[18] ;
+ wire \io_out_8x305[19] ;
+ wire \io_out_8x305[1] ;
+ wire \io_out_8x305[20] ;
+ wire \io_out_8x305[21] ;
+ wire \io_out_8x305[22] ;
+ wire \io_out_8x305[23] ;
+ wire \io_out_8x305[24] ;
+ wire \io_out_8x305[25] ;
+ wire \io_out_8x305[26] ;
+ wire \io_out_8x305[27] ;
+ wire \io_out_8x305[28] ;
+ wire \io_out_8x305[29] ;
+ wire \io_out_8x305[2] ;
+ wire \io_out_8x305[30] ;
+ wire \io_out_8x305[31] ;
+ wire \io_out_8x305[32] ;
+ wire \io_out_8x305[33] ;
+ wire \io_out_8x305[34] ;
+ wire \io_out_8x305[35] ;
+ wire \io_out_8x305[3] ;
+ wire \io_out_8x305[4] ;
+ wire \io_out_8x305[5] ;
+ wire \io_out_8x305[6] ;
+ wire \io_out_8x305[7] ;
+ wire \io_out_8x305[8] ;
+ wire \io_out_8x305[9] ;
  wire \io_out_as1802[0] ;
  wire \io_out_as1802[10] ;
  wire \io_out_as1802[11] ;
@@ -1406,6 +1447,7 @@ module user_project_wrapper (user_clock2,
  wire \reg2_val2[8] ;
  wire \reg2_val2[9] ;
  wire rst_6502;
+ wire rst_8x305;
  wire rst_as1802;
  wire rst_eu;
  wire rst_scrapcpu;
@@ -2641,6 +2683,7 @@ module user_project_wrapper (user_clock2,
     .io_oeb_6502(io_oeb_6502),
     .io_oeb_as1802(io_oeb_as1802),
     .rst_6502(rst_6502),
+    .rst_8x305(rst_8x305),
     .rst_as1802(rst_as1802),
     .rst_scrapcpu(rst_scrapcpu),
     .rst_vliw(rst_vliw),
@@ -2653,6 +2696,24 @@ module user_project_wrapper (user_clock2,
     .wbs_cyc_i(wbs_cyc_i),
     .wbs_stb_i(wbs_stb_i),
     .wbs_we_i(wbs_we_i),
+    .cap_addr({_NC1,
+    _NC2,
+    _NC3,
+    _NC4,
+    _NC5,
+    _NC6,
+    _NC7,
+    _NC8,
+    _NC9}),
+    .cap_io_in({io_in[12],
+    io_in[11],
+    io_in[10],
+    io_in[9],
+    io_in[8],
+    io_in[7],
+    io_in[6],
+    io_in[5],
+    io_in[4]}),
     .custom_settings({\custom_settings[31] ,
     \custom_settings[30] ,
     \custom_settings[29] ,
@@ -2723,6 +2784,11 @@ module user_project_wrapper (user_clock2,
     io_oeb[2],
     io_oeb[1],
     io_oeb[0]}),
+    .io_oeb_8x305({\io_oeb_8x305[4] ,
+    \io_oeb_8x305[3] ,
+    \io_oeb_8x305[2] ,
+    \io_oeb_8x305[1] ,
+    \io_oeb_8x305[0] }),
     .io_oeb_scrapcpu({\io_oeb_scrapcpu[35] ,
     \io_oeb_scrapcpu[34] ,
     \io_oeb_scrapcpu[33] ,
@@ -2905,6 +2971,42 @@ module user_project_wrapper (user_clock2,
     \io_out_6502[2] ,
     \io_out_6502[1] ,
     \io_out_6502[0] }),
+    .io_out_8x305({\io_out_8x305[35] ,
+    \io_out_8x305[34] ,
+    \io_out_8x305[33] ,
+    \io_out_8x305[32] ,
+    \io_out_8x305[31] ,
+    \io_out_8x305[30] ,
+    \io_out_8x305[29] ,
+    \io_out_8x305[28] ,
+    \io_out_8x305[27] ,
+    \io_out_8x305[26] ,
+    \io_out_8x305[25] ,
+    \io_out_8x305[24] ,
+    \io_out_8x305[23] ,
+    \io_out_8x305[22] ,
+    \io_out_8x305[21] ,
+    \io_out_8x305[20] ,
+    \io_out_8x305[19] ,
+    \io_out_8x305[18] ,
+    \io_out_8x305[17] ,
+    \io_out_8x305[16] ,
+    \io_out_8x305[15] ,
+    \io_out_8x305[14] ,
+    \io_out_8x305[13] ,
+    \io_out_8x305[12] ,
+    \io_out_8x305[11] ,
+    \io_out_8x305[10] ,
+    \io_out_8x305[9] ,
+    \io_out_8x305[8] ,
+    \io_out_8x305[7] ,
+    \io_out_8x305[6] ,
+    \io_out_8x305[5] ,
+    \io_out_8x305[4] ,
+    \io_out_8x305[3] ,
+    \io_out_8x305[2] ,
+    \io_out_8x305[1] ,
+    \io_out_8x305[0] }),
     .io_out_as1802({\io_out_as1802[35] ,
     \io_out_as1802[34] ,
     \io_out_as1802[33] ,
@@ -4625,6 +4727,89 @@ module user_project_wrapper (user_clock2,
     \io_out_6502[2] ,
     \io_out_6502[1] ,
     \io_out_6502[0] }));
+ wrapped_8x305 wrapped_8x305 (.rst_n(rst_8x305),
+    .vccd1(vccd1),
+    .vssd1(vssd1),
+    .wb_clk_i(wb_clk_i),
+    .custom_settings({\custom_settings[1] ,
+    \custom_settings[0] }),
+    .io_in({io_in[37],
+    io_in[36],
+    io_in[35],
+    io_in[34],
+    io_in[33],
+    io_in[32],
+    io_in[31],
+    io_in[30],
+    io_in[29],
+    io_in[28],
+    io_in[27],
+    io_in[26],
+    io_in[25],
+    io_in[24],
+    io_in[23],
+    io_in[22],
+    io_in[21],
+    io_in[20],
+    io_in[19],
+    io_in[18],
+    io_in[17],
+    io_in[16],
+    io_in[15],
+    io_in[14],
+    io_in[13],
+    io_in[12],
+    io_in[11],
+    io_in[10],
+    io_in[9],
+    io_in[8],
+    io_in[7],
+    io_in[6],
+    io_in[5],
+    io_in[4],
+    io_in[2],
+    io_in[1]}),
+    .io_oeb({\io_oeb_8x305[4] ,
+    \io_oeb_8x305[3] ,
+    \io_oeb_8x305[2] ,
+    \io_oeb_8x305[1] ,
+    \io_oeb_8x305[0] }),
+    .io_out({\io_out_8x305[35] ,
+    \io_out_8x305[34] ,
+    \io_out_8x305[33] ,
+    \io_out_8x305[32] ,
+    \io_out_8x305[31] ,
+    \io_out_8x305[30] ,
+    \io_out_8x305[29] ,
+    \io_out_8x305[28] ,
+    \io_out_8x305[27] ,
+    \io_out_8x305[26] ,
+    \io_out_8x305[25] ,
+    \io_out_8x305[24] ,
+    \io_out_8x305[23] ,
+    \io_out_8x305[22] ,
+    \io_out_8x305[21] ,
+    \io_out_8x305[20] ,
+    \io_out_8x305[19] ,
+    \io_out_8x305[18] ,
+    \io_out_8x305[17] ,
+    \io_out_8x305[16] ,
+    \io_out_8x305[15] ,
+    \io_out_8x305[14] ,
+    \io_out_8x305[13] ,
+    \io_out_8x305[12] ,
+    \io_out_8x305[11] ,
+    \io_out_8x305[10] ,
+    \io_out_8x305[9] ,
+    \io_out_8x305[8] ,
+    \io_out_8x305[7] ,
+    \io_out_8x305[6] ,
+    \io_out_8x305[5] ,
+    \io_out_8x305[4] ,
+    \io_out_8x305[3] ,
+    \io_out_8x305[2] ,
+    \io_out_8x305[1] ,
+    \io_out_8x305[0] }));
  wrapped_as1802 wrapped_as1802 (.io_oeb(io_oeb_as1802),
     .rst_n(rst_as1802),
     .vccd1(vccd1),

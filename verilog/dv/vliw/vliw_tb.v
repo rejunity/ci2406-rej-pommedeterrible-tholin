@@ -306,6 +306,7 @@ module vliw_tb;
 		$dumpvars(0, vliw_tb.uut.chip_core.mprj.eu0);
 		$dumpvars(0, vliw_tb.uut.chip_core.mprj.eu1);
 		$dumpvars(0, vliw_tb.uut.chip_core.mprj.eu2);
+		$dumpvars(0, vliw_tb.uut.chip_core.mprj.icache);
 		wait(gpio == 0);
 		wait(gpio == 1);
 		$display("Monitor: Test started");
@@ -775,6 +776,18 @@ module vliw_tb;
 		expected_PC = addr_latch + 1;
 		instr_exec();
 		
+		//Enable interrupts rq
+		i0 = `INSTR_LUI(40, 16'hFFFF);
+		i1 = `INSTR_LLI(50, 16'h0018);
+		i2 = `INSTR_LLI(40, 16'hFF80);
+		instr_exec();
+		i0 = `INSTR_STORE32(40, 50, 17'h0003C);
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
+		@(posedge clock);
+		#3;
+		
 		//Test stops
 		check_reg(31, 32'h00000003);
 		i0 = `INSTR_LLI(1, 1);
@@ -895,6 +908,60 @@ module vliw_tb;
 		check_reg(4, 32'h00001842);
 		check_reg(3, 32'h00000058);
 		check_reg(1, 32'h0000181A);
+		
+		//Trigger trap interrupt
+		i0 = `OP_NOP;
+		i1 = `INSTR_LLI(50, 16'h0004);
+		i2 = `INSTR_LUI(50, 16'h0000);
+		instr_exec();
+		i0 = `INSTR_STORE32(40, 50, 17'h0003C);
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
+		@(posedge clock);
+		#3;
+		i0 = `OP_NOP;
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
+		i0 = `INSTR_LLI(50, 16'h0020);
+		i1 = `INSTR_STORE32(40, 50, 17'h0003C);
+		i2 = `OP_NOP;
+		stops = 1;
+		counter = expected_PC;
+		expected_PC = 24; //Now in interrupt
+		instr_exec();
+		@(posedge clock);
+		@(posedge clock);
+		#3;
+		stops = 0;
+		i0 = `OP_NOP;
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
+		i0 = `OP_NOP;
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
+		i0 = `OP_NOP;
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
+		i1 = `INSTR_JUMP(63,0,0);
+		instr_exec();
+		expected_PC = counter;
+		i0 = `OP_NOP;
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
+		i0 = `OP_NOP;
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
+		i0 = `OP_NOP;
+		i1 = `OP_NOP;
+		i2 = `OP_NOP;
+		instr_exec();
 		
 		i0 = `OP_NOP;
 		i1 = `OP_NOP;

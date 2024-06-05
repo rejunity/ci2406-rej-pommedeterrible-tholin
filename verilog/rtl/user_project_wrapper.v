@@ -96,6 +96,10 @@ wire io_oeb_6502;
 wire rst_as1802;
 wire [35:0] io_out_as1802;
 wire io_oeb_as1802;
+wire rst_8x305;
+wire [35:0] io_out_8x305;
+wire [4:0] io_oeb_8x305;
+wire [8:0] cap_addr;
 
 multiplexer multiplexer(
 `ifdef USE_POWER_PINS
@@ -133,11 +137,17 @@ multiplexer multiplexer(
     .io_out_as1802(io_out_as1802),
     .io_oeb_as1802(io_oeb_as1802),
     
+    .rst_8x305(rst_8x305),
+    .io_out_8x305(io_out_8x305),
+    .io_oeb_8x305(io_oeb_8x305),
+    
     .io_in_0(io_in[0]),
+    .cap_io_in(io_in[12:4]),
     .io_out(io_out),
     .io_oeb(io_oeb),
     
-    .custom_settings(custom_settings)
+    .custom_settings(custom_settings),
+    .cap_addr(cap_addr)
 );
 
 scrapcpu scrapcpu(
@@ -199,6 +209,19 @@ wrapped_as1802 wrapped_as1802(
     .io_out(io_out_as1802),
     .io_oeb(io_oeb_as1802),
     .custom_settings(custom_settings[29:0])
+);
+
+wrapped_8x305 wrapped_8x305(
+`ifdef USE_POWER_PINS
+	.vccd1(vccd1),	// User area 1 1.8V power
+	.vssd1(vssd1),	// User area 1 digital ground
+`endif
+    .wb_clk_i(wb_clk_i),
+    .rst_n(rst_8x305),
+    .io_out(io_out_8x305),
+    .io_oeb(io_oeb_8x305),
+    .io_in(designs_io_in),
+    .custom_settings(custom_settings[1:0])
 );
 
 `define NUM_REGS 64

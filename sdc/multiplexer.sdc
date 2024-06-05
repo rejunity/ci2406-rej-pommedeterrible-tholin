@@ -1,6 +1,6 @@
 ###############################################################################
 # Created by write_sdc
-# Sun Jun  2 15:42:19 2024
+# Tue Jun  4 11:14:15 2024
 ###############################################################################
 current_design multiplexer
 ###############################################################################
@@ -305,11 +305,21 @@ set_multicycle_path -setup\
 # Environment
 ###############################################################################
 set_load -pin_load 0.1900 [get_ports {rst_6502}]
+set_load -pin_load 0.1900 [get_ports {rst_8x305}]
 set_load -pin_load 0.1900 [get_ports {rst_as1802}]
 set_load -pin_load 0.1900 [get_ports {rst_scrapcpu}]
 set_load -pin_load 0.1900 [get_ports {rst_vliw}]
 set_load -pin_load 0.1900 [get_ports {rst_z80}]
 set_load -pin_load 0.1900 [get_ports {wbs_ack_o}]
+set_load -pin_load 0.1900 [get_ports {cap_addr[8]}]
+set_load -pin_load 0.1900 [get_ports {cap_addr[7]}]
+set_load -pin_load 0.1900 [get_ports {cap_addr[6]}]
+set_load -pin_load 0.1900 [get_ports {cap_addr[5]}]
+set_load -pin_load 0.1900 [get_ports {cap_addr[4]}]
+set_load -pin_load 0.1900 [get_ports {cap_addr[3]}]
+set_load -pin_load 0.1900 [get_ports {cap_addr[2]}]
+set_load -pin_load 0.1900 [get_ports {cap_addr[1]}]
+set_load -pin_load 0.1900 [get_ports {cap_addr[0]}]
 set_load -pin_load 0.1900 [get_ports {custom_settings[31]}]
 set_load -pin_load 0.1900 [get_ports {custom_settings[30]}]
 set_load -pin_load 0.1900 [get_ports {custom_settings[29]}]

@@ -12,16 +12,20 @@ module wrapped_8x305(
   //It is recommended to use them as outputs only
   input [35:0] io_in,
   output [35:0] io_out,
-  output [35:0] io_oeb //Output Enable Bar ; 0 = Output, 1 = Input
+  output [4:0] io_oeb, //Output Enable Bar ; 0 = Output, 1 = Input
+  input [1:0] custom_settings
 );
 
 wire IV_oeb;
-assign io_out[2:0] = 0;
-assign io_oeb[2:0] = 0;
-assign io_oeb[10:3] = {8{IV_oeb}};
-assign io_oeb[15:11] = 0;
-assign io_oeb[35:22] = 0;
-assign io_out[35:22] = 0;
+assign io_oeb[0] = IV_oeb;
+
+assign io_out[2] = 1'b1;
+wire [7:0] inp = {io_in[2], io_in[28:22]};
+reg [7:0] outp;
+assign io_out[35:29] = outp[6:0];
+assign io_out[28:22] = 0;
+assign io_out[0] = outp[7];
+assign io_out[1] = instr_ready;
 
 /*
  * Regs & IO for spiflash memory interface
@@ -32,38 +36,62 @@ reg [5:0] mem_cycle;
 reg CS_ROM;
 reg SCLK_ROM;
 reg [3:0] ROM_DO;
-wire [3:0] ROM_DI = io_in[6:3];
-assign io_out[6:3] = ROM_DO;
+wire [3:0] ROM_DI = io_in[19:16];
+assign io_out[19:16] = ROM_DO;
 reg ROM_OEB;
 reg ROM_spi_mode;
 reg [7:0] ROM_spi_dat_out;
-assign io_oeb[19:16] = ROM_spi_mode ? 4'b0010 : {ROM_OEB, ROM_OEB, ROM_OEB, ROM_OEB};
+assign io_oeb[4:1] = ROM_spi_mode ? 4'b0010 : {ROM_OEB, ROM_OEB, ROM_OEB, ROM_OEB};
 assign io_out[20] = CS_ROM;
 assign io_out[21] = SCLK_ROM;
-assign io_oeb[21:20] = 2'b00;
 reg [13:0] ROM_addr_buff;
 reg [13:0] last_addr;
 reg spi_clkdiv;
-reg [1:0] ROM_dest;
 /*
  *
  */
 
+reg [7:0] memory [15:0];
+`ifdef SIM
+wire [7:0] test_m = memory[5];
+`endif
+wire SC;
+wire WC;
+wire LB;
+wire RB;
+wire MCLK;
+assign io_out[11] = RB;
+assign io_out[12] = LB;
+assign io_out[13] = SC;
+assign io_out[14] = WC;
+assign io_out[15] = MCLK;
+wire [7:0] IV_in = custom_settings[0] && cmdl == 8'h00 && !LB ? ~{inp[0], inp[1], inp[2], inp[3], inp[4], inp[5], inp[6], inp[7]} : (custom_settings[1] && !RB && cmdr[7:4] == 4'h0 ? memory[cmdr[3:0]] : io_in[10:3]);
+wire [7:0] IV_out;
+assign io_out[10:3] = IV_out;
+reg [7:0] cmdl;
+reg [7:0] cmdr;
 wire [12:0] A;
 reg [15:0] I;
-reg [15:0] last_I;
+reg [12:0] last_A;
 reg instr_ready;
+wire [7:0] IV_out_corr = {~IV_out[0], ~IV_out[1], ~IV_out[2], ~IV_out[3], ~IV_out[4], ~IV_out[5], ~IV_out[6], ~IV_out[7]};
 always @(posedge wb_clk_i) begin
 	/*
 	 * spiflash memory interface
 	 */
+	if(SC && MCLK) begin
+		if(!LB) cmdl <= IV_out_corr;
+		if(!RB) cmdr <= IV_out_corr;
+	end
+	if(WC && !LB && cmdl == 8'h00 && MCLK) outp <= IV_out_corr;
+	if(WC && !RB && cmdr[7:4] == 4'h0 && MCLK) memory[cmdr[3:0]] <= IV_out;
 	if(!rst_n) begin
 		I <= 0;
-		last_I <= 16'hFEFE;
-		instr_ready <= 0;
+		last_A <= 13'h1EFE;
+		instr_ready <= 1'b0;
 		ROM_spi_cycle <= 5'h00;
 		startup_cycle <= 7'h01;
-		mem_cycle <= 5'h00;
+		mem_cycle <= 6'h00;
 		CS_ROM <= 1'b1;
 		SCLK_ROM <= 1'b0;
 		ROM_DO <= 4'b1100;
@@ -73,8 +101,11 @@ always @(posedge wb_clk_i) begin
 		ROM_spi_cycle <= 5'h00;
 		ROM_addr_buff <= 0;
 		last_addr <= 999;
-		spi_clkdiv <= 0;
-		ROM_dest <= 0;
+		spi_clkdiv <= 1'b0;
+		outp <= 8'h00;
+		cmdl <= 8'h00;
+		cmdr <= 8'h00;
+		memory[5] <= 8'h21;
 	end else if(ROM_spi_cycle != 0) begin
 		spi_clkdiv <= !spi_clkdiv;
 		if(spi_clkdiv) begin
@@ -281,9 +312,9 @@ always @(posedge wb_clk_i) begin
 			end
 		endcase
 	end else begin
-		if(I != last_I) begin
+		if(A != last_A) begin
 			instr_ready <= 0;
-			last_I <= I;
+			last_A <= A;
 			mem_cycle <= 1;
 			ROM_addr_buff <= {A, 1'b0};
 		end
@@ -292,18 +323,18 @@ end
 
 S8x305 S8x305(
 	.x1(wb_clk_i),
-	.reset(!rst_n),
-	.IV_in(io_in[10:3]),
-	.IV_out(io_out[10:3]),
+	.reset(rst_n),
+	.IV_in(IV_in),
+	.IV_out(IV_out),
 	.IV_oeb(IV_oeb),
-	.RB(io_out[11]),
-	.LB(io_out[12]),
-	.SC(io_out[13]),
-	.WC(io_out[14]),
+	.RB(RB),
+	.LB(LB),
+	.SC(SC),
+	.WC(WC),
 	.A(A),
 	.I(I),
 	.instr_ready(instr_ready),
-	.MCLK(io_out[15])
+	.MCLK(MCLK)
 );
 
 endmodule

@@ -88,7 +88,6 @@ wire MOVE_special = !S_field[4] && !D_field[4];
 wire is_MOVE_IV_IV = is_MOVE && S_field[4] && D_field[4];
 wire is_MOVE_IV_REG = is_MOVE && S_field[4] && !D_field[4];
 wire [2:0] rr_amount = is_XEC ? S_field[2:0] : ~(is_XMIT ? 3'b111 : MOVE_special ? ~L_field : (!S_field[4] ? D_field[2:0] : S_field[2:0]));
-wire [2:0] length = is_XMIT ? L_field : (MOVE_special ? 3'b111 : L_field);
 wire [2:0] lsh_xmit = ~D_field[2:0];
 wire [7:0] J_field_xmit = S_field[4] ? J_field << lsh_xmit : J_field;
 wire [2:0] lsh_amount = ~(is_MOVE_IV_IV ? D_field[2:0] : (is_MOVE_IV_REG || is_NZT ? 3'b111 : ~rr_amount));
@@ -127,7 +126,6 @@ wire [7:0] iv_in_adj_rr = (iv_latch >> rr_amount) | (iv_latch << (8-rr_amount));
 wire [7:0] iv_in_adj_rr_masked = is_XMIT ? iv_latch : iv_in_adj_rr & l_bitmask;
 
 wire input_phase = cycle == 0;
-wire processing_phase = cycle == 1;
 wire output_phase = cycle == 2 || cycle == 3;
 
 wire is_output_reg = (D_field[3:0] == 4'hA || D_field[3:0] == 4'hB) && is_XMIT;
@@ -189,9 +187,6 @@ always @(posedge x1) begin
 				//Input phase
 				i_latch <= I;
 				iv_latch <= iv_in_adj;
-				if(is_MOVE && rr_amount == 0 && S_field == 3 && D_field == 3) begin
-					$finish();
-				end
 			end
 			1: begin
 				if(is_ALU_op && will_output) begin

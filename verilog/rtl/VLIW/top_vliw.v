@@ -123,11 +123,11 @@ reg cache_hit_used;
 wire [127:0] curr_pack_next = {bus_in, curr_pack[127:16]};
 wire cache_enabled;
 assign cache_new_entry = curr_pack_next;
-assign cache_entry_valid = memory_cyc == 4'hF;
+assign cache_entry_valid = memory_cyc == 4'hF && !serving_interrupt;
 assign cache_PC = cache_entry_valid || memory_cyc[3] ? PC : PC_inc;
 assign cache_rst = !rst_n;
-assign cache_invalidate = !cache_enabled || serving_interrupt;
-wire valid_cache_hit = custom_settings[4] && cache_enabled;
+assign cache_invalidate = !cache_enabled;
+wire valid_cache_hit = custom_settings[4] && cache_enabled && cache_hit;
 
 assign rst_eu = !rst_n || !startup_delay || memory_cyc[3];
 assign curr_PC = PC;
@@ -271,9 +271,10 @@ wire [7:0] ioport_oeb;
 wire int0;
 wire int1;
 wire int2;
+wire int3;
 wire int_enable;
-wire needs_interrupt = int0 && int1 && int2 && int_enable;
-wire [27:0] int_loc = int1 ? 2 : (int2 ? 3 : 1);
+wire needs_interrupt = (int0 || int1 || int2 || int3) && int_enable;
+wire [27:0] int_loc = int1 ? 2 : (int2 ? 3 : (int3 ? 4 : 1));
 wire int_return = int_return0 || int_return1 || int_return2;
 io_block io_block(
 	.io_addr(requested_addr[5:1]),
@@ -294,6 +295,7 @@ io_block io_block(
 	.int0(int0),
 	.int1(int1),
 	.int2(int2),
+	.int3(int3),
 	.ie(int_enable),
 	.int_return(int_return),
 	.serving_interrupt(serving_interrupt),
@@ -327,7 +329,6 @@ always @(posedge wb_clk_i) begin
 	predicates[0] <= 1;
 	M1 <= 0;
 	just_branched <= 0;
-	serving_interrupt <= 0;
 	cache_hit_used <= 0;
 	
 	if(!rst_n) startup_delay <= 0;
@@ -366,6 +367,7 @@ always @(posedge wb_clk_i) begin
 		processing_store <= 0;
 		execution_mask <= 2'b11;
 		fetched <= 0;
+		serving_interrupt <= 0;
 	end else begin
 		if(le_hi) curr_addr[30:16] <= requested_addr[30:16];
 		if(le_lo) curr_addr[15:0] <= requested_addr[15:0];
@@ -413,7 +415,10 @@ always @(posedge wb_clk_i) begin
 				end else begin
 					curr_pack <= curr_pack_next;
 					if(memory_cyc != 4'hF) requested_addr <= requested_addr + 1;
-					else fetched <= 1;
+					else begin
+						fetched <= 1;
+						serving_interrupt <= 0;
+					end
 					memory_cyc <= memory_cyc + 1;
 					execution_mask <= {bus_in[15:14] == 0, bus_in[14] == 0, 1'b1}; //Parse initial 'stop' pattern
 				end
@@ -470,7 +475,7 @@ task next_instr();
 				regfile[`NUM_REGS-1] <= {4'h0, fetch_PC};
 				serving_interrupt <= 1;
 			end else begin
-				if(cache_hit && !take_branch && valid_cache_hit) begin
+				if(!take_branch && valid_cache_hit) begin
 					curr_pack <= cache_entry;
 					cache_hit_used <= 1;
 				end else begin
@@ -546,6 +551,7 @@ module io_block(
 	output reg int0,
 	output reg int1,
 	output reg int2,
+	output reg int3,
 	output reg ie,
 	input int_return,
 	input serving_interrupt,
@@ -573,10 +579,15 @@ reg [16:0] timer1_pre_counter;
 reg [15:0] udiv;
 reg [7:0] sdiv;
 
-reg [3:0] alt_funct;
+reg [7:0] alt_funct;
 
 reg [17:0] cache_hit_ctr;
 reg [31:0] test;
+
+reg [7:0] pwm_counter;
+wire [7:0] pwm_counter_next = pwm_counter + 1;
+reg [7:0] pwm_setting;
+reg pwm;
 
 wire uart_busy;
 wire uart_has_byte;
@@ -602,11 +613,12 @@ always @(*) begin
 		11: io_rval_tbl = {24'h000000, io_dir};
 		12: io_rval_tbl = {24'h000000, io_dat};
 		13: io_rval_tbl = {24'h000000, ioport_in};
-		14: io_rval_tbl = {28'h0000000,  alt_funct};
+		14: io_rval_tbl = {24'h000000, alt_funct};
 		16: io_rval_tbl = {14'h0000, cache_hit_ctr};
 		17: io_rval_tbl = test;
 		18: io_rval_tbl = {8'h72, 8'h69, 8'h68, 8'h43};
 		19: io_rval_tbl = {16'h0000, 8'h21, 8'h70};
+		20: io_rval_tbl = {24'h000000, pwm_setting};
 	endcase
 end
 assign io_rval = io_rval_tbl;
@@ -633,10 +645,21 @@ always @(posedge clk) begin
 		int0 <= 0;
 		int1 <= 0;
 		int2 <= 0;
+		int3 <= 0;
 		ie <= 0;
 		cache_hit_ctr <= 0;
 		test <= 0;
+		pwm_counter <= 0;
+		pwm_setting <= 66;
+		pwm <= 0;
 	end else begin
+		pwm_counter <= pwm_counter_next;
+		if(pwm_counter_next == 0) pwm <= 0;
+		if(pwm_counter_next >= pwm_setting) pwm <= 1;
+		if(alt_funct[5]) io_dat[1] <= pwm;
+		
+		if(alt_funct[4] && uart_has_byte) int3 <= 1;
+		else int3 <= 0;
 		if(cache_hit_used) cache_hit_ctr <= cache_hit_ctr + 1;
 		if(alt_funct[3]) io_dat[0] <= 0;
 		if(int_return) ie <= 1;
@@ -676,15 +699,17 @@ always @(posedge clk) begin
 				11: io_dir <= io_wval[7:0];
 				12: io_dat <= io_wval[7:0];
 				13: cache_enabled <= io_wval[0];
-				14: alt_funct <= io_wval[3:0];
+				14: alt_funct <= io_wval[7:0];
 				15: begin
 					if(io_wval[0]) int0 <= 0;
 					if(io_wval[1]) int1 <= 0;
 					int2 <= io_wval[2];
 					ie <= io_wval[4] ? io_wval[3] : ie;
+					if(io_wval[5]) int2 <= 0;
 				end
 				16: cache_hit_ctr <= io_wval[17:0];
 				17: test <= io_wval;
+				20: pwm_setting <= io_wval[7:0];
 			endcase
 		end
 	end

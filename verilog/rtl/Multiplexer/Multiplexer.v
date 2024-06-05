@@ -5,6 +5,7 @@ module multiplexer(
 	inout vssd1,
 `endif
 	input io_in_0, //Dedicated reset pin
+	input [8:0] cap_io_in,
 	output [37:0] io_out, //Multiplexed outputs
 	output [37:0] io_oeb, //Multiplexed inputs
 	input wb_clk_i,
@@ -38,6 +39,12 @@ module multiplexer(
 	output rst_as1802,
 	input [35:0] io_out_as1802,
 	input io_oeb_as1802,
+	
+	output rst_8x305,
+	input [35:0] io_out_8x305,
+	input [4:0] io_oeb_8x305,
+	
+	output [8:0] cap_addr,
 	
 	output reg [31:0] custom_settings,
 	output [39:0] la_data_out
@@ -115,6 +122,8 @@ assign rst_scrapcpu = design_select == 2 && design_rst_base;
 assign rst_vliw = design_select == 3 && design_rst_base;
 assign rst_6502 = design_select == 4 &&  design_rst_base;
 assign rst_as1802 = design_select == 5 && design_rst_base;
+assign rst_8x305 = design_select == 6 && design_rst_base;
+assign cap_addr = design_select != 0 ? 0 : (wb_override_act ? custom_settings[8:0] : cap_io_in);
 
 always @(*) begin
 	case(design_select)
@@ -137,6 +146,10 @@ always @(*) begin
 		5: begin
 			design_out = io_out_as1802;
 			design_oeb = {6'h0, 5'h1F, 6'h00, {8{io_oeb_as1802}}, 11'h0};
+		end
+		6: begin
+			design_out = io_out_8x305;
+			design_oeb = {7'h00, 7'h7F, 2'b00, io_oeb_8x305[4:1], 5'h00, {8{io_oeb_8x305[0]}}, 1'b1, 2'b00};
 		end
 		default: begin
 			design_out = 36'h0;

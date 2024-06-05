@@ -1,5 +1,5 @@
 `default_nettype none
-
+(* blackbox *)
 module fgcaptest(
 `ifdef USE_POWER_PINS
   inout vccd1,	// User area 1 1.8V supply

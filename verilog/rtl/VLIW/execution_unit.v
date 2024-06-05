@@ -60,7 +60,7 @@ wire [31:0] signed_imm = {{15{imm[16]}}, imm};
 
 wire [3:0] alu_op = instruction[6:3];
 wire upper = is_ALU ? instruction[41] : imm[0];
-wire needs_whole_reg = (alu_op == 1 && is_Imm) || (alu_op == 2 && is_Imm) || alu_op[3] || (is_ALU && !instruction[40]) || (is_Imm && !instruction[17]);
+wire needs_whole_reg = (alu_op == 1 && is_Imm) || (alu_op == 2 && is_Imm) || (alu_op[3:2] == 2'b10) || (is_ALU && !instruction[40]) || (is_Imm && !instruction[17]);
 wire [15:0] alu_imm = imm[16:1];
 wire sign_extend_imm = instruction[24];
 
@@ -130,6 +130,7 @@ always @(*) begin
 		9: ALU_res = muls[63:32];
 		10: ALU_res = mres_sign ? (~div_res) + 1 : div_res;
 		11: ALU_res = divi1_sign && opcode[7] ? (~modulo) + 1: modulo;
+		12: ALU_res = ~reg1_val;
 		default: ALU_res = 0;
 	endcase
 end

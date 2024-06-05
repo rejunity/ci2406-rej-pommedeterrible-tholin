@@ -32,6 +32,7 @@
 		"$UPRJ_ROOT/verilog/gl/icache.v",
 		"$UPRJ_ROOT/verilog/gl/wrapped_6502.v",
 		"$UPRJ_ROOT/verilog/gl/wrapped_as1802.v",
+		"$UPRJ_ROOT/verilog/gl/wrapped_8x305.v",
 		"$UPRJ_ROOT/verilog/gl/$TOP_SOURCE.v"
 	],
 	"LAYOUT_FILE": "$UPRJ_ROOT/gds/$TOP_LAYOUT.gds"
