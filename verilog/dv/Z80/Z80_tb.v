@@ -124,6 +124,7 @@ module Z80_tb;
 		$finish;
 	end
 
+	integer refresh = 1;
 	integer failures = 0;
 	initial begin
 		wait(gpio == 0);
@@ -153,7 +154,7 @@ module Z80_tb;
 		failures += rd_n == 0;
 		@(posedge clock);
 		#3;
-		failures += mreq_n == 0;
+		failures += mreq_n == refresh;
 		failures += address != 0;
 		failures += rd_n == 0;
 		@(posedge clock);
@@ -176,7 +177,7 @@ module Z80_tb;
 		failures += wr_n == 0;
 		@(posedge clock);
 		#3;
-		failures += mreq_n == 0;
+		failures += mreq_n == refresh;
 		failures += address != 1;
 		failures += rd_n == 0;
 		@(posedge clock);
@@ -210,12 +211,12 @@ module Z80_tb;
 		@(posedge clock);
 		#3;
 		failures += mreq_n == 0;
-		failures += address != 3;
+		failures += address != 2;// refresh adrress otherwise 3
 		failures += rd_n == 0;
 		@(posedge clock);
 		#3;
-		failures += mreq_n == 0;
-		failures += address != 3;
+		failures += mreq_n == refresh;
+		failures += address != 2; // refresh adrress otherwise 3
 		failures += rd_n == 0;
 		@(posedge clock);
 		#3;
@@ -251,13 +252,13 @@ module Z80_tb;
 		@(posedge clock);
 		#3;
 		failures += mreq_n == 0 || iorq_n == 0;
-		failures += address != 5;
+		failures += address != 3;  // refresh adrress otherwise 5
 		failures += rd_n == 0;
 		failures += wr_n == 0;
 		@(posedge clock);
 		#3;
-		failures += mreq_n == 0;
-		failures += address != 5;
+		failures += mreq_n == refresh;
+		failures += address != 3; // refresh adrress otherwise 5
 		failures += rd_n == 0;
 		@(posedge clock);
 		#3;

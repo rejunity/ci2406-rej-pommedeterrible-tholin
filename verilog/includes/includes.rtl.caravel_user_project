@@ -36,3 +36,4 @@
 -v $(USER_PROJECT_VERILOG)/rtl/AS1802/wrapped_as1802.v
 -v $(USER_PROJECT_VERILOG)/rtl/S8x305/8x305.v
 -v $(USER_PROJECT_VERILOG)/rtl/S8x305/wrapped_8x305.v
+-v $(USER_PROJECT_VERILOG)/rtl/fgcaptest/fgcaptest.v

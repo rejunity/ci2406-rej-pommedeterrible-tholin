@@ -24,3 +24,4 @@ $USER_PROJECT_VERILOG/gl/execution_unit.v
 $USER_PROJECT_VERILOG/gl/icache.v
 $USER_PROJECT_VERILOG/gl/wrapped_6502.v
 $USER_PROJECT_VERILOG/gl/wrapped_as1802.v
+$USER_PROJECT_VERILOG/gl/wrapped_8x305.v

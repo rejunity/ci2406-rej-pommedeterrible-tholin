@@ -18,7 +18,10 @@ module ci2406_z80(
                                     // It is recommended to use them as outputs only
     input  wire [35:0]  io_in,
     output wire [35:0]  io_out,
-    output wire [35:0]  io_oeb     // Output Enable Bar ; 0 = Output, 1 = Input
+    output wire [35:0]  io_oeb,     // Output Enable Bar ; 0 = Output, 1 = Input
+
+                                    // Custom settings register, settable over mgmt controller firmware
+    input  wire [1:0]  custom_settings
 );
     wire z80_clk =  wb_clk_i;
     wire ena =      1'b1;
@@ -254,7 +257,9 @@ module ci2406_z80(
         .iorq_n  (io_out[34]),
         .rd_n    (io_out[ 2]),
         .wr_n    (io_out[ 3]),
-        .rfsh_n  (io_out[ 5])
+        .rfsh_n  (io_out[ 5]),
+        
+        .early_signals(custom_settings[0])
     );
 endmodule
 
@@ -279,8 +284,25 @@ module z80 (
     output wire         wr_n,
     output wire         rfsh_n,
     output wire         halt_n,
-    output wire         busak_n
+    output wire         busak_n,
+
+    input wire          early_signals
 );
+
+    wire         normal_mreq_n;
+    wire         normal_iorq_n;
+    wire         normal_rd_n;
+    wire         normal_wr_n;
+
+    wire         early_mreq_n;
+    wire         early_iorq_n;
+    wire         early_rd_n;
+    wire         early_wr_n;
+
+    assign mreq_n = early_signals ? early_mreq_n : normal_mreq_n;
+    assign iorq_n = early_signals ? early_iorq_n : normal_iorq_n;
+    assign rd_n   = early_signals ? early_rd_n   : normal_rd_n;
+    assign wr_n   = early_signals ? early_wr_n   : normal_wr_n;
 
     tv80s #(
         .Mode(0),   // Z80 mode
@@ -295,10 +317,14 @@ module z80 (
         .nmi_n (nmi_n),
         .busrq_n (busrq_n),
         .m1_n (m1_n),
-        .mreq_n (mreq_n),
-        .iorq_n (iorq_n),
-        .rd_n (rd_n),
-        .wr_n (wr_n),
+        .mreq_n (normal_mreq_n),
+        .iorq_n (normal_iorq_n),
+        .rd_n (normal_rd_n),
+        .wr_n (normal_wr_n),
+        .early_mreq_n (early_mreq_n),
+        .early_iorq_n (early_iorq_n),
+        .early_rd_n (early_rd_n),
+        .early_wr_n (early_wr_n),
         .rfsh_n (rfsh_n),
         .halt_n (halt_n),
         .busak_n (busak_n),
