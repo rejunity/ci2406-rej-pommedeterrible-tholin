@@ -182,7 +182,8 @@ ci2406_z80 ci2406_z80(
     .rst_n(rst_z80),
     .io_in(designs_io_in),
     .io_out(io_out_z80),
-    .io_oeb(io_oeb_z80)
+    .io_oeb(io_oeb_z80),
+    .custom_settings(custom_settings[1:0])
 );
 
 wrapped_6502 wrapped_6502(
