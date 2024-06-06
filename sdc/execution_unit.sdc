@@ -1,6 +1,6 @@
 ###############################################################################
 # Created by write_sdc
-# Tue Jun  4 09:56:15 2024
+# Thu Jun  6 10:09:42 2024
 ###############################################################################
 current_design execution_unit
 ###############################################################################
@@ -97,12 +97,6 @@ set_load -pin_load 0.1900 [get_ports {loadstore_address[3]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_address[2]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_address[1]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_address[0]}]
-set_load -pin_load 0.1900 [get_ports {loadstore_dest[5]}]
-set_load -pin_load 0.1900 [get_ports {loadstore_dest[4]}]
-set_load -pin_load 0.1900 [get_ports {loadstore_dest[3]}]
-set_load -pin_load 0.1900 [get_ports {loadstore_dest[2]}]
-set_load -pin_load 0.1900 [get_ports {loadstore_dest[1]}]
-set_load -pin_load 0.1900 [get_ports {loadstore_dest[0]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_size[1]}]
 set_load -pin_load 0.1900 [get_ports {loadstore_size[0]}]
 set_load -pin_load 0.1900 [get_ports {new_PC[27]}]

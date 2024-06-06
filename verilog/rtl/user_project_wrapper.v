@@ -252,7 +252,6 @@ wire              is_load0;
 wire              is_store0;
 wire              sign_extend0;
 wire [1:0]        loadstore_size0;
-wire [`REG_IDX:0] loadstore_dest0;
 wire              take_branch0;
 wire [27:0]       new_PC0;
 wire              eu0_busy;
@@ -275,7 +274,6 @@ wire              is_load1;
 wire              is_store1;
 wire              sign_extend1;
 wire [1:0]        loadstore_size1;
-wire [`REG_IDX:0] loadstore_dest1;
 wire              take_branch1;
 wire [27:0]       new_PC1;
 wire              eu1_busy;
@@ -298,7 +296,6 @@ wire              is_load2;
 wire              is_store2;
 wire              sign_extend2;
 wire [1:0]        loadstore_size2;
-wire [`REG_IDX:0] loadstore_dest2;
 wire              take_branch2;
 wire [27:0]       new_PC2;
 wire              eu2_busy;
@@ -344,7 +341,6 @@ vliw vliw(
 	.is_store0(is_store0),
 	.sign_extend0(sign_extend0),
 	.loadstore_size0(loadstore_size0),
-	.loadstore_dest0(loadstore_dest0),
 	.take_branch0(take_branch0),
 	.new_PC0(new_PC0),
 	.eu0_busy(eu0_busy),
@@ -367,7 +363,6 @@ vliw vliw(
 	.is_store1(is_store1),
 	.sign_extend1(sign_extend1),
 	.loadstore_size1(loadstore_size1),
-	.loadstore_dest1(loadstore_dest1),
 	.take_branch1(take_branch1),
 	.new_PC1(new_PC1),
 	.eu1_busy(eu1_busy),
@@ -390,7 +385,6 @@ vliw vliw(
 	.is_store2(is_store2),
 	.sign_extend2(sign_extend2),
 	.loadstore_size2(loadstore_size2),
-	.loadstore_dest2(loadstore_dest2),
 	.take_branch2(take_branch2),
 	.new_PC2(new_PC2),
 	.eu2_busy(eu2_busy),
@@ -446,7 +440,6 @@ execution_unit eu0(
     .dest_pred(dest_pred0),
     .dest_pred_val(dest_pred_val0),
     .loadstore_address(loadstore_address0),
-    .loadstore_dest(loadstore_dest0),
     .is_load(is_load0),
     .is_store(is_store0),
     .sign_extend(sign_extend0),
@@ -479,7 +472,6 @@ execution_unit eu1(
     .dest_pred(dest_pred1),
     .dest_pred_val(dest_pred_val1),
     .loadstore_address(loadstore_address1),
-    .loadstore_dest(loadstore_dest1),
     .is_load(is_load1),
     .is_store(is_store1),
     .sign_extend(sign_extend1),
@@ -512,7 +504,6 @@ execution_unit eu2(
     .dest_pred(dest_pred2),
     .dest_pred_val(dest_pred_val2),
     .loadstore_address(loadstore_address2),
-    .loadstore_dest(loadstore_dest2),
     .is_load(is_load2),
     .is_store(is_store2),
     .sign_extend(sign_extend2),

@@ -37,7 +37,6 @@ module vliw(
    input is_store0,
    input sign_extend0,
    input [1:0] loadstore_size0,
-   input [`REG_IDX:0] loadstore_dest0,
    
    input take_branch0,
    input [27:0] new_PC0,
@@ -66,7 +65,6 @@ module vliw(
    input is_store1,
    input sign_extend1,
    input [1:0] loadstore_size1,
-   input [`REG_IDX:0] loadstore_dest1,
    
    input take_branch1,
    input [27:0] new_PC1,
@@ -95,7 +93,6 @@ module vliw(
    input is_store2,
    input sign_extend2,
    input [1:0] loadstore_size2,
-   input [`REG_IDX:0] loadstore_dest2,
    
    input take_branch2,
    input [27:0] new_PC2,
@@ -128,6 +125,7 @@ assign cache_PC = cache_entry_valid || memory_cyc[3] ? PC : PC_inc;
 assign cache_rst = !rst_n;
 assign cache_invalidate = !cache_enabled;
 wire valid_cache_hit = custom_settings[4] && cache_enabled && cache_hit;
+wire [2:0] execution_mask_from_cache = {cache_entry[127:126] == 0, cache_entry[126] == 0, 1'b1};
 
 assign rst_eu = !rst_n || !startup_delay || memory_cyc[3];
 assign curr_PC = PC;
@@ -239,7 +237,7 @@ always @(*) begin
 			sign_extend = sign_extend0;
 			loadstore_size = loadstore_size0;
 			loadstore_address = loadstore_address0;
-			load_dest = loadstore_dest0;
+			load_dest = dest_idx0;
 			load_mask = dest_mask0;
 		end
 		1: begin
@@ -248,7 +246,7 @@ always @(*) begin
 			sign_extend = sign_extend1;
 			loadstore_size = loadstore_size1;
 			loadstore_address = loadstore_address1;
-			load_dest = loadstore_dest1;
+			load_dest = dest_idx1;
 			load_mask = dest_mask1;
 		end
 		2: begin
@@ -257,7 +255,7 @@ always @(*) begin
 			sign_extend = sign_extend2;
 			loadstore_size = loadstore_size2;
 			loadstore_address = loadstore_address2;
-			load_dest = loadstore_dest2;
+			load_dest = dest_idx2;
 			load_mask = dest_mask2;
 		end
 	endcase
@@ -373,6 +371,7 @@ always @(posedge wb_clk_i) begin
 		if(le_lo) curr_addr[15:0] <= requested_addr[15:0];
 		if(just_branched && valid_cache_hit) begin
 			curr_pack <= cache_entry;
+			execution_mask <= execution_mask_from_cache;
 			fetched <= 1;
 			memory_cyc <= 0;
 			cache_hit_used <= 1;
@@ -425,29 +424,35 @@ always @(posedge wb_clk_i) begin
 			end else if(!(eu0_busy || eu1_busy || eu2_busy)) begin
 				M1 <= 1;
 
-				if(dest_mask2[0] && dest_idx2 != 0) regfile[dest_idx2][15:0] <= dest_val2[15:0];
-				if(dest_mask2[1] && dest_idx2 != 0) regfile[dest_idx2][31:16] <= dest_val2[31:16];
+				if(dest_mask2[0] && !(is_load2 || is_store2)) regfile[dest_idx2][15:0] <= dest_val2[15:0];
+				if(dest_mask2[1] && !(is_load2 || is_store2)) regfile[dest_idx2][31:16] <= dest_val2[31:16];
 				if(dest_pred2 != 0) predicates[dest_pred2] <= dest_pred_val2;
 
-				if(dest_mask1[0] && dest_idx1 != 0) regfile[dest_idx1][15:0] <= dest_val1[15:0];
-				if(dest_mask1[1] && dest_idx1 != 0) regfile[dest_idx1][31:16] <= dest_val1[31:16];
+				if(dest_mask1[0] && !(is_load1 || is_store1)) regfile[dest_idx1][15:0] <= dest_val1[15:0];
+				if(dest_mask1[1] && !(is_load1 || is_store1)) regfile[dest_idx1][31:16] <= dest_val1[31:16];
 				if(dest_pred1 != 0) predicates[dest_pred1] <= dest_pred_val1;
 
-				if(dest_mask0[0] && dest_idx0 != 0) regfile[dest_idx0][15:0] <= dest_val0[15:0];
-				if(dest_mask0[1] && dest_idx0 != 0) regfile[dest_idx0][31:16] <= dest_val0[31:16];
+				if(dest_mask0[0] && !(is_load0 || is_store0)) regfile[dest_idx0][15:0] <= dest_val0[15:0];
+				if(dest_mask0[1] && !(is_load0 || is_store0)) regfile[dest_idx0][31:16] <= dest_val0[31:16];
 				if(dest_pred0 != 0) predicates[dest_pred0] <= dest_pred_val0;
 
+				/*
+				 * Branching stuffs
+				 */
 				if(take_branch || execution_mask[2]) PC <= next_PC;
+				/*
+				 * Load/Store stuffs
+				 */
+				if(loadstore_size == 0) begin
+					if(loadstore_address[0]) mem_buff <= {16'h0000, regfile[load_dest][7:0], 8'h00};
+					else mem_buff <= {24'h000000, regfile[load_dest][7:0]};
+				end else mem_buff <= regfile[load_dest];
 				if(is_load || is_store) begin
 					requested_addr <= loadstore_address[31:1];
 					requested_len <= loadstore_size;
 					if(is_load) processing_load <= 1;
 					else if(is_store) begin
 						processing_store <= 1;
-						if(loadstore_size == 0) begin
-							if(loadstore_address[0]) mem_buff <= {16'h0000, regfile[load_dest][7:0], 8'h00};
-							else mem_buff <= {24'h000000, regfile[load_dest][7:0]};
-						end else mem_buff <= regfile[load_dest];
 					end
 					memory_cyc <= 8;
 				end else begin
@@ -477,6 +482,7 @@ task next_instr();
 			end else begin
 				if(!take_branch && valid_cache_hit) begin
 					curr_pack <= cache_entry;
+					execution_mask <= execution_mask_from_cache;
 					cache_hit_used <= 1;
 				end else begin
 					just_branched <= take_branch;
@@ -489,10 +495,9 @@ task next_instr();
 		//Define all possible transitions for the execution mask based on stops configuration
 		end else if(execution_mask == 3'b001) begin
 			execution_mask <= stops[1] ? 3'b010 : 3'b110;
-		end else if(execution_mask == 3'b010) execution_mask <= 3'b100;
-		else if(execution_mask == 3'b011) execution_mask <= 3'b100;
-		else execution_mask <= 3'b100;
-
+		end else begin
+			execution_mask <= 3'b100;
+		end
 	end
 endtask
 

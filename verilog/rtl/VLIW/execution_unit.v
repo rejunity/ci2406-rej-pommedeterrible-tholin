@@ -21,7 +21,6 @@ module execution_unit(
 	output dest_pred_val,
 	
 	output [31:0] loadstore_address,
-	output [`REG_IDX:0] loadstore_dest,
 	output is_load,
 	output is_store,
 	output sign_extend,
@@ -47,13 +46,13 @@ wire is_pred = instr_type == 3;
 wire is_loadstore = instr_type == 4;
 wire is_branch = instr_type == 5;
 wire is_jump = instr_type == 6;
+wire is_reserved = instr_type == 7;
 
 assign pred_idx = instruction[10:8];
 assign dest_pred = is_pred ? instruction[13:11] : 0;
-assign dest_idx = is_ALU || is_Imm || is_jump ? instruction[`REG_IDX+11:11] : 0;
-assign reg1_idx = is_NOP ? 0 : (is_branch ? instruction[`REG_IDX+11:11] : instruction[`REG_IDX+18:18]);
-assign reg2_idx = is_NOP ? 0 : (is_branch ? instruction[`REG_IDX+18:18] : instruction[`REG_IDX+25:25]);
-assign loadstore_dest = instruction[`REG_IDX+11:11];
+assign dest_idx = is_ALU || is_Imm || is_jump || is_loadstore ? instruction[`REG_IDX+11:11] : 0;
+assign reg1_idx = is_branch ? instruction[`REG_IDX+11:11] : instruction[`REG_IDX+18:18];
+assign reg2_idx = is_branch ? instruction[`REG_IDX+18:18] : instruction[`REG_IDX+25:25];
 
 wire [16:0] imm = is_NOP ? 0 : instruction[41:25];
 wire [31:0] signed_imm = {{15{imm[16]}}, imm};
@@ -94,9 +93,11 @@ shifter[30], shifter[31]};
  * Decide how we want our multiplication or division - signed or unsigned
  */
 
+wire [31:0] reg1_val_cpl = ~reg1_val;
+wire [31:0] reg1_val_neg = reg1_val_cpl + 1;
 wire m1s = instruction[7] & reg1_val[31];
 wire m2s = instruction[7] & alu_in2[31];
-wire [31:0] rs1_inv = (~reg1_val) + 1;
+wire [31:0] rs1_inv = reg1_val_neg;
 wire [31:0] rs2_inv = (~alu_in2) + 1;
 wire [31:0] muli1 = m1s ? rs1_inv : reg1_val;
 wire [31:0] muli2 = m2s ? rs2_inv : alu_in2;
@@ -130,7 +131,8 @@ always @(*) begin
 		9: ALU_res = muls[63:32];
 		10: ALU_res = mres_sign ? (~div_res) + 1 : div_res;
 		11: ALU_res = divi1_sign && opcode[7] ? (~modulo) + 1: modulo;
-		12: ALU_res = ~reg1_val;
+		12: ALU_res = reg1_val_cpl;
+		13: ALU_res = reg1_val_neg;
 		default: ALU_res = 0;
 	endcase
 end
@@ -175,7 +177,7 @@ reg [4:0] div_counter;
 reg busy_l;
 reg div_complete;
 wire [31:0] modulo = div_shifter[63:32];
-wire is_div = pred_val && (is_ALU || is_Imm) && (alu_op == 10 || alu_op == 11 || alu_op == 12 || alu_op == 13);
+wire is_div = pred_val && (is_ALU || is_Imm) && (alu_op == 10 || alu_op == 11);
 assign busy = (is_div || busy_l) && !div_complete;
 always @(posedge wb_clk_i) begin
 	if(rst) begin

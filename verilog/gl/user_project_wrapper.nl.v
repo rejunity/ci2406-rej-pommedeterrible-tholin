@@ -1092,24 +1092,6 @@ module user_project_wrapper (user_clock2,
  wire \loadstore_address2[7] ;
  wire \loadstore_address2[8] ;
  wire \loadstore_address2[9] ;
- wire \loadstore_dest0[0] ;
- wire \loadstore_dest0[1] ;
- wire \loadstore_dest0[2] ;
- wire \loadstore_dest0[3] ;
- wire \loadstore_dest0[4] ;
- wire \loadstore_dest0[5] ;
- wire \loadstore_dest1[0] ;
- wire \loadstore_dest1[1] ;
- wire \loadstore_dest1[2] ;
- wire \loadstore_dest1[3] ;
- wire \loadstore_dest1[4] ;
- wire \loadstore_dest1[5] ;
- wire \loadstore_dest2[0] ;
- wire \loadstore_dest2[1] ;
- wire \loadstore_dest2[2] ;
- wire \loadstore_dest2[3] ;
- wire \loadstore_dest2[4] ;
- wire \loadstore_dest2[5] ;
  wire \loadstore_size0[0] ;
  wire \loadstore_size0[1] ;
  wire \loadstore_size1[0] ;
@@ -1721,12 +1703,6 @@ module user_project_wrapper (user_clock2,
     \loadstore_address0[2] ,
     \loadstore_address0[1] ,
     \loadstore_address0[0] }),
-    .loadstore_dest({\loadstore_dest0[5] ,
-    \loadstore_dest0[4] ,
-    \loadstore_dest0[3] ,
-    \loadstore_dest0[2] ,
-    \loadstore_dest0[1] ,
-    \loadstore_dest0[0] }),
     .loadstore_size({\loadstore_size0[1] ,
     \loadstore_size0[0] }),
     .new_PC({\new_PC0[27] ,
@@ -1991,12 +1967,6 @@ module user_project_wrapper (user_clock2,
     \loadstore_address1[2] ,
     \loadstore_address1[1] ,
     \loadstore_address1[0] }),
-    .loadstore_dest({\loadstore_dest1[5] ,
-    \loadstore_dest1[4] ,
-    \loadstore_dest1[3] ,
-    \loadstore_dest1[2] ,
-    \loadstore_dest1[1] ,
-    \loadstore_dest1[0] }),
     .loadstore_size({\loadstore_size1[1] ,
     \loadstore_size1[0] }),
     .new_PC({\new_PC1[27] ,
@@ -2261,12 +2231,6 @@ module user_project_wrapper (user_clock2,
     \loadstore_address2[2] ,
     \loadstore_address2[1] ,
     \loadstore_address2[0] }),
-    .loadstore_dest({\loadstore_dest2[5] ,
-    \loadstore_dest2[4] ,
-    \loadstore_dest2[3] ,
-    \loadstore_dest2[2] ,
-    \loadstore_dest2[1] ,
-    \loadstore_dest2[0] }),
     .loadstore_size({\loadstore_size2[1] ,
     \loadstore_size2[0] }),
     .new_PC({\new_PC2[27] ,
@@ -4290,24 +4254,6 @@ module user_project_wrapper (user_clock2,
     \loadstore_address2[2] ,
     \loadstore_address2[1] ,
     \loadstore_address2[0] }),
-    .loadstore_dest0({\loadstore_dest0[5] ,
-    \loadstore_dest0[4] ,
-    \loadstore_dest0[3] ,
-    \loadstore_dest0[2] ,
-    \loadstore_dest0[1] ,
-    \loadstore_dest0[0] }),
-    .loadstore_dest1({\loadstore_dest1[5] ,
-    \loadstore_dest1[4] ,
-    \loadstore_dest1[3] ,
-    \loadstore_dest1[2] ,
-    \loadstore_dest1[1] ,
-    \loadstore_dest1[0] }),
-    .loadstore_dest2({\loadstore_dest2[5] ,
-    \loadstore_dest2[4] ,
-    \loadstore_dest2[3] ,
-    \loadstore_dest2[2] ,
-    \loadstore_dest2[1] ,
-    \loadstore_dest2[0] }),
     .loadstore_size0({\loadstore_size0[1] ,
     \loadstore_size0[0] }),
     .loadstore_size1({\loadstore_size1[1] ,

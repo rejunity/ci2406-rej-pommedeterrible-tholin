@@ -298,6 +298,9 @@ module vliw_tb;
 	integer counter;
 	reg [8:0] expected_states;
 	initial begin
+		wait(gpio == 0);
+		wait(gpio == 1);
+		$display("Monitor: Test started");
 		$dumpfile("vliw.vcd");
 		$dumpvars(1, vliw_tb);
 		$dumpvars(1, vliw_tb.uut.chip_core.mprj);
@@ -307,12 +310,10 @@ module vliw_tb;
 		$dumpvars(0, vliw_tb.uut.chip_core.mprj.eu1);
 		$dumpvars(0, vliw_tb.uut.chip_core.mprj.eu2);
 		$dumpvars(0, vliw_tb.uut.chip_core.mprj.icache);
-		wait(gpio == 0);
-		wait(gpio == 1);
-		$display("Monitor: Test started");
 		@(posedge clock);
 		@(posedge clock);
 		@(posedge clock);
+		#3;
 		
 		i0 = `INSTR_LLI(1, 16'hB017);
 		i1 = `OP_NOP;
@@ -879,14 +880,19 @@ module vliw_tb;
 		check_reg(3, 32'h00000016);
 		check_reg(4, 32'h0000183A);
 		
+		counter = 606;
 		//Test icache
 		i0 = `INSTR_IMM(4, 4, 4, `ALU_ADD);
 		i1 = `INSTR_IMM(3, 2, 3, `ALU_MUL);
 		i2 = `OP_NOP;
+		stops = 1;
 		instr_exec();
+		@(posedge clock);
+		#3;
 		i2 = `INSTR_ALU(4, 3, 1, `ALU_XOR);
 		i0 = `OP_NOP;
 		i1 = `OP_NOP;
+		stops = 0;
 		instr_exec();
 		//Now branch back but also make sure this branch will not be taken again
 		i0 = `INSTR_BRANCH(0, 0, 17'h1FFFE) | `BR_EQL | 256;
@@ -895,12 +901,18 @@ module vliw_tb;
 		instr_exec();
 		//Now expecting three cache hits
 		@(posedge clock); //One clock delay on first cache hit
-		repeat(2) begin
-			@(posedge clock);
-			#3;
-			failures += M1 == 0;
-			failures += le_lo != 0 || le_hi != 0 || OEb == 0;
-		end
+		//1
+		@(posedge clock);
+		#3;
+		failures += M1 == 0;
+		failures += le_lo != 0 || le_hi != 0 || OEb == 0;
+		@(posedge clock);
+		//2
+		@(posedge clock);
+		#3;
+		failures += M1 == 0;
+		failures += le_lo != 0 || le_hi != 0 || OEb == 0;
+
 		@(posedge clock);
 		#3;
 		failures += M1 == 0;
