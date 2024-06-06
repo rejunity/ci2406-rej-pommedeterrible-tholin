@@ -326,6 +326,15 @@ module user_project_wrapper (user_clock2,
  wire \cache_new_entry[99] ;
  wire \cache_new_entry[9] ;
  wire cache_rst;
+ wire \cap_addr[0] ;
+ wire \cap_addr[1] ;
+ wire \cap_addr[2] ;
+ wire \cap_addr[3] ;
+ wire \cap_addr[4] ;
+ wire \cap_addr[5] ;
+ wire \cap_addr[6] ;
+ wire \cap_addr[7] ;
+ wire \cap_addr[8] ;
  wire \curr_PC[0] ;
  wire \curr_PC[10] ;
  wire \curr_PC[11] ;
@@ -1447,6 +1456,8 @@ module user_project_wrapper (user_clock2,
 
  ci2406_z80 ci2406_z80 (.rst_n(rst_z80),
     .wb_clk_i(wb_clk_i),
+    .custom_settings({\custom_settings[1] ,
+    \custom_settings[0] }),
     .io_in({io_in[37],
     io_in[36],
     io_in[35],
@@ -2669,15 +2680,15 @@ module user_project_wrapper (user_clock2,
     .wbs_cyc_i(wbs_cyc_i),
     .wbs_stb_i(wbs_stb_i),
     .wbs_we_i(wbs_we_i),
-    .cap_addr({_NC1,
-    _NC2,
-    _NC3,
-    _NC4,
-    _NC5,
-    _NC6,
-    _NC7,
-    _NC8,
-    _NC9}),
+    .cap_addr({\cap_addr[8] ,
+    \cap_addr[7] ,
+    \cap_addr[6] ,
+    \cap_addr[5] ,
+    \cap_addr[4] ,
+    \cap_addr[3] ,
+    \cap_addr[2] ,
+    \cap_addr[1] ,
+    \cap_addr[0] }),
     .cap_io_in({io_in[12],
     io_in[11],
     io_in[10],
@@ -3370,6 +3381,15 @@ module user_project_wrapper (user_clock2,
     \io_out_scrapcpu[2] ,
     \io_out_scrapcpu[1] ,
     \io_out_scrapcpu[0] }));
+ top_fgcaptest top_fgcaptest (.addr({\cap_addr[8] ,
+    \cap_addr[7] ,
+    \cap_addr[6] ,
+    \cap_addr[5] ,
+    \cap_addr[4] ,
+    \cap_addr[3] ,
+    \cap_addr[2] ,
+    \cap_addr[1] ,
+    \cap_addr[0] }));
  unused_tie unused_tie (.wb_clk_i(wb_clk_i),
     .wb_rst_i(wb_rst_i),
     .irq({user_irq[2],

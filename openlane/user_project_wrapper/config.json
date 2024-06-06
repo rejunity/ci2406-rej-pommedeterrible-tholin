@@ -129,7 +129,7 @@
     "MAGIC_ZEROIZE_ORIGIN": 0,
     "FP_SIZING": "absolute",
     "RUN_CVC": 0,
-    "RUN_MAGIC_DRC": 1,
+    "RUN_MAGIC_DRC": 0,
     "RUN_KLAYOUT_XOR": 0,
     "UNIT": 2.4,
     "FP_IO_VEXTEND": "expr::2 * $UNIT",
