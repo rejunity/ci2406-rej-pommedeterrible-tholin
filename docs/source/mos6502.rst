@@ -1,0 +1,95 @@
+.. _mos6502:
+
+MOS6502
+=======
+
+This design is a cycle-accurate implementation of the MOS6502 CPU, though it does not implement all of the original’s control signals. Most of the therefore unused pins instead expose various internal CPU flags for debugging, but can be ignored during normal usage.
+
+`Credit for the implementation goes to Arlet Ottens. <https://github.com/Arlet/verilog-6502>`__
+
+------
+Pinout
+------
+
+.. image:: _static/pinout0.png
+
+.. list-table:: Pin description
+    :name: pin-description-6502
+    :header-rows: 1
+
+    * - Pin #
+      - Name
+      - Type
+      - Summary
+    * - ``mprj_io[0]``
+      - RSTD
+      - I
+      - Active low design reset
+    * - ``mprj_io[1]``
+      - C
+      - O
+      - Carry Flag
+    * - ``mprj_io[2]``
+      - Z
+      - O
+      - Zero Flag
+    * - ``mprj_io[4]``
+      - D
+      - O
+      - Decimal Mode Enable
+    * - ``mprj_io[20:5]``
+      - A[15:0]
+      - O
+      - Address Bus
+    * - ``mprj_io[28:21]``
+      - D[7:0]
+      - IO
+      - Bidirectional Data Bus
+    * - ``mprj_io[29]``
+      - WEb
+      - O
+      - Active low write-enable
+    * - ``mprj_io[30]``
+      - IRQb
+      - I
+      - Active low interrupt trigger
+    * - ``mprj_io[31]``
+      - NMIb
+      - I
+      - Active low non-maskable interrupt trigger
+    * - ``mprj_io[32]``
+      - RDY
+      - I
+      - Ready input, CPU pauses while pin low
+    * - ``mprj_io[33]``
+      - I
+      - O
+      - Interrupt Enable
+    * - ``mprj_io[34]``
+      - V
+      - O
+      - Overflow Flag
+    * - ``mprj_io[35]``
+      - N
+      - O
+      - Negative Flag
+    * - ``mprj_io[36]``
+      - NC
+      - NC
+      - Do not connect
+    * - ``mprj_io[37]``
+      - NC
+      - NC
+      - Do not connect
+
+---------------
+Custom Settings
+---------------
+
+This design uses the least significant two bits of the Custom Settings register to modify the behavior of the WEb pin. By default (mprj_settings = 0), the WEb signal behaves as originally, always strobing low for a full clock period.
+
+It may, however, also be set as follows:
+
+``1``: WEb strobes only during the low period of the clock
+
+``2``: WEb strobes only during the high period of the clock

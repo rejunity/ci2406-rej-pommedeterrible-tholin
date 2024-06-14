@@ -148,6 +148,7 @@ jobs:
       - name: Harden using Openlane
         run: |
           rm gds/multiplexer.* gds/scrapcpu.* gds/unused_tie.* gds/user_project_wrapper.* gds/vliw.* gds/ci2406_z80.* gds/execution_unit.* gds/icache.*
+          gzip -d gds/top_fgcaptest.gds.gz
           make Multiplexer
           make TieUnused
           make ScrapCPU

@@ -31,6 +31,5 @@ CI2406 Multi-Project Die
    mos6502
    as1802
    s8x305
-   scrapcpu
    vliw
    fgcaptest
