@@ -1,0 +1,81 @@
+.. _z80:
+
+Z80
+===
+
+(Put abstract here)
+
+------
+Pinout
+------
+
+.. image:: _static/pinout1.png
+
+.. list-table:: Pin description
+    :name: pin-description-z80
+    :header-rows: 1
+
+    * - Pin #
+      - Name
+      - Type
+      - Summary
+    * - ``mprj_io[0]``
+      - RSTD
+      - I
+      - Active low design reset
+    * - ``mprj_io[1]``
+      - BUSAK
+      - O
+      - Bus request acknowledge
+    * - ``mprj_io[2]``
+      - M1
+      - O
+      - Machine Cycle 1 pulse
+    * - ``mprj_io[4]``
+      - RD
+      - O
+      - Read Enable
+    * - ``mprj_io[5]``
+      - WR
+      - O
+      - Write Enable
+    * - ``mprj_io[6]``
+      - WAIT
+      - I
+      - Wait for memory
+    * - ``mprj_io[7]``
+      - RFSH
+      - O
+      - Memory refresh enable
+    * - ``mprj_io[23:8]``
+      - A[15:0]
+      - O
+      - Address Bus
+    * - ``mprj_io[31:24]``
+      - D[7:0]
+      - IO
+      - Bi-directional Data Bus
+    * - ``mprj_io[32]``
+      - NMI
+      - I
+      - Non-Maskable Interrupt Request
+    * - ``mprj_io[33]``
+      - INT
+      - I
+      - Interrupt Request
+    * - ``mprj_io[34]``
+      - HALT
+      - O
+      - Indicates Halt condition
+    * - ``mprj_io[35]``
+      - MREQ
+      - O
+      - Memory Request
+    * - ``mprj_io[36]``
+      - IOREQ
+      - O
+      - IO Peripheral Request
+    * - ``mprj_io[37]``
+      - BUSRQ
+      - I
+      - Bus Request

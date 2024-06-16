@@ -6,6 +6,7 @@
         "dir::../../verilog/rtl/S8x305/8x305.v",
         "dir::../../verilog/rtl/S8x305/wrapped_8x305.v"
     ],
+    "ROUTING_CORES": 2,
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "wb_clk_i",

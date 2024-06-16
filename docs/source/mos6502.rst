@@ -46,17 +46,17 @@ Pinout
       - IO
       - Bidirectional Data Bus
     * - ``mprj_io[29]``
-      - WEb
+      - WE
       - O
-      - Active low write-enable
+      - Write-enable
     * - ``mprj_io[30]``
-      - IRQb
+      - IRQ
       - I
-      - Active low interrupt trigger
+      - Interrupt request
     * - ``mprj_io[31]``
-      - NMIb
+      - NMI
       - I
-      - Active low non-maskable interrupt trigger
+      - Non-maskable interrupt request
     * - ``mprj_io[32]``
       - RDY
       - I

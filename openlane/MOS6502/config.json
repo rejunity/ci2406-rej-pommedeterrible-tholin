@@ -6,6 +6,7 @@
         "dir::../../verilog/rtl/MOS6502/6502.v",
         "dir::../../verilog/rtl/MOS6502/wrapped_6502.v"
     ],
+    "ROUTING_CORES": 2,
     "CLOCK_PERIOD": 25,
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "wb_clk_i",

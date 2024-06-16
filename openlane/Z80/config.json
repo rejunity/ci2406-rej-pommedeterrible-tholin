@@ -11,7 +11,7 @@
         "dir::../../verilog/rtl/Z80/ci2406_z80.v"
     ],
     "CLOCK_PERIOD": 25,
-    "ROUTING_CORES": 8,
+    "ROUTING_CORES": 2,
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "wb_clk_i",
     "FP_SIZING": "absolute",

@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MOS6502 &mdash; CI2406 MPW  documentation</title>
+  <title>Z80 &mdash; CI2406 MPW  documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -23,7 +23,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Z80" href="z80.html" /> 
+    <link rel="next" title="MOS6502" href="mos6502.html" />
+    <link rel="prev" title="Multiplexer" href="multiplexer.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -48,12 +49,11 @@
               <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="multiplexer.html">Multiplexer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="z80.html">Z80</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">MOS6502</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Z80</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pinout">Pinout</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#custom-settings">Custom Settings</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="mos6502.html">MOS6502</a></li>
 </ul>
 
         </div>
@@ -70,9 +70,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">MOS6502</li>
+      <li class="breadcrumb-item active">Z80</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/mos6502.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/z80.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -80,15 +80,14 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="mos6502">
-<span id="id1"></span><h1>MOS6502<a class="headerlink" href="#mos6502" title="Link to this heading"></a></h1>
-<p>This design is a cycle-accurate implementation of the MOS6502 CPU, though it does not implement all of the original’s control signals. Most of the therefore unused pins instead expose various internal CPU flags for debugging, but can be ignored during normal usage.</p>
-<p><a class="reference external" href="https://github.com/Arlet/verilog-6502">Credit for the implementation goes to Arlet Ottens.</a></p>
+  <section id="z80">
+<span id="id1"></span><h1>Z80<a class="headerlink" href="#z80" title="Link to this heading"></a></h1>
+<p>(Put abstract here)</p>
 <section id="pinout">
 <h2>Pinout<a class="headerlink" href="#pinout" title="Link to this heading"></a></h2>
-<img alt="_images/pinout0.png" src="_images/pinout0.png" />
-<table class="docutils align-default" id="pin-description-6502">
-<caption><span class="caption-number">Table 2 </span><span class="caption-text">Pin description</span><a class="headerlink" href="#pin-description-6502" title="Link to this table"></a></caption>
+<img alt="_images/pinout1.png" src="_images/pinout1.png" />
+<table class="docutils align-default" id="pin-description-z80">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Pin description</span><a class="headerlink" href="#pin-description-z80" title="Link to this table"></a></caption>
 <thead>
 <tr class="row-odd"><th class="head"><p>Pin #</p></th>
 <th class="head"><p>Name</p></th>
@@ -103,84 +102,77 @@
 <td><p>Active low design reset</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[1]</span></code></p></td>
-<td><p>C</p></td>
+<td><p>BUSAK</p></td>
 <td><p>O</p></td>
-<td><p>Carry Flag</p></td>
+<td><p>Bus request acknowledge</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[2]</span></code></p></td>
-<td><p>Z</p></td>
+<td><p>M1</p></td>
 <td><p>O</p></td>
-<td><p>Zero Flag</p></td>
+<td><p>Machine Cycle 1 pulse</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[4]</span></code></p></td>
-<td><p>D</p></td>
+<td><p>RD</p></td>
 <td><p>O</p></td>
-<td><p>Decimal Mode Enable</p></td>
+<td><p>Read Enable</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[20:5]</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[5]</span></code></p></td>
+<td><p>WR</p></td>
+<td><p>O</p></td>
+<td><p>Write Enable</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[6]</span></code></p></td>
+<td><p>WAIT</p></td>
+<td><p>I</p></td>
+<td><p>Wait for memory</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[7]</span></code></p></td>
+<td><p>RFSH</p></td>
+<td><p>O</p></td>
+<td><p>Memory refresh enable</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[23:8]</span></code></p></td>
 <td><p>A[15:0]</p></td>
 <td><p>O</p></td>
 <td><p>Address Bus</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[28:21]</span></code></p></td>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[31:24]</span></code></p></td>
 <td><p>D[7:0]</p></td>
 <td><p>IO</p></td>
-<td><p>Bidirectional Data Bus</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[29]</span></code></p></td>
-<td><p>WE</p></td>
-<td><p>O</p></td>
-<td><p>Write-enable</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[30]</span></code></p></td>
-<td><p>IRQ</p></td>
-<td><p>I</p></td>
-<td><p>Interrupt request</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[31]</span></code></p></td>
-<td><p>NMI</p></td>
-<td><p>I</p></td>
-<td><p>Non-maskable interrupt request</p></td>
+<td><p>Bi-directional Data Bus</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[32]</span></code></p></td>
-<td><p>RDY</p></td>
+<td><p>NMI</p></td>
 <td><p>I</p></td>
-<td><p>Ready input, CPU pauses while pin low</p></td>
+<td><p>Non-Maskable Interrupt Request</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[33]</span></code></p></td>
+<td><p>INT</p></td>
 <td><p>I</p></td>
-<td><p>O</p></td>
-<td><p>Interrupt Enable</p></td>
+<td><p>Interrupt Request</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[34]</span></code></p></td>
-<td><p>V</p></td>
+<td><p>HALT</p></td>
 <td><p>O</p></td>
-<td><p>Overflow Flag</p></td>
+<td><p>Indicates Halt condition</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[35]</span></code></p></td>
-<td><p>N</p></td>
+<td><p>MREQ</p></td>
 <td><p>O</p></td>
-<td><p>Negative Flag</p></td>
+<td><p>Memory Request</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[36]</span></code></p></td>
-<td><p>NC</p></td>
-<td><p>NC</p></td>
-<td><p>Do not connect</p></td>
+<td><p>IOREQ</p></td>
+<td><p>O</p></td>
+<td><p>IO Peripheral Request</p></td>
 </tr>
 <tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[37]</span></code></p></td>
-<td><p>NC</p></td>
-<td><p>NC</p></td>
-<td><p>Do not connect</p></td>
+<td><p>BUSRQ</p></td>
+<td><p>I</p></td>
+<td><p>Bus Request</p></td>
 </tr>
 </tbody>
 </table>
-</section>
-<section id="custom-settings">
-<h2>Custom Settings<a class="headerlink" href="#custom-settings" title="Link to this heading"></a></h2>
-<p>This design uses the least significant two bits of the Custom Settings register to modify the behavior of the WEb pin. By default (mprj_settings = 0), the WEb signal behaves as originally, always strobing low for a full clock period.</p>
-<p>It may, however, also be set as follows:</p>
-<p><code class="docutils literal notranslate"><span class="pre">1</span></code>: WEb strobes only during the low period of the clock</p>
-<p><code class="docutils literal notranslate"><span class="pre">2</span></code>: WEb strobes only during the high period of the clock</p>
 </section>
 </section>
 
@@ -194,7 +186,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="z80.html" class="btn btn-neutral float-left" title="Z80" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="multiplexer.html" class="btn btn-neutral float-left" title="Multiplexer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mos6502.html" class="btn btn-neutral float-right" title="MOS6502" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
