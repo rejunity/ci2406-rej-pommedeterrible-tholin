@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AS1802 &mdash; CI2406 MPW  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://wavedrom.com/skins/default.js"></script>
+        <script src="https://wavedrom.com/wavedrom.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="S8X305" href="s8x305.html" />
+    <link rel="prev" title="MOS6502" href="mos6502.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CI2406 MPW
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="multiplexer.html">Multiplexer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="z80.html">Z80</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mos6502.html">MOS6502</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">AS1802</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pinout">Pinout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#memory-bus">Memory Bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extended-instructions">Extended Instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#swap">SWAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmhi">CMHI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#lmhi">LMHI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gmhi">GMHI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pxn">PXN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dbnz">DBNZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mul">MUL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mli">MLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#div">DIV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dvi">DVI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mod">MOD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mdi">MDI</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-settings">Custom Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="s8x305.html">S8X305</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapcpu.html">ScrapCPU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vliw.html">VLIW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fgcaptest.html">FG Cap Test</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CI2406 MPW</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">AS1802</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/as1802.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="as1802">
+<span id="id1"></span><h1>AS1802<a class="headerlink" href="#as1802" title="Link to this heading"></a></h1>
+<p>This design is a binary-compatible replica of the CDP1802 microprocessor. It is, however, not bus-cycle accurate and thus distinguished with a different letter prefix in its name. Instead, this is a more optimized implementation with faster machine- and bus-cycles, executing most instructions in 1 or 2 clock cycles after a 2 or 3 clock cycle fetch.</p>
+<p>The instruction set has also been extended, though this does not break backwards compatibility with the original CDP1802 bytecode.</p>
+<p>Any pins not directly used by the processor have been assigned to expose some of the processor’s internal state for debugging (and blinkenlights).</p>
+<p>DMA is currently not implemented.</p>
+<section id="pinout">
+<h2>Pinout<a class="headerlink" href="#pinout" title="Link to this heading"></a></h2>
+<img alt="_images/pinout3.png" src="_images/pinout3.png" />
+<table class="docutils align-default" id="pin-description-1802">
+<caption><span class="caption-number">Table 3 </span><span class="caption-text">Pin description</span><a class="headerlink" href="#pin-description-1802" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Pin #</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Summary</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[0]</span></code></p></td>
+<td><p>RSTD</p></td>
+<td><p>I</p></td>
+<td><p>Active low design reset</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[1]</span></code></p></td>
+<td><p>IE</p></td>
+<td><p>O</p></td>
+<td><p>Interrupt Enable state</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[2]</span></code></p></td>
+<td><p>EXT</p></td>
+<td><p>O</p></td>
+<td><p>Extended ISA Cycle flag</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[4]</span></code></p></td>
+<td><p>DF</p></td>
+<td><p>O</p></td>
+<td><p>Accumulator Flag state</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[12:5]</span></code></p></td>
+<td><p>A[7:0] / A[15:8]</p></td>
+<td><p>O</p></td>
+<td><p>Multiplexed Address Bus</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[20:13]</span></code></p></td>
+<td><p>D[7:0]</p></td>
+<td><p>IO</p></td>
+<td><p>Bi-directional Data Bus</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[21]</span></code></p></td>
+<td><p>MRD</p></td>
+<td><p>O</p></td>
+<td><p>Memory Read Enable</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[22]</span></code></p></td>
+<td><p>MWR</p></td>
+<td><p>O</p></td>
+<td><p>Memory Write Strobe</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[23]</span></code></p></td>
+<td><p>Q</p></td>
+<td><p>O</p></td>
+<td><p>Q-Latch</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[24]</span></code></p></td>
+<td><p>TPA</p></td>
+<td><p>O</p></td>
+<td><p>High Address Strobe</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[26:25]</span></code></p></td>
+<td><p>SC[1:0]</p></td>
+<td><p>O</p></td>
+<td><p>Processor Status Code</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[27]</span></code></p></td>
+<td><p>INT</p></td>
+<td><p>I</p></td>
+<td><p>Interrupt Request</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[31:28]</span></code></p></td>
+<td><p>EF[4:1]</p></td>
+<td><p>I</p></td>
+<td><p>Event Flag general-purpose inputs</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[34:32]</span></code></p></td>
+<td><p>N[2:0]</p></td>
+<td><p>O</p></td>
+<td><p>IO Instruction Address Bus</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[35]</span></code></p></td>
+<td><p>IDLE</p></td>
+<td><p>O</p></td>
+<td><p>Processor Idle state indicator</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[37:36]</span></code></p></td>
+<td><p>CS[29:28]</p></td>
+<td><p>O</p></td>
+<td><p>Mirror of custom_settings[29:28]</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="memory-bus">
+<h2>Memory Bus<a class="headerlink" href="#memory-bus" title="Link to this heading"></a></h2>
+<p>The signaling for memory accesses is almost identical to the CDP1802, with the 16-bit address being multiplexed on 8 pins, using <code class="docutils literal notranslate"><span class="pre">TPA</span></code> to indicate when the most-significant byte is emitted and needs to be latched.</p>
+<p>The only changes are less overall clock cycles to complete a bus cycle and that the processor now internally keeps track of what MSB address value was last latched, and skips emitting the MSB if it has not changed, saving a clock cycle.</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{signal: [
+  {name: 'CLK', wave: 'n........', period: 2},
+  {name: 'TPA', wave: '01.0..............'},
+  {name: 'A', wave: 'x5...7.5.......7.x', data: 'addr[15:8] addr[7:0] addr[7:0] addr[7:0]'},
+  {name: 'D', wave: 'x....8.x...9.x.8.x', data: 'D[7:0] D[7:0] D[7:0]'},
+  {name: 'MRD', wave: '10.....1.0...1.0.1'},
+  {name: 'MWR', wave: '1..........0.1....'}
+],config: { hscale: 1 }}
+</script>
+</div>
+<p>Timings of an instruction fetch and execution resulting in a write to the same 256-byte region and fetch of the following instruction.</p>
+</section>
+<section id="extended-instructions">
+<h2>Extended Instructions<a class="headerlink" href="#extended-instructions" title="Link to this heading"></a></h2>
+<p>The original CDP1802 had only one unused opcode, <code class="docutils literal notranslate"><span class="pre">86h</span></code>, which is used in the AS1802 as a prefix for the extended instructions. These are as follows.</p>
+<p>Most importantly, hardware multiple/divide instructions were added which each take only 1 clock cycle to execute. To facilitate this, one additional 8-bit register has been added to the AS1802: <code class="docutils literal notranslate"><span class="pre">MHI</span></code> (Muldiv High byte).</p>
+<section id="swap">
+<h3>SWAP<a class="headerlink" href="#swap" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">7Bh</span></code></p>
+<p>Swap nibbles.</p>
+<p>Swaps the most significant and least significant 4-bit halves of <code class="docutils literal notranslate"><span class="pre">D</span></code> atomically.</p>
+</section>
+<section id="cmhi">
+<h3>CMHI<a class="headerlink" href="#cmhi" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">A0h</span></code></p>
+<p>Clear MHI.</p>
+<p>Clears <code class="docutils literal notranslate"><span class="pre">MHI</span></code> to 0.</p>
+</section>
+<section id="lmhi">
+<h3>LMHI<a class="headerlink" href="#lmhi" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">A1h</span></code></p>
+<p>Load MHI.</p>
+<p>Copies the value of <code class="docutils literal notranslate"><span class="pre">D</span></code> into <code class="docutils literal notranslate"><span class="pre">MHI</span></code>.</p>
+</section>
+<section id="gmhi">
+<h3>GMHI<a class="headerlink" href="#gmhi" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">90h</span></code></p>
+<p>Get MHI.</p>
+<p>Copies the value of <code class="docutils literal notranslate"><span class="pre">MHI</span></code> into <code class="docutils literal notranslate"><span class="pre">D</span></code>.</p>
+</section>
+<section id="pxn">
+<h3>PXN<a class="headerlink" href="#pxn" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">Bnh</span></code></p>
+<p>Put into X Rn.</p>
+<p>Copies the value of a general-purpose register <code class="docutils literal notranslate"><span class="pre">n</span></code> into the current X register.</p>
+</section>
+<section id="dbnz">
+<h3>DBNZ<a class="headerlink" href="#dbnz" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">2nh</span></code></p>
+<p>Decrement Rn and long-branch if not zero.</p>
+<p>Decrements the value of a general-purpose register <code class="docutils literal notranslate"><span class="pre">n</span></code> and long-branches if the <em>new</em> register value is not equal to 0.</p>
+</section>
+<section id="mul">
+<h3>MUL<a class="headerlink" href="#mul" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">F4h</span></code></p>
+<p>Multiply.</p>
+<p>Multiplies <code class="docutils literal notranslate"><span class="pre">D</span></code> and a value from memory pointed to by the current X register. The result is 16-bits wide, with the LSB stored in <code class="docutils literal notranslate"><span class="pre">D</span></code> and the MSB stored in <code class="docutils literal notranslate"><span class="pre">MHI</span></code>.</p>
+</section>
+<section id="mli">
+<h3>MLI<a class="headerlink" href="#mli" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">FCh</span></code></p>
+<p>Multiply immediate.</p>
+<p>Multiplies <code class="docutils literal notranslate"><span class="pre">D</span></code> and a immediate value from the instruction. The result is 16-bits wide, with the LSB stored in <code class="docutils literal notranslate"><span class="pre">D</span></code> and the MSB stored in <code class="docutils literal notranslate"><span class="pre">MHI</span></code>.</p>
+</section>
+<section id="div">
+<h3>DIV<a class="headerlink" href="#div" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">F5h</span></code></p>
+<p>Divide.</p>
+<p>Divides a 16-bit value formed by concatenating <code class="docutils literal notranslate"><span class="pre">MHI</span></code> (MSB) and <code class="docutils literal notranslate"><span class="pre">D</span></code> (LSB) by a 8-bit value from memory pointed to by the current X register. The result is 16-bits wide, with the LSB stored in <code class="docutils literal notranslate"><span class="pre">D</span></code> and the MSB stored in <code class="docutils literal notranslate"><span class="pre">MHI</span></code>.</p>
+</section>
+<section id="dvi">
+<h3>DVI<a class="headerlink" href="#dvi" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">FDh</span></code></p>
+<p>Divide immediate.</p>
+<p>Divides a 16-bit value formed by concatenating <code class="docutils literal notranslate"><span class="pre">MHI</span></code> (MSB) and <code class="docutils literal notranslate"><span class="pre">D</span></code> (LSB) by a 8-bit immediate value from the instruction. The result is 16-bits wide, with the LSB stored in <code class="docutils literal notranslate"><span class="pre">D</span></code> and the MSB stored in <code class="docutils literal notranslate"><span class="pre">MHI</span></code>.</p>
+</section>
+<section id="mod">
+<h3>MOD<a class="headerlink" href="#mod" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">F3h</span></code></p>
+<p>Modulo.</p>
+<p>Computes the remainder of a division of a 16-bit value formed by concatenating <code class="docutils literal notranslate"><span class="pre">MHI</span></code> (MSB) and <code class="docutils literal notranslate"><span class="pre">D</span></code> (LSB) by a 8-bit value from memory pointed to by the current X register. The result is 8-bits wide and stored in <code class="docutils literal notranslate"><span class="pre">D</span></code>.</p>
+</section>
+<section id="mdi">
+<h3>MDI<a class="headerlink" href="#mdi" title="Link to this heading"></a></h3>
+<p>Opcode: <code class="docutils literal notranslate"><span class="pre">86h</span> <span class="pre">FBh</span></code></p>
+<p>Modulo immediate.</p>
+<p>Computes the remainder of a division of a 16-bit value formed by concatenating <code class="docutils literal notranslate"><span class="pre">MHI</span></code> (MSB) and <code class="docutils literal notranslate"><span class="pre">D</span></code> (LSB) by a 8-bit immediate value from the instruction. The result is 8-bits wide and stored in <code class="docutils literal notranslate"><span class="pre">D</span></code>.</p>
+</section>
+</section>
+<section id="custom-settings">
+<h2>Custom Settings<a class="headerlink" href="#custom-settings" title="Link to this heading"></a></h2>
+<p>This design makes extensive use of the custom settings register as follows:</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{ "reg": [
+  {"name": "PC[15:0]", "bits": 16},
+  {"name": "X[3:0]", "bits": 4},
+  {"name": "P[3:0]", "bits": 4},
+  {"name": "MWR", "bits": 2},
+  {"name": "TR", "bits": 1},
+  {"name": "TW", "bits": 1},
+  {"name": "CS", "bits": 2},
+    {"type": 1, "bits": 2}],
+"config": {"hspace": 700}
+}
+</script>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">PC</span></code> determines the initial value of the Program Counter when the processor is reset.</p>
+<p><code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">P</span></code> determine the initial values of the <code class="docutils literal notranslate"><span class="pre">X</span></code> and <code class="docutils literal notranslate"><span class="pre">P</span></code> registers when the processor is reset.</p>
+<p>As custom settings is reset to 0 on regular power-up, the behavior of the original CDP1802 is set by default.</p>
+<p><code class="docutils literal notranslate"><span class="pre">MWR</span></code> determines the shape of the <code class="docutils literal notranslate"><span class="pre">MWR</span></code> signal. With its default value of 0, this signal stretches a full clock cycle. Other possible settings are:</p>
+<p><code class="docutils literal notranslate"><span class="pre">1</span></code>: WEb strobes only during the low period of the clock</p>
+<p><code class="docutils literal notranslate"><span class="pre">2</span></code>: WEb strobes only during the high period of the clock</p>
+<p><code class="docutils literal notranslate"><span class="pre">TR</span></code>, if set, additionally gates the signal <code class="docutils literal notranslate"><span class="pre">MRD</span></code> by the value of <code class="docutils literal notranslate"><span class="pre">TPA</span></code>, forcing it into the inactive state when <code class="docutils literal notranslate"><span class="pre">TPA</span></code> is active. This is strangely not the default behavior on the CDP1802.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TW</span></code>, if set, additionally gates the signal <code class="docutils literal notranslate"><span class="pre">MWR</span></code> by the value of <code class="docutils literal notranslate"><span class="pre">TPA</span></code>, but this should not be required as these signals never overlap.</p>
+<p><code class="docutils literal notranslate"><span class="pre">CS</span></code> determines the state of the <code class="docutils literal notranslate"><span class="pre">CS[29:28]</span></code> pins.</p>
+</section>
+</section>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="mos6502.html" class="btn btn-neutral float-left" title="MOS6502" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="s8x305.html" class="btn btn-neutral float-right" title="S8X305" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

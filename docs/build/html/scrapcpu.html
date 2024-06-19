@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScrapCPU &mdash; CI2406 MPW  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://wavedrom.com/skins/default.js"></script>
+        <script src="https://wavedrom.com/wavedrom.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="VLIW" href="vliw.html" />
+    <link rel="prev" title="S8X305" href="s8x305.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CI2406 MPW
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="multiplexer.html">Multiplexer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="z80.html">Z80</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mos6502.html">MOS6502</a></li>
+<li class="toctree-l1"><a class="reference internal" href="as1802.html">AS1802</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s8x305.html">S8X305</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ScrapCPU</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pinout">Pinout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spiflash-interface">Spiflash Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#programming-model">Programming Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#registers">Registers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#addressing-modes">Addressing Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quick-mode">Quick Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#original-instruction-set">Original Instruction Set</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#lda-load-a">LDA - Load A</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sta-store-a">STA - Store A</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stb-store-b">STB - Store B</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ldp-load-p">LDP - Load P</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ldm-load-mar">LDM - Load MAR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ldi-load-immediate">LDI - Load Immediate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#add-add">ADD - Add</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adc-add-with-carry">ADC - Add with Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sub-subtract">SUB - Subtract</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sbc-subtract-with-carry">SBC - Subtract with Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#eql-equality-comparison">EQL - Equality Comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mag-magnitude-comparison">MAG - Magnitude Comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jmp-jump-unconditionally">JMP - Jump unconditionally</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jz-jump-if-zero">JZ - Jump if Zero</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jnz-jump-if-not-zero">JNZ - Jump if Not Zero</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#extended-instruction-set">Extended Instruction Set</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#xor-logic-exclusive-or">XOR - Logic Exclusive-OR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#and-logic-and">AND - Logic AND</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rsh-right-shift">RSH - Right Shift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rshc-right-shift-with-carry">RSHC - Right Shift with Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#jc-jump-if-carry">JC - Jump if Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sec-set-carry">SEC - Set Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#clc-clear-carry">CLC - Clear Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#iret-return-from-interrupt">IRET - Return from Interrupt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tc-toggle-compatibility">TC - Toggle Compatibility</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#compatibility-mode">Compatibility Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#incompatibilities">Incompatibilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#io-ports">IO Ports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#interrupt">Interrupt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vliw.html">VLIW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fgcaptest.html">FG Cap Test</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CI2406 MPW</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">ScrapCPU</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/scrapcpu.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="scrapcpu">
+<span id="id1"></span><h1>ScrapCPU<a class="headerlink" href="#scrapcpu" title="Link to this heading"></a></h1>
+<p>This design is a microcontroller with a 6-bit processor core. (It is a replica of the first CPU I ever designed, then out of discrete 74-series logic. ~Tholin). It is a harvard-architecture microcontroller that can address 64 words of RAM, which is entirely on-die, and 4096 words of ROM, which is implemented externally using a spiflash ROM.</p>
+<p>For IO, there are three GPIO ports. Two bi-directional and one output-only.</p>
+<p>Some pins output signals meant for debugging.</p>
+<section id="pinout">
+<h2>Pinout<a class="headerlink" href="#pinout" title="Link to this heading"></a></h2>
+<img alt="_images/pinout5.png" src="_images/pinout5.png" />
+<table class="docutils align-default" id="pin-description-scrapcpu">
+<caption><span class="caption-number">Table 5 </span><span class="caption-text">Pin description</span><a class="headerlink" href="#pin-description-scrapcpu" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Pin #</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Summary</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[0]</span></code></p></td>
+<td><p>RSTD</p></td>
+<td><p>I</p></td>
+<td><p>Active low design reset</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[1]</span></code></p></td>
+<td><p>Z</p></td>
+<td><p>O</p></td>
+<td><p>Zero flag state</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[2]</span></code></p></td>
+<td><p>C</p></td>
+<td><p>O</p></td>
+<td><p>Carry flag state</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[4]</span></code></p></td>
+<td><p>MAR[5]</p></td>
+<td><p>O</p></td>
+<td><p>State of MAR register bit 5</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[8:5]</span></code></p></td>
+<td><p>D[3:0]</p></td>
+<td><p>IO</p></td>
+<td><p>Spiflash data lines</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[9]</span></code></p></td>
+<td><p>CS</p></td>
+<td><p>O</p></td>
+<td><p>Spiflash chip select</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[10]</span></code></p></td>
+<td><p>SCK</p></td>
+<td><p>O</p></td>
+<td><p>Spiflash serial clock</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[16:11]</span></code></p></td>
+<td><p>PA[5:0]</p></td>
+<td><p>IO</p></td>
+<td><p>GPIO Port A</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[22:17]</span></code></p></td>
+<td><p>PB[5:0]</p></td>
+<td><p>IO</p></td>
+<td><p>GPIO Port B</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[23]</span></code></p></td>
+<td><p>M1</p></td>
+<td><p>O</p></td>
+<td><p>Pulses at start of each instruction fetch</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[24]</span></code></p></td>
+<td><p>COMP</p></td>
+<td><p>O</p></td>
+<td><p>Indicates if CPU is running in compatibility mode</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[30:25]</span></code></p></td>
+<td><p>PC[5:0]</p></td>
+<td><p>O</p></td>
+<td><p>Output-only GPIO Port C</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[31]</span></code></p></td>
+<td><p>INT</p></td>
+<td><p>I</p></td>
+<td><p>Interrupt request</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[32]</span></code></p></td>
+<td><p>INTAK</p></td>
+<td><p>O</p></td>
+<td><p>Interrupt acknowledge</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[37:33]</span></code></p></td>
+<td><p>PC[11:7]</p></td>
+<td><p>O</p></td>
+<td><p>Mirror of Program Counter state, bits 11-7</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="spiflash-interface">
+<h2>Spiflash Interface<a class="headerlink" href="#spiflash-interface" title="Link to this heading"></a></h2>
+<p>To access its program ROM, a interface to a 25Qxx spiflash is provided. As ScrapCPU opcodes are only 6 bits wide, the most significant two bits of each byte in the ROM are ignored during instruction fetches.</p>
+<p>To verify compatibility of a specific spiflash part, check that this command sequence puts it into QSPI mode and starts a quad read:</p>
+<p><code class="docutils literal notranslate"><span class="pre">FFh</span></code> (ignore if part does not have this command)</p>
+<p><code class="docutils literal notranslate"><span class="pre">ABh</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">06h</span> <span class="pre">01h</span> <span class="pre">02h</span> <span class="pre">02h</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">EBh</span> <span class="pre">[now</span> <span class="pre">in</span> <span class="pre">quad</span> <span class="pre">mode]</span> <span class="pre">00h</span> <span class="pre">00h</span> <span class="pre">00h</span> <span class="pre">00h</span> <span class="pre">00h</span> <span class="pre">00h</span> <span class="pre">A5h</span></code></p>
+</section>
+<section id="programming-model">
+<h2>Programming Model<a class="headerlink" href="#programming-model" title="Link to this heading"></a></h2>
+<section id="registers">
+<h3>Registers<a class="headerlink" href="#registers" title="Link to this heading"></a></h3>
+<p>ScrapCPU contains only a few registers.</p>
+<p><code class="docutils literal notranslate"><span class="pre">PC</span></code> is the program counter and 12-bits wide. It points to the ROM address to fetch the next instruction from.</p>
+<p><code class="docutils literal notranslate"><span class="pre">A</span></code> is a 6-bit holding register and always used as the first operand in ALU instructions.</p>
+<p><code class="docutils literal notranslate"><span class="pre">B</span></code> is a 6-bit holding register where the result of ALU instructions is stored.</p>
+<p><code class="docutils literal notranslate"><span class="pre">MAR</span></code> is the Memory Address Register and points to the RAM address data will be stored or loaded from.</p>
+<p><code class="docutils literal notranslate"><span class="pre">P</span></code> buffers the most-significant 6 bits of the destination address for jump instructions.</p>
+<p>There are also two ALU flags. These are not directly readable and only used during specific instructions.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Z</span></code> is the Zero Flag and automatically generated after every ALU instruction. It is set if the result of the operation was equal to 0, cleared otherwise.</p>
+<p><code class="docutils literal notranslate"><span class="pre">C</span></code> is the Carry Flag and automatically generated after additions or subtractions, indicating a carry-out from the most-significant bit if set.
+Subtraction is internally implemented by complementing the subtrahend and adding it plus either a constant 1 or the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag depending on the instruction, resulting in the flag being normally set if there was no underflow.</p>
+</section>
+<section id="addressing-modes">
+<h3>Addressing Modes<a class="headerlink" href="#addressing-modes" title="Link to this heading"></a></h3>
+<p>Due to the limited amount of opcodes, every instruction which accesses RAM or requires an immediate only has two choices of addressing mode. The fundamental addressing modes which may appear are:</p>
+<p><strong>Immediate</strong></p>
+<p>The value is not stored in RAM, but follows the opcode word in ROM. A constant.</p>
+<p><strong>Absolute</strong></p>
+<p>The address to be used follows the opcode word in ROM. The <code class="docutils literal notranslate"><span class="pre">MAR</span></code> is loaded with this value before the instruction is executed.</p>
+<p><strong>Indirect</strong></p>
+<p>The <code class="docutils literal notranslate"><span class="pre">MAR</span></code> is not modified before the instruction is executed, using whichever address was already stored in the <code class="docutils literal notranslate"><span class="pre">MAR</span></code>.</p>
+<p>More complex addressing modes can be constructed in software by combining these. For instance, indexed addressing can be accomplished by computing the desired address using ALU instructions and storing it memory using <code class="docutils literal notranslate"><span class="pre">STB</span></code>. This has the side effect of loading <code class="docutils literal notranslate"><span class="pre">MAR</span></code> with the address of this value, so <code class="docutils literal notranslate"><span class="pre">LDM</span></code> with indirect addressing can be used to copy it into the <code class="docutils literal notranslate"><span class="pre">MAR</span></code> for a subsequent use of indirect addressing.</p>
+</section>
+<section id="quick-mode">
+<h3>Quick Mode<a class="headerlink" href="#quick-mode" title="Link to this heading"></a></h3>
+<p>All ALU instructions support a “quick” mode which can be selected by setting the <code class="docutils literal notranslate"><span class="pre">Q</span></code> bit in its opcode. By default, these instructions will not only load <code class="docutils literal notranslate"><span class="pre">B</span></code> from the ALU output, but also copy that result back into <code class="docutils literal notranslate"><span class="pre">A</span></code>. If <code class="docutils literal notranslate"><span class="pre">Q</span></code> is set, only <code class="docutils literal notranslate"><span class="pre">B</span></code> will be loaded and <code class="docutils literal notranslate"><span class="pre">A</span></code> left unchanged.</p>
+<p>It is named as it is as enabling <code class="docutils literal notranslate"><span class="pre">Q</span></code> would save one clock cycle on the instruction execution in the original implementation. Here, however, there is no speed difference.</p>
+<p>In assembly language, this mode is selected by prefixing the instruction mnemonic with a lowercase ‘q’.</p>
+</section>
+</section>
+<section id="original-instruction-set">
+<h2>Original Instruction Set<a class="headerlink" href="#original-instruction-set" title="Link to this heading"></a></h2>
+<section id="lda-load-a">
+<h3>LDA - Load A<a class="headerlink" href="#lda-load-a" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 1, "bits": 5},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction loads the contents of the <code class="docutils literal notranslate"><span class="pre">A</span></code> register from a location in RAM.</p>
+<p>If compatibility mode is disabled, the <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag is set if the new value of <code class="docutils literal notranslate"><span class="pre">A</span></code> is equal to zero and cleared otherwise. If compatibility mode is enabled, this does not take place and <code class="docutils literal notranslate"><span class="pre">Z</span></code> is unchanged.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="sta-store-a">
+<h3>STA - Store A<a class="headerlink" href="#sta-store-a" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 3, "bits": 5},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction stores the contents of the <code class="docutils literal notranslate"><span class="pre">A</span></code> register into a location in RAM. In the original implementation, this worked internally by computing an addition with zero, overwriting <code class="docutils literal notranslate"><span class="pre">B</span></code> as well, clearing <code class="docutils literal notranslate"><span class="pre">C</span></code> and setting <code class="docutils literal notranslate"><span class="pre">Z</span></code> if <code class="docutils literal notranslate"><span class="pre">A</span></code> equaled zero. Therefor, if compatibility mode is enabled, this instruction behaves identically.</p>
+<p>If compatibility mode is disabled, only the store to RAM takes place and no registers or flags are modified.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="stb-store-b">
+<h3>STB - Store B<a class="headerlink" href="#stb-store-b" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 2, "bits": 5},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction stores the contents of the <code class="docutils literal notranslate"><span class="pre">B</span></code> register into a location in RAM.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="ldp-load-p">
+<h3>LDP - Load P<a class="headerlink" href="#ldp-load-p" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 16, "bits": 5},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction loads the contents of the <code class="docutils literal notranslate"><span class="pre">P</span></code> register in preparation for a jump.</p>
+<p>The available addressing modes are immediate (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="ldm-load-mar">
+<h3>LDM - Load MAR<a class="headerlink" href="#ldm-load-mar" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 15, "bits": 5},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction loads the contents of the <code class="docutils literal notranslate"><span class="pre">MAR</span></code> register.</p>
+<p>The available addressing modes are immediate (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="ldi-load-immediate">
+<h3>LDI - Load Immediate<a class="headerlink" href="#ldi-load-immediate" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 63, "bits": 6}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction copies the instruction argument following the opcode into the <code class="docutils literal notranslate"><span class="pre">A</span></code> register. It is always immediate-addressed.</p>
+</section>
+<section id="add-add">
+<h3>ADD - Add<a class="headerlink" href="#add-add" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 4, "bits": 4},
+{"name": "Q", "bits": 1},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction adds the contents of the <code class="docutils literal notranslate"><span class="pre">A</span></code> register to a value loaded from RAM, storing the result in <code class="docutils literal notranslate"><span class="pre">B</span></code> and setting both flags as defined.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="adc-add-with-carry">
+<h3>ADC - Add with Carry<a class="headerlink" href="#adc-add-with-carry" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 5, "bits": 4},
+{"name": "Q", "bits": 1},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction adds the contents of the <code class="docutils literal notranslate"><span class="pre">A</span></code> register plus the value of the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag (either 1 or 0) to a value loaded from RAM, storing the result in <code class="docutils literal notranslate"><span class="pre">B</span></code> and setting both flags as defined.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="sub-subtract">
+<h3>SUB - Subtract<a class="headerlink" href="#sub-subtract" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 6, "bits": 4},
+{"name": "Q", "bits": 1},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction subtracts from the value of the <code class="docutils literal notranslate"><span class="pre">A</span></code> register a value loaded from RAM, storing the result in <code class="docutils literal notranslate"><span class="pre">B</span></code> and setting both flags as defined.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="sbc-subtract-with-carry">
+<h3>SBC - Subtract with Carry<a class="headerlink" href="#sbc-subtract-with-carry" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 7, "bits": 4},
+{"name": "Q", "bits": 1},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction subtracts from the value of <code class="docutils literal notranslate"><span class="pre">A</span></code> register a value loaded from RAM and adds the complemented value of the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag (either 0 or 1), storing the result in <code class="docutils literal notranslate"><span class="pre">B</span></code> and setting both flags as defined.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="eql-equality-comparison">
+<h3>EQL - Equality Comparison<a class="headerlink" href="#eql-equality-comparison" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 8, "bits": 4},
+{"name": "Q", "bits": 1},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction compares the value of the <code class="docutils literal notranslate"><span class="pre">A</span></code> register with a value loaded from RAM and outputs, into <code class="docutils literal notranslate"><span class="pre">B</span></code>, either <code class="docutils literal notranslate"><span class="pre">01h</span></code> if they are equal to each other and <code class="docutils literal notranslate"><span class="pre">00h</span></code> otherwise. The <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag is set as defined.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="mag-magnitude-comparison">
+<h3>MAG - Magnitude Comparison<a class="headerlink" href="#mag-magnitude-comparison" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 9, "bits": 4},
+{"name": "Q", "bits": 1},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction compares the value of the <code class="docutils literal notranslate"><span class="pre">A</span></code> register with a value loaded from RAM and outputs, into <code class="docutils literal notranslate"><span class="pre">B</span></code>, either <code class="docutils literal notranslate"><span class="pre">01h</span></code> if <code class="docutils literal notranslate"><span class="pre">A</span></code> had the greater value and <code class="docutils literal notranslate"><span class="pre">00h</span></code> otherwise. The <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag is set as defined. The comparison is unsigned.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="jmp-jump-unconditionally">
+<h3>JMP - Jump unconditionally<a class="headerlink" href="#jmp-jump-unconditionally" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 12, "bits": 5},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction combines the contents of the <code class="docutils literal notranslate"><span class="pre">P</span></code> register (MSBs) with an immediate or value from RAM (LSBs) to form a 12-bit address to load into <code class="docutils literal notranslate"><span class="pre">PC</span></code>, affecting a branch.</p>
+<p>The available addressing modes are immediate (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="jz-jump-if-zero">
+<h3>JZ - Jump if Zero<a class="headerlink" href="#jz-jump-if-zero" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 13, "bits": 5},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>If the <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag is set, this instruction combines the contents of the <code class="docutils literal notranslate"><span class="pre">P</span></code> register (MSBs) with an immediate or value from RAM (LSBs) to form a 12-bit address to load into <code class="docutils literal notranslate"><span class="pre">PC</span></code>, affecting a branch.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag is clear, no jump takes place and execution continues from the instruction following this one.</p>
+<p>The available addressing modes are immediate (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="jnz-jump-if-not-zero">
+<h3>JNZ - Jump if Not Zero<a class="headerlink" href="#jnz-jump-if-not-zero" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 14, "bits": 5},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>If the <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag is clear, this instruction combines the contents of the <code class="docutils literal notranslate"><span class="pre">P</span></code> register (MSBs) with an immediate or value from RAM (LSBs) to form a 12-bit address to load into <code class="docutils literal notranslate"><span class="pre">PC</span></code>, affecting a branch.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag is set, no jump takes place and execution continues from the instruction following this one.</p>
+<p>The available addressing modes are immediate (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+</section>
+<section id="extended-instruction-set">
+<h2>Extended Instruction Set<a class="headerlink" href="#extended-instruction-set" title="Link to this heading"></a></h2>
+<p>ScrapCPU contains instructions not present in the original implementation, to enhance usability.</p>
+<section id="xor-logic-exclusive-or">
+<h3>XOR - Logic Exclusive-OR<a class="headerlink" href="#xor-logic-exclusive-or" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 10, "bits": 4},
+{"name": "Q", "bits": 1},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction computes a bitwise Exclusive-OR between the value of the <code class="docutils literal notranslate"><span class="pre">A</span></code> register and a value from RAM, storing the result in <code class="docutils literal notranslate"><span class="pre">B</span></code> and setting the <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag as defined.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="and-logic-and">
+<h3>AND - Logic AND<a class="headerlink" href="#and-logic-and" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 11, "bits": 4},
+{"name": "Q", "bits": 1},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction computes a bitwise AND between the value of the <code class="docutils literal notranslate"><span class="pre">A</span></code> register and a value from RAM, storing the result in <code class="docutils literal notranslate"><span class="pre">B</span></code> and setting the <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag as defined.</p>
+<p>The available addressing modes are absolute (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="rsh-right-shift">
+<h3>RSH - Right Shift<a class="headerlink" href="#rsh-right-shift" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 18, "bits": 6}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction right-shifts the binary value of <code class="docutils literal notranslate"><span class="pre">A</span></code> by one place and stores the result in <code class="docutils literal notranslate"><span class="pre">B</span></code>, never modifying <code class="docutils literal notranslate"><span class="pre">A</span></code>. The most-significant bit of the result always becomes zero and the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag is loaded with the previous least-significant bit of <code class="docutils literal notranslate"><span class="pre">A</span></code>’s value. The <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag is set as defined.</p>
+</section>
+<section id="rshc-right-shift-with-carry">
+<h3>RSHC - Right Shift with Carry<a class="headerlink" href="#rshc-right-shift-with-carry" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 19, "bits": 6}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction right-shifts the binary value of <code class="docutils literal notranslate"><span class="pre">A</span></code> by one place and stores the result in <code class="docutils literal notranslate"><span class="pre">B</span></code>, never modifying <code class="docutils literal notranslate"><span class="pre">A</span></code>. The most-significant bit of the result is loaded from the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag and the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag is loaded with the previous least-significant bit of <code class="docutils literal notranslate"><span class="pre">A</span></code>’s value. The <code class="docutils literal notranslate"><span class="pre">Z</span></code> flag is set as defined.</p>
+</section>
+<section id="jc-jump-if-carry">
+<h3>JC - Jump if Carry<a class="headerlink" href="#jc-jump-if-carry" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 30, "bits": 5},
+{"name": "I", "bits": 1}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>If the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag is set, this instruction combines the contents of the <code class="docutils literal notranslate"><span class="pre">P</span></code> register (MSBs) with an immediate or value from RAM (LSBs) to form a 12-bit address to load into <code class="docutils literal notranslate"><span class="pre">PC</span></code>, affecting a branch.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag is clear, no jump takes place and execution continues from the instruction following this one.</p>
+<p>The available addressing modes are immediate (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 0) or indirect (<code class="docutils literal notranslate"><span class="pre">I</span></code> == 1).</p>
+</section>
+<section id="sec-set-carry">
+<h3>SEC - Set Carry<a class="headerlink" href="#sec-set-carry" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 17, "bits": 6}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction always sets the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag to a one.</p>
+</section>
+<section id="clc-clear-carry">
+<h3>CLC - Clear Carry<a class="headerlink" href="#clc-clear-carry" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 32, "bits": 6}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction always clears the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag to a zero.</p>
+</section>
+<section id="iret-return-from-interrupt">
+<h3>IRET - Return from Interrupt<a class="headerlink" href="#iret-return-from-interrupt" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 50, "bits": 6}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction executes an interrupt return. See <a class="reference external" href="/scrapcpu.html#interrupt">Interrupt</a>.</p>
+</section>
+<section id="tc-toggle-compatibility">
+<h3>TC - Toggle Compatibility<a class="headerlink" href="#tc-toggle-compatibility" title="Link to this heading"></a></h3>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+  { "reg": [
+{"name": 49, "bits": 6}],
+   "config": {"hspace": 600}
+  }
+</script>
+</div>
+<p>This instruction toggles compatibility mode. See <a class="reference external" href="/scrapcpu.html#compatibility-mode">Compatibility Mode</a>.</p>
+</section>
+</section>
+<section id="compatibility-mode">
+<h2>Compatibility Mode<a class="headerlink" href="#compatibility-mode" title="Link to this heading"></a></h2>
+<p>After reset, ScrapCPU starts up in compatibility mode, where its behavior is more in-line with that of the original implementation. This does not disable the use of the new instructions, as this mode controls the behavior of instructions from the original instruction set.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">TC</span></code> instruction can be used to exit or re-enter compatibility mode. Every execution of this instruction toggles the compatibility mode from on to off or off to on. The <code class="docutils literal notranslate"><span class="pre">COMP</span></code> pin on the package indicates to external hardware if the processor is in compatibility mode or not.</p>
+<p>Compatibility mode affects the following instructions in ways described in their own sections:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="/scrapcpu.html#lda-load-a">LDA</a></p></li>
+<li><p><a class="reference external" href="/scrapcpu.html#sta-store-a">STA</a></p></li>
+</ul>
+</section>
+<section id="incompatibilities">
+<h2>Incompatibilities<a class="headerlink" href="#incompatibilities" title="Link to this heading"></a></h2>
+<p>Due to some oversights, there are differences between ScrapCPU and the original implementation. These are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MAG</span></code> and <code class="docutils literal notranslate"><span class="pre">EQL</span></code> preserve the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag. Originally, the <code class="docutils literal notranslate"><span class="pre">C</span></code> flag would be overwritten with the carry-out of an invisible addition of the two involved values.</p></li>
+</ul>
+</section>
+<section id="io-ports">
+<h2>IO Ports<a class="headerlink" href="#io-ports" title="Link to this heading"></a></h2>
+<p>The three IO ports are implemented using four memory-mapped special registers. Only ports <code class="docutils literal notranslate"><span class="pre">PA</span></code> and <code class="docutils literal notranslate"><span class="pre">PB</span></code> are bi-directional. Port <code class="docutils literal notranslate"><span class="pre">PC</span></code> is output-only. The following addresses are used:</p>
+<p><code class="docutils literal notranslate"><span class="pre">3Bh</span></code> maps to the <code class="docutils literal notranslate"><span class="pre">PDIR</span></code> register, which determines the directions of the <code class="docutils literal notranslate"><span class="pre">PA</span></code> and <code class="docutils literal notranslate"><span class="pre">PB</span></code> lines. Every bit in <code class="docutils literal notranslate"><span class="pre">PDIR</span></code> determines the direction of two port lines, where a 0 equals an input and a 1 equals an output:</p>
+<table class="docutils align-default" id="pdir-bits">
+<caption><span class="caption-number">Table 6 </span><span class="caption-text">Mapping of <code class="docutils literal notranslate"><span class="pre">PDIR</span></code> bits</span><a class="headerlink" href="#pdir-bits" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Bit</p></th>
+<th class="head"><p>Port lines affected</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PDIR[0]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PA[1:0]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PDIR[1]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PA[3:2]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PDIR[2]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PA[5:4]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PDIR[3]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PB[1:0]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">PDIR[4]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PB[3:2]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">PDIR[5]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">PB[5:4]</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">3Fh</span></code> maps to the <code class="docutils literal notranslate"><span class="pre">PA</span></code> port lines. When written, the states of pins configured as outputs is set. When read, the states of the pins configured as inputs is returned, mixed with the current states of the pins configured as outputs.</p>
+<p><code class="docutils literal notranslate"><span class="pre">3Ch</span></code> maps to the <code class="docutils literal notranslate"><span class="pre">PB</span></code> port lines and behaves similarly to the above address.</p>
+<p><code class="docutils literal notranslate"><span class="pre">3Ah</span></code> maps to the <code class="docutils literal notranslate"><span class="pre">PC</span></code> port lines. As these are always outputs, they will always simply mirror the contents of this address. Reading from this address returns the current states of the outputs.</p>
+<p>Addresses <code class="docutils literal notranslate"><span class="pre">3Dh</span></code> and <code class="docutils literal notranslate"><span class="pre">3Eh</span></code> map to regular RAM, but are conventionally used in assembler macros to store a return address during subroutine calls and should not be used otherwise.</p>
+</section>
+<section id="interrupt">
+<h2>Interrupt<a class="headerlink" href="#interrupt" title="Link to this heading"></a></h2>
+<p>ScrapCPU features a single interrupt input at the <code class="docutils literal notranslate"><span class="pre">INT</span></code> pin which triggers on a rising edge and is not maskable. When triggered, the CPU completes executing the current instruction and jumps to the constant ROM address <code class="docutils literal notranslate"><span class="pre">004h</span></code> after backing up all CPU registers to hidden internal registers.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">INTAK</span></code> pin immediately goes high after this and remains in this state until the execution of an interrupt return.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">IRET</span></code> instruction is used to return from the interrupt, which will restore all CPU registers from their backups, including the Program Counter, resuming execution from before the interrupt. <code class="docutils literal notranslate"><span class="pre">INTAK</span></code> goes low at the completion of this instruction.</p>
+</section>
+</section>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="s8x305.html" class="btn btn-neutral float-left" title="S8X305" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="vliw.html" class="btn btn-neutral float-right" title="VLIW" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -50,6 +50,10 @@
 <li class="toctree-l1"><a class="reference internal" href="multiplexer.html">Multiplexer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="z80.html">Z80</a></li>
 <li class="toctree-l1"><a class="reference internal" href="mos6502.html">MOS6502</a></li>
+<li class="toctree-l1"><a class="reference internal" href="as1802.html">AS1802</a></li>
+<li class="toctree-l1"><a class="reference internal" href="s8x305.html">S8X305</a></li>
+<li class="toctree-l1"><a class="reference internal" href="scrapcpu.html">ScrapCPU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vliw.html">VLIW</a></li>
 <li class="toctree-l1"><a class="reference internal" href="fgcaptest.html">FG Cap Test</a></li>
 </ul>
 
@@ -113,6 +117,82 @@
 <li class="toctree-l1"><a class="reference internal" href="mos6502.html">MOS6502</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="mos6502.html#pinout">Pinout</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mos6502.html#custom-settings">Custom Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="as1802.html">AS1802</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="as1802.html#pinout">Pinout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="as1802.html#memory-bus">Memory Bus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="as1802.html#extended-instructions">Extended Instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#swap">SWAP</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#cmhi">CMHI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#lmhi">LMHI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#gmhi">GMHI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#pxn">PXN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#dbnz">DBNZ</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#mul">MUL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#mli">MLI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#div">DIV</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#dvi">DVI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#mod">MOD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="as1802.html#mdi">MDI</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="as1802.html#custom-settings">Custom Settings</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="s8x305.html">S8X305</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="s8x305.html#pinout">Pinout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="s8x305.html#spiflash-interface">Spiflash Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="s8x305.html#built-in-io-and-ram">Built-in IO and RAM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scrapcpu.html">ScrapCPU</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="scrapcpu.html#pinout">Pinout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrapcpu.html#spiflash-interface">Spiflash Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrapcpu.html#programming-model">Programming Model</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#registers">Registers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#addressing-modes">Addressing Modes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#quick-mode">Quick Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scrapcpu.html#original-instruction-set">Original Instruction Set</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#lda-load-a">LDA - Load A</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#sta-store-a">STA - Store A</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#stb-store-b">STB - Store B</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#ldp-load-p">LDP - Load P</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#ldm-load-mar">LDM - Load MAR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#ldi-load-immediate">LDI - Load Immediate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#add-add">ADD - Add</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#adc-add-with-carry">ADC - Add with Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#sub-subtract">SUB - Subtract</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#sbc-subtract-with-carry">SBC - Subtract with Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#eql-equality-comparison">EQL - Equality Comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#mag-magnitude-comparison">MAG - Magnitude Comparison</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#jmp-jump-unconditionally">JMP - Jump unconditionally</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#jz-jump-if-zero">JZ - Jump if Zero</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#jnz-jump-if-not-zero">JNZ - Jump if Not Zero</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scrapcpu.html#extended-instruction-set">Extended Instruction Set</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#xor-logic-exclusive-or">XOR - Logic Exclusive-OR</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#and-logic-and">AND - Logic AND</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#rsh-right-shift">RSH - Right Shift</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#rshc-right-shift-with-carry">RSHC - Right Shift with Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#jc-jump-if-carry">JC - Jump if Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#sec-set-carry">SEC - Set Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#clc-clear-carry">CLC - Clear Carry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#iret-return-from-interrupt">IRET - Return from Interrupt</a></li>
+<li class="toctree-l3"><a class="reference internal" href="scrapcpu.html#tc-toggle-compatibility">TC - Toggle Compatibility</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="scrapcpu.html#compatibility-mode">Compatibility Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrapcpu.html#incompatibilities">Incompatibilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrapcpu.html#io-ports">IO Ports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scrapcpu.html#interrupt">Interrupt</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vliw.html">VLIW</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vliw.html#pinout">Pinout</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="fgcaptest.html">FG Cap Test</a><ul>

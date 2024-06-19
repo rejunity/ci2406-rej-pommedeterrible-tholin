@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>S8X305 &mdash; CI2406 MPW  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=5929fcd5"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="https://wavedrom.com/skins/default.js"></script>
+        <script src="https://wavedrom.com/wavedrom.min.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="ScrapCPU" href="scrapcpu.html" />
+    <link rel="prev" title="AS1802" href="as1802.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            CI2406 MPW
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Overview</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="multiplexer.html">Multiplexer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="z80.html">Z80</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mos6502.html">MOS6502</a></li>
+<li class="toctree-l1"><a class="reference internal" href="as1802.html">AS1802</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">S8X305</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pinout">Pinout</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spiflash-interface">Spiflash Interface</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#built-in-io-and-ram">Built-in IO and RAM</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="scrapcpu.html">ScrapCPU</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vliw.html">VLIW</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fgcaptest.html">FG Cap Test</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">CI2406 MPW</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">S8X305</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/s8x305.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="s8x305">
+<span id="id1"></span><h1>S8X305<a class="headerlink" href="#s8x305" title="Link to this heading"></a></h1>
+<p>This design is a replica of the <a class="reference external" href="https://en.wikipedia.org/wiki/Signetics_8X300">S8X305</a>. The IV-Bus is a cycle-accurate recreation of the original. However, there are not enough pins on caravel to implement the Instruction-Bus. Instead, a interface to a serial ROM is provided and the remaining pins used for built-in input- and output ports. There is also 16 bytes of on-die RAM.</p>
+<p>The only difference is notation. Here, <code class="docutils literal notranslate"><span class="pre">IV7</span></code> is the most-significant bit and <code class="docutils literal notranslate"><span class="pre">IV0</span></code> the least-significant. The <a class="reference external" href="https://files.tholin.dev/Public/Datasheets/CPUs/8-bit/8x305_Users_Manual_Jun82.pdf">original datasheet</a> uses reverse numbering, stating <code class="docutils literal notranslate"><span class="pre">IV0</span></code> as the most-significant bit and <code class="docutils literal notranslate"><span class="pre">IV7</span></code> as the least-significant.</p>
+<section id="pinout">
+<h2>Pinout<a class="headerlink" href="#pinout" title="Link to this heading"></a></h2>
+<img alt="_images/pinout4.png" src="_images/pinout4.png" />
+<table class="docutils align-default" id="pin-description-s8x305">
+<caption><span class="caption-number">Table 4 </span><span class="caption-text">Pin description</span><a class="headerlink" href="#pin-description-s8x305" title="Link to this table"></a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Pin #</p></th>
+<th class="head"><p>Name</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Summary</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[0]</span></code></p></td>
+<td><p>RSTD</p></td>
+<td><p>I</p></td>
+<td><p>Active low design reset</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[1]</span></code></p></td>
+<td><p>OUT[7]</p></td>
+<td><p>O</p></td>
+<td><p>Output port, bit 7</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[2]</span></code></p></td>
+<td><p>FETCH</p></td>
+<td><p>O</p></td>
+<td><p>Strobes at the end of every instruction fetch</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[4]</span></code></p></td>
+<td><p>IN[7]</p></td>
+<td><p>I</p></td>
+<td><p>Input port, bit 7</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[12:5]</span></code></p></td>
+<td><p>IV[0:7]</p></td>
+<td><p>IO</p></td>
+<td><p>Bi-directional data bus</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[13]</span></code></p></td>
+<td><p>RB</p></td>
+<td><p>O</p></td>
+<td><p>Right bank select</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[14]</span></code></p></td>
+<td><p>LB</p></td>
+<td><p>O</p></td>
+<td><p>Left bank select</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[15]</span></code></p></td>
+<td><p>SC</p></td>
+<td><p>O</p></td>
+<td><p>Set Command strobe</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[16]</span></code></p></td>
+<td><p>WC</p></td>
+<td><p>O</p></td>
+<td><p>Write Command strobe</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[17]</span></code></p></td>
+<td><p>MCLK</p></td>
+<td><p>O</p></td>
+<td><p>Memory Clock</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[21:18]</span></code></p></td>
+<td><p>D[3:0]</p></td>
+<td><p>IO</p></td>
+<td><p>Spiflash data lines</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[22]</span></code></p></td>
+<td><p>CS</p></td>
+<td><p>O</p></td>
+<td><p>Spiflash chip select</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[23]</span></code></p></td>
+<td><p>SCK</p></td>
+<td><p>O</p></td>
+<td><p>Spiflash serial clock</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[30:24]</span></code></p></td>
+<td><p>IN[6:0]</p></td>
+<td><p>I</p></td>
+<td><p>Input port, bits 0-6</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">mprj_io[37:31]</span></code></p></td>
+<td><p>OUT[6:0]</p></td>
+<td><p>O</p></td>
+<td><p>Output port, bits 0-6</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="spiflash-interface">
+<h2>Spiflash Interface<a class="headerlink" href="#spiflash-interface" title="Link to this heading"></a></h2>
+<p>In place of the I-Bus, a interface to a 25Qxx series spiflash is provided instead. 16-bit wide instructions are stored in big-endian format on this ROM, which is then brought up in QSPI mode for maximum bandwidth.</p>
+<p>To verify compatibility of a specific spiflash part, check that this command sequence puts it into QSPI mode and starts a quad read:</p>
+<p><code class="docutils literal notranslate"><span class="pre">FFh</span></code> (ignore if part does not have this command)</p>
+<p><code class="docutils literal notranslate"><span class="pre">ABh</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">06h</span> <span class="pre">01h</span> <span class="pre">02h</span> <span class="pre">02h</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">EBh</span> <span class="pre">[now</span> <span class="pre">in</span> <span class="pre">quad</span> <span class="pre">mode]</span> <span class="pre">00h</span> <span class="pre">00h</span> <span class="pre">00h</span> <span class="pre">00h</span> <span class="pre">00h</span> <span class="pre">00h</span> <span class="pre">A5h</span></code></p>
+</section>
+<section id="built-in-io-and-ram">
+<h2>Built-in IO and RAM<a class="headerlink" href="#built-in-io-and-ram" title="Link to this heading"></a></h2>
+<p>The S8X305 contains 16 bytes of on-die RAM as well as one byte-wide output port and one byte-wide input port.</p>
+<p>As these are memory-mapped to the IV-Bus and override accesses to specific addresses, they are disabled by default so the IV-Bus is fully available externally. The Custom Settings Register is used to enable one or both of these features:</p>
+
+<div style="overflow-x:auto">
+<script type="WaveDrom">
+{ "reg": [
+  {"name": "INP", "bits": 1},
+  {"name": "MEM", "bits": 1},
+    {"type": 1, "bits": 30}],
+"config": {"hspace": 900}
+}
+</script>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">INP</span></code> enables the use of the input port. If set, reading from address <code class="docutils literal notranslate"><span class="pre">00h</span></code> on the <strong>left</strong> bus results in the read value being the state of the <code class="docutils literal notranslate"><span class="pre">IN[7:0]</span></code> pins.</p>
+<p><code class="docutils literal notranslate"><span class="pre">MEM</span></code> enables the use of the 16 bytes of RAM which are mapped to the first 16 addresses of the <strong>right</strong> bus, responding to both reads and writes.</p>
+<p>External IV-Bus cycles, both reads and writes, will still take place during accesses to the IO ports and on-die RAM, but values read from the external bus will be ignored.</p>
+<p>For this reason, the output port is always active, responding to writes to address <code class="docutils literal notranslate"><span class="pre">00h</span></code> on the <strong>left</strong> bus, putting the written value on the <code class="docutils literal notranslate"><span class="pre">OUT[7:0]</span></code> pins. These pins can simply be ignored in cases where this feature isn’t needed. Reads from this location will fetch data from the external bus if <code class="docutils literal notranslate"><span class="pre">INP</span></code> is clear.</p>
+</section>
+</section>
+
+    <script type="text/javascript">
+        function init() {
+            WaveDrom.ProcessAll();
+        }
+        window.onload = init;
+    </script>
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="as1802.html" class="btn btn-neutral float-left" title="AS1802" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="scrapcpu.html" class="btn btn-neutral float-right" title="ScrapCPU" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright .</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
