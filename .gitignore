@@ -14,4 +14,4 @@
 /logs
 /venv-cocotb
 *.class
-docs/venv/
+/docs/venv/

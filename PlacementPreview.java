@@ -29,7 +29,7 @@ public class PlacementPreview {
 			new Macro(300, 2000, 2200, 800, Color.CYAN, "VLIW"), //VLIW
 			new Macro(350, 2950, 375, 375, Color.CYAN, "Execution Unit 0"), //VLIW
 			new Macro(950, 2950, 375, 375, Color.CYAN, "Execution Unit 1"), //VLIW
-			new Macro(1550, 2950, 375, 375, Color.CYAN, "Execution Unit 1"), //VLIW
+			new Macro(1550, 2950, 375, 375, Color.CYAN, "Execution Unit 2"), //VLIW
 			new Macro(1800, 1000, 700, 850, Color.CYAN, "icache"), //VLIW
 			new Macro(1700, 450, 225, 225, Color.ORANGE, "MOS6502"), //MOS6502
 			new Macro(2227, 200, 620, 640, Color.BLUE, "fgcaptest"), //Pomme’s custom GDS
