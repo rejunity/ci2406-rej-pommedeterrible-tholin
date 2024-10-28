@@ -179,7 +179,7 @@ jobs:
           tar -cf /tmp/design_sky130B.tar -C $GITHUB_WORKSPACE .
 
       - name: Upload design_sky130B Tarball
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: design_sky130B-tarball
           path: /tmp/design_sky130B.tar
@@ -269,7 +269,7 @@ jobs:
           path: ${{ env.PRECHECK_ROOT }}
 
       - name: Download design_sky130B Tarball
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: design_sky130B-tarball
           path: /tmp
@@ -334,7 +334,7 @@ jobs:
           path: ${{ env.TIMING_ROOT }}
 
       - name: Download design_sky130B Tarball
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: design_sky130B-tarball
           path: /tmp
