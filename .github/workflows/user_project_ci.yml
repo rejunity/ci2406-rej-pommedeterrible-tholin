@@ -231,6 +231,11 @@ jobs:
         run: |
           make verify-wb_port-rtl
           make verify-scrapcpu-rtl
+          make verify-vliw-rtl
+          make verify-Z80-rtl
+          make verify-MOS6502-rtl
+          make verify-S8x305-rtl
+          make verify-AS1802-rtl
 
   precheck:
     timeout-minutes: 720
